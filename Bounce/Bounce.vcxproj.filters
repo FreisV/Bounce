@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов\image">
+      <UniqueIdentifier>{c48e0bbb-2de2-473e-aeee-6f446a43011c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="old_Player.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\ball_big%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ball_pop%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ball_small%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\checkpoint%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\checkpoint_catched%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\deflater%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\dialog_pause_button_menu%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\dialog_pause_button_restart%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\dialog_pause_button_resume%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\dialog_pause_button_sound_off%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\dialog_pause_button_sound_on%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\dyn_thorn%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_complete_button_menu%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_complete_button_next%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_complete_button_retry%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_complete_star_gray%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_complete_star_yellow%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_failed_button_menu%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_failed_button_retry%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_failed_title%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_finished_crown%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\game_dialog_finished_whohooo%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\gbar_life%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\gbar_pause%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\gbar_ring%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\iap_removeads_close%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\life%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\lselect_button_back%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\lselect_button_restore%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\lselect_button_unlock%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\lselect_keylock%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\lselect_level%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\lselect_level_locked%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\lselect_star%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\lselect_star_grey%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\menu_button_leaderboard%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\menu_button_play%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\menu_button_rate%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\portal_sheet%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\power_gravity%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\power_jump%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\power_speed%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\pumper%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\qweer.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_big_bottom%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_big_catched_bottom%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_big_catched_top%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_big_top%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_small%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_small_bottom%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_small_catched_bottom%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_small_catched_top%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ring_small_top%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\thorn%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ui_bounce_block%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ui_ground_block%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ui_ne_ground_block%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ui_nw_ground_block%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Consts.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
