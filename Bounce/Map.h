@@ -9,18 +9,18 @@ class Map
 	sf::Sprite blockSprite;
 	sf::Texture textureSheet;
 	std::string map[mapHeight] = {
-		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
-		"B                              B",
-		"B                              B",
-		"B            B                 B",
-		"B          B                   B",
-		"B               B              B",
-		"B        BB                    B",
-		"B        BB      B             B",
-		"B        BB                    B",
-		"B        BB       B            B",
-		"B       BBBB                   B",
-		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B     BBBBBBBBB                                          B",
+		"B     BBBBBBBBB                                          B",
+		"B     BBBBBBBBB                                          B",
+		"B     BBBBBBBBB                                          B",
+		"B                 B                                      B",
+		"B                BBB                                     B",
+		"B               BBBBB                                    B",
+		"B              BBBBBBB                                   B",
+		"B             BBBBBBBBB                                  B",
+		"B            BBBBBBBBBBB                                 B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 	};
 
 	sf::Sprite mapBlocks[mapHeight] = {};

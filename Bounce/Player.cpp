@@ -80,6 +80,11 @@ Player::~Player()
 
 }
 
+sf::Vector2f Player::getPosition()
+{
+	return playerSprite.getPosition();
+}
+
 void Player::update(float time, std::string *map, b2World &World)
 {
 	movement(time, World);
@@ -87,7 +92,6 @@ void Player::update(float time, std::string *map, b2World &World)
 	float angle = playerBody->GetAngle();
 	playerSprite.setPosition(pos.x * c::SCALE, pos.y * c::SCALE);
 	//std::cout << "X: " << pos.x * c::SCALE << "\n" << "Y: " << pos.y * c::SCALE << std::endl;
-	//playerSprite.setRotation(angle * c::DEG);
 }
 
 void Player::render(sf::RenderTarget& target, b2World& World)

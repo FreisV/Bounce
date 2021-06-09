@@ -6,8 +6,7 @@ class Player
 {
 	sf::Sprite playerSprite;
 	sf::Texture textureSheet;
-	float speedX = 0;
-	float speedY = 0;
+	sf::Vector2f playerPosition;
 	float ballRadius = 39;
 	bool onGround = false;
 
@@ -17,7 +16,6 @@ class Player
 	b2FixtureDef fdef;
 
 	//Animation
-
 	void animation(float speed);
 	
 	//Movement
@@ -25,7 +23,6 @@ class Player
 	void movement(float time, b2World& World);
 
 	//Core
-
 	void initTexture();
 	void initSprite();
 	void initBall(b2World &World);
@@ -36,8 +33,8 @@ public:
 	virtual ~Player();
 
 	//Functions
-	
-	void update(float time, std::string *map, b2World &World);
+	sf::Vector2f getPosition();
+	void update(float time, std::string* map, b2World& World);
 	void render(sf::RenderTarget& target, b2World& World);
 };
 

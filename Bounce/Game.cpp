@@ -2,7 +2,7 @@
 
 void Game::initWindow()
 {
-	this->window.create(sf::VideoMode(1440, 960), "Bounce", sf::Style::Close | sf::Style::Titlebar);
+	this->window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bounce", sf::Style::Close | sf::Style::Titlebar);
 	this->window.setFramerateLimit(60);
 }
 
@@ -17,11 +17,18 @@ void Game::initMap()
 	this->map->createBlocks(World);
 }
 
+void Game::initView()
+{
+	this->view.setCenter(sf::Vector2f(150.f,150.f));
+	this->view.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+}
+
 Game::Game()
 {
 	this->initWindow();
 	this->initPlayer();
 	this->initMap();
+	this->initView();
 
 }
 
@@ -35,6 +42,14 @@ void Game::updatePlayer(float time, std::string *map)
 	this->player->update(time, map, World);
 }
 
+void Game::updateView(float time)
+{
+	sf::Vector2f playerPosition = player->getPosition();
+	sf::Vector2f viewPosition = view.getCenter();
+	sf::Vector2f nextPosition = sf::Vector2f(viewPosition.x + (playerPosition.x - viewPosition.x) * 0.1, viewPosition.y + (playerPosition.y - viewPosition.y) * 0.1);
+	view.setCenter(nextPosition);
+}
+
 void Game::update(float time)
 {
 	while (this->window.pollEvent(this->ev))
@@ -46,7 +61,14 @@ void Game::update(float time)
 	}
 
 	World.Step(1 / 60.f, 8, 3);
+
 	this->updatePlayer(time, map->setMap());
+	this->updateView(time);
+}
+
+void Game::renderView()
+{
+	this->window.setView(view);
 }
 
 void Game::renderPlayer()
@@ -66,6 +88,7 @@ void Game::render()
 	//Render game
 	this->renderPlayer();
 	this->renderMap();
+	this->renderView();
 
 	this->window.display();
 }
