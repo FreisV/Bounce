@@ -10,9 +10,14 @@ void Player::checkOnGround(b2World &World)
 	onGround = false;
 	b2Vec2 pos = playerBody->GetPosition();
 	pos.y += (ballRadius + 3) / c::SCALE;
-	for (b2Body* it = World.GetBodyList(); it != 0; it = it->GetNext())
-		for (b2Fixture* f = it->GetFixtureList(); f != 0; f = f->GetNext())
-			if (f->TestPoint(pos))  onGround = true;
+	for (int i = -10; i < 11; i++)
+	{
+		pos.x = playerBody->GetPosition().x;
+		pos.x += 20 * i  / 10 / c::SCALE;
+		for (b2Body* it = World.GetBodyList(); it != 0; it = it->GetNext())
+			for (b2Fixture* f = it->GetFixtureList(); f != 0; f = f->GetNext())
+				if (f->TestPoint(pos))  onGround = true;
+	}
 }
 
 void Player::movement(float time, b2World &World)
@@ -27,7 +32,6 @@ void Player::movement(float time, b2World &World)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) //Right
 	{
 		if (vel.x < 20) {
-			//playerBody->ApplyForceToCenter(b2Vec2(500, 0), false);
 			animation(2 * time);
 			playerBody->SetLinearVelocity(b2Vec2(4.f * time, vel.y));
 			if (angVel < 15)
@@ -37,7 +41,6 @@ void Player::movement(float time, b2World &World)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) //Left
 	{
 		if (vel.x > -20) {
-			//playerBody->ApplyForceToCenter(b2Vec2(-500, 0), false);
 			animation(-2 * time);
 			playerBody->SetLinearVelocity(b2Vec2(-4.f * time, vel.y));
 			if (angVel > -15)
@@ -47,9 +50,7 @@ void Player::movement(float time, b2World &World)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) //Up
 	{
 		if (onGround) {
-			//playerBody->ApplyForceToCenter(b2Vec2(vel.x, -4000), false);
-			std::cout << "T" << std::endl;
-			playerBody->SetLinearVelocity(b2Vec2(0, -9 * time));
+			playerBody->SetLinearVelocity(b2Vec2(vel.x, -9 * time));
 		}
 	}
 }
