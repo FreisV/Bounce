@@ -6,7 +6,6 @@ class Player
 {
 	sf::Sprite playerSprite;
 	sf::Texture textureSheet;
-	sf::Vector2f playerPosition;
 	float ballRadius = 39;
 	bool onGround = false;
 
@@ -25,11 +24,11 @@ class Player
 	//Core
 	void initTexture();
 	void initSprite();
-	void initBall(b2World &World);
+	void initBall(b2World &World, b2Vec2 startPosition);
 
 
 public:
-	Player(b2World &world);
+	Player(b2World &world, b2Vec2 spawnPosition);
 	virtual ~Player();
 
 	//Functions

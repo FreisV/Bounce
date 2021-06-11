@@ -69,11 +69,11 @@ void Player::initSprite()
 	this->playerSprite.setOrigin(playerSprite.getLocalBounds().width / 2, playerSprite.getLocalBounds().height / 2);
 }
 
-Player::Player(b2World &World)
+Player::Player(b2World &World, b2Vec2 spawnPosition)
 {
 	this->initTexture();
 	this->initSprite();
-	this->initBall(World);
+	this->initBall(World, spawnPosition);
 }
 
 Player::~Player()
@@ -101,10 +101,10 @@ void Player::render(sf::RenderTarget& target, b2World& World)
 }
 
 
-void Player::initBall(b2World &World)
+void Player::initBall(b2World &World, b2Vec2 spawnPosition)
 {
 	bdef.type = b2_dynamicBody;
-	bdef.position.Set(5,5);
+	bdef.position.Set(spawnPosition.x / c::SCALE, spawnPosition.y / c::SCALE);
 	circle.m_radius = ballRadius/c::SCALE;
 	fdef.density = 1; //Задаём плотность 
 	fdef.restitution = 0.3; //Задаём упругость

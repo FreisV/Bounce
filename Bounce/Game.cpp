@@ -8,7 +8,7 @@ void Game::initWindow()
 
 void Game::initPlayer()
 {
-	this->player = new Player(World);
+	this->player = new Player(World, map->getSpawnPosition());
 }
 
 void Game::initMap()
@@ -26,8 +26,8 @@ void Game::initView()
 Game::Game()
 {
 	this->initWindow();
-	this->initPlayer();
 	this->initMap();
+	this->initPlayer();
 	this->initView();
 
 }

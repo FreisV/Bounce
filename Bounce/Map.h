@@ -21,7 +21,7 @@ class Map
 		"B     BB  BBBBB                                          B",
 		"B     BBB    BB                                          B",
 		"B     BBBBBBBBB                                          B",
-		"B                                                        B",
+		"B                        P                               B",
 		"B                 RL                                     B",
 		"B                RBBL                                    B",
 		"B               RBBBBL                                   B",
@@ -41,6 +41,7 @@ class Map
 public:
 	void createBlocks(b2World& World);
 	void render(sf::RenderTarget& target);
+	b2Vec2 getSpawnPosition();
 	sf::FloatRect getBlockBounds();
 	std::string *setMap();
 };
