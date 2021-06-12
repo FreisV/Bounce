@@ -134,8 +134,6 @@ void Map::render(sf::RenderTarget& target)
 		}
 }
 
-
-//Need finish this function, change return type and deside how ball will be spawn after dead
 b2Vec2 Map::getSpawnPosition()
 {
 	for (int i = 0; i < mapHeight; i++)

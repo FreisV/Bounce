@@ -1,12 +1,22 @@
-﻿  Map.cpp
-D:\College\OAiP\Bounce\Bounce\Map.cpp(19,53): warning C4305: аргумент: усечение из "double" в "float"
-D:\College\OAiP\Bounce\Bounce\Map.cpp(118,49): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\College\OAiP\Bounce\Bounce\Map.cpp(118,31): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\College\OAiP\Bounce\Bounce\Map.cpp(123,55): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\College\OAiP\Bounce\Bounce\Map.cpp(123,37): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\College\OAiP\Bounce\Bounce\Map.cpp(128,54): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\College\OAiP\Bounce\Bounce\Map.cpp(128,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\College\OAiP\Bounce\Bounce\Map.cpp(144,29): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\College\OAiP\Bounce\Bounce\Map.cpp(144,21): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\College\OAiP\Bounce\Bounce\Map.cpp(145): warning C4715: Map::getSpawnPosition: значение возвращается не при всех путях выполнения
+﻿  Game.cpp
+D:\College\OAiP\Bounce\Bounce\Game.cpp(24,48): warning C4244: аргумент: преобразование "const int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Game.cpp(24,34): warning C4244: аргумент: преобразование "const int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Game.cpp(50,118): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Game.cpp(50,58): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
   Bounce.vcxproj -> D:\College\OAiP\Bounce\x64\Debug\Bounce.exe

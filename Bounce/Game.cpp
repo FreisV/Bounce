@@ -19,7 +19,8 @@ void Game::initMap()
 
 void Game::initView()
 {
-	this->view.setCenter(sf::Vector2f(150.f,150.f));
+	b2Vec2 pos = map->getSpawnPosition();
+	this->view.setCenter(pos.x, pos.y);
 	this->view.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
 }
 
