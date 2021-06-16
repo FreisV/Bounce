@@ -63,11 +63,9 @@ void Game::updateMap()
 	map->update(player->getPosition());
 }
 
-
-//Пока что не используется, измениь аргументы в update
 void Game::updateInterface()
 {
-	interface->update();
+	interface->update(view.getCenter(), map->getScore());
 }
 
 void Game::update(float time)
@@ -111,7 +109,7 @@ void Game::renderInterface()
 
 void Game::render()
 {
-	this->window.clear(sf::Color(125, 184, 209, 0));
+	this->window.clear(sf::Color(86, 219, 254, 0));
 
 	//Render game
 	this->renderMap();

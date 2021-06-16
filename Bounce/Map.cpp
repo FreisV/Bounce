@@ -11,7 +11,6 @@ void Map::initTextures()
 	if (!this->leftAscentTextureSheet.loadFromFile("Assets/ui_ne_ground_block@2x.png"))
 		std::cout << "ERROR::PLYER::Could not load the left ascent sheet!" << std::endl;
 
-	////////////////////////////////////////////////////////////////////////////////////
 	if (!this->bottomRingTextureSheet.loadFromFile("Assets/ring_small_bottom@2x.png"))
 		std::cout << "ERROR::PLYER::Could not load the small bottom ring sheet!" << std::endl;
 
@@ -23,7 +22,6 @@ void Map::initTextures()
 
 	if (!this->catchedTopRingTextureSheet.loadFromFile("Assets/ring_small_catched_top@2x.png"))
 		std::cout << "ERROR::PLYER::Could not load the small catched top ring sheet!" << std::endl;
-	////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Map::initSprites()
@@ -124,7 +122,7 @@ void Map::takeRings(sf::Vector2f ballPosition)
 			int col = (static_cast<int>(ringsPositions[i].x) + c::GRID_SIZE / 4 - c::GRID_SIZE / 2) / c::GRID_SIZE;
 			map[row][col] = 'o';
 			ringsCounter--;
-			
+			score += 500;
 			ringsPositions.erase(ringsPositions.begin() + i );
 		}
 	}
@@ -249,6 +247,11 @@ std::string *Map::getMap()
 int Map::getRingsCounter()
 {
 	return this->ringsCounter;
+}
+
+int Map::getScore()
+{
+	return this->score;
 }
 
 

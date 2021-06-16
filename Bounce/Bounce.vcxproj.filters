@@ -233,4 +233,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\Fonts\Pixels.otf">
+      <Filter>Файлы ресурсов</Filter>
+    </Font>
+  </ItemGroup>
 </Project>

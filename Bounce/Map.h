@@ -6,9 +6,6 @@ const int mapHeight = 12;
 
 class Map
 {
-	bool test = false;
-
-
 	//blocks
 	sf::Sprite blockSprite;
 	sf::Texture blockTextureSheet;
@@ -31,8 +28,11 @@ class Map
 	sf::Texture bottomRingTextureSheet;
 	sf::Texture catchedBottomRingTextureSheet;
 
-	int ringsCounter = 0;
 	std::vector<sf::Vector2f> ringsPositions;
+
+	//Interface
+	int ringsCounter = 0;
+	int score = 0;
 
 	std::string map[mapHeight] = {
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
@@ -72,5 +72,6 @@ public:
 	std::string *getMap();
 
 	int getRingsCounter();
+	int getScore();
 };
 
