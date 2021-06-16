@@ -6,43 +6,71 @@ const int mapHeight = 12;
 
 class Map
 {
+	bool test = false;
+
+
+	//blocks
 	sf::Sprite blockSprite;
 	sf::Texture blockTextureSheet;
 
+	//ascents
 	sf::Sprite rightAscentSprite;
 	sf::Texture rightAscentTextureSheet;
 
 	sf::Sprite leftAscentSprite;
 	sf::Texture leftAscentTextureSheet;
+	
+	//rings
+	sf::Sprite topRingSprite;
+	sf::Sprite catchedTopRingSprite;
+	sf::Texture topRingTextureSheet;
+	sf::Texture catchedTopRingTextureSheet;
+
+	sf::Sprite bottomRingSprite;
+	sf::Sprite catchedBottomRingSprite;
+	sf::Texture bottomRingTextureSheet;
+	sf::Texture catchedBottomRingTextureSheet;
+
+	int ringsCounter = 0;
+	std::vector<sf::Vector2f> ringsPositions;
 
 	std::string map[mapHeight] = {
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
-		"B     BBB                                                B",
-		"B     BB  BBBBB                                          B",
-		"B     BBB    BB                                          B",
+		"B   P BBB                                                B",
+		"B     BB     BB                                          B",
+		"B     BB     BB                                          B",
 		"B     BBBBBBBBB                                          B",
-		"B                        P                               B",
+		"B                                                        B",
 		"B                 RL                                     B",
-		"B                RBBL                                    B",
+		"B                RBBL        O       O                   B",
 		"B               RBBBBL                                   B",
 		"B              RBBBBBBL                                  B",
-		"B             RBBBBBBBBL                                 B",
+		"B  O O O O O ORBBBBBBBBL                                 B",
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 	};
 
-	sf::Sprite mapBlocks[mapHeight] = {};
 	void initTextures();
 	void initSprites();
+	
 	void createBlock(b2World& World, int x, int y);
 	void createRightAscent(b2World& World, int x, int y);
 	void createLeftAscent(b2World& World, int x, int y);
+	void createRing(b2World& World, int x, int y);
 
-
+	void takeRings(sf::Vector2f ballPosition);
 public:
+	Map();
 	void createBlocks(b2World& World);
+
+	void update(sf::Vector2f ballPosition);
+	
 	void render(sf::RenderTarget& target);
+	void renderTopRings(sf::RenderTarget& target);
+	
 	b2Vec2 getSpawnPosition();
 	sf::FloatRect getBlockBounds();
-	std::string *setMap();
+	std::string *getMap();
+
+	int getRingsCounter();
 };
 

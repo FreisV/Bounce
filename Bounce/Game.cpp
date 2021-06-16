@@ -15,6 +15,7 @@ void Game::initMap()
 {
 	this->map = new Map();
 	this->map->createBlocks(World);
+
 }
 
 void Game::initView()
@@ -24,12 +25,18 @@ void Game::initView()
 	this->view.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
 }
 
+void Game::initInterface()
+{
+	this->interface = new Interface();
+}
+
 Game::Game()
 {
 	this->initWindow();
 	this->initMap();
 	this->initPlayer();
 	this->initView();
+	this->initInterface();
 
 }
 
@@ -43,12 +50,24 @@ void Game::updatePlayer(float time, std::string *map)
 	this->player->update(time, map, World);
 }
 
-void Game::updateView(float time)
+void Game::updateView()
 {
 	sf::Vector2f playerPosition = player->getPosition();
 	sf::Vector2f viewPosition = view.getCenter();
 	sf::Vector2f nextPosition = sf::Vector2f(viewPosition.x + (playerPosition.x - viewPosition.x) * 0.1, viewPosition.y + (playerPosition.y - viewPosition.y) * 0.1);
 	view.setCenter(nextPosition);
+}
+
+void Game::updateMap()
+{
+	map->update(player->getPosition());
+}
+
+
+//Пока что не используется, измениь аргументы в update
+void Game::updateInterface()
+{
+	interface->update();
 }
 
 void Game::update(float time)
@@ -63,13 +82,10 @@ void Game::update(float time)
 
 	World.Step(1 / 60.f, 8, 3);
 
-	this->updatePlayer(time, map->setMap());
-	this->updateView(time);
-}
-
-void Game::renderView()
-{
-	this->window.setView(view);
+	this->updatePlayer(time, map->getMap());
+	this->updateView();
+	this->updateMap();
+	this->updateInterface();
 }
 
 void Game::renderPlayer()
@@ -82,14 +98,27 @@ void Game::renderMap()
 	this->map->render(this->window);
 }
 
+void Game::renderView()
+{
+	this->window.setView(view);
+}
+
+void Game::renderInterface()
+{
+	int ringsCounter = map->getRingsCounter();
+	this->interface->render(window, view.getCenter(), ringsCounter);
+}
+
 void Game::render()
 {
 	this->window.clear(sf::Color(125, 184, 209, 0));
 
 	//Render game
-	this->renderPlayer();
 	this->renderMap();
+	this->renderPlayer();
+	this->map->renderTopRings(window);
 	this->renderView();
+	this->renderInterface();
 
 	this->window.display();
 }

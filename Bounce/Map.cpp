@@ -6,21 +6,36 @@ void Map::initTextures()
 		std::cout << "ERROR::PLYER::Could not load the Block sheet!" << std::endl;
 
 	if (!this->rightAscentTextureSheet.loadFromFile("Assets/ui_nw_ground_block@2x.png"))
-		std::cout << "ERROR::PLYER::Could not load the Block sheet!" << std::endl;
+		std::cout << "ERROR::PLYER::Could not load the right ascent sheet!" << std::endl;
 
 	if (!this->leftAscentTextureSheet.loadFromFile("Assets/ui_ne_ground_block@2x.png"))
-		std::cout << "ERROR::PLYER::Could not load the Block sheet!" << std::endl;
+		std::cout << "ERROR::PLYER::Could not load the left ascent sheet!" << std::endl;
 
+	////////////////////////////////////////////////////////////////////////////////////
+	if (!this->bottomRingTextureSheet.loadFromFile("Assets/ring_small_bottom@2x.png"))
+		std::cout << "ERROR::PLYER::Could not load the small bottom ring sheet!" << std::endl;
+
+	if (!this->topRingTextureSheet.loadFromFile("Assets/ring_small_top@2x.png"))
+		std::cout << "ERROR::PLYER::Could not load the small top ring sheet!" << std::endl;
+
+	if (!this->catchedBottomRingTextureSheet.loadFromFile("Assets/ring_small_catched_bottom@2x.png"))
+		std::cout << "ERROR::PLYER::Could not load the small catched bottom ring sheet!" << std::endl;
+
+	if (!this->catchedTopRingTextureSheet.loadFromFile("Assets/ring_small_catched_top@2x.png"))
+		std::cout << "ERROR::PLYER::Could not load the small catched top ring sheet!" << std::endl;
+	////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Map::initSprites()
 {
-	blockSprite.setTexture(this->blockTextureSheet);
+	blockSprite.setTexture(blockTextureSheet);
 	blockSprite.setScale(1.0 / 125 * 80, 1.0 / 125 * 80);
-	rightAscentSprite.setTexture(this->rightAscentTextureSheet);
-	leftAscentSprite.setTexture(this->leftAscentTextureSheet);
-
-
+	rightAscentSprite.setTexture(rightAscentTextureSheet);
+	leftAscentSprite.setTexture(leftAscentTextureSheet);
+	topRingSprite.setTexture(topRingTextureSheet);
+	catchedTopRingSprite.setTexture(catchedTopRingTextureSheet);
+	bottomRingSprite.setTexture(bottomRingTextureSheet);
+	catchedBottomRingSprite.setTexture(catchedBottomRingTextureSheet);
 
 }
 
@@ -81,13 +96,47 @@ void Map::createLeftAscent(b2World& World, int x, int y)
 	b_ground->CreateFixture(&rightAscent, 1);
 }
 
+void Map::createRing(b2World& World, int x, int y)
+{
+	b2PolygonShape block;
+	block.SetAsBox(10 / c::SCALE, 9 / c::SCALE);
+
+	b2BodyDef bdef;
+	bdef.position.Set(x / c::SCALE, (y + 6) / c::SCALE); //bdef.position.Set(x / c::SCALE, (y + 7) / c::SCALE);
+
+	b2Body* b_ground = World.CreateBody(&bdef);
+	b_ground->CreateFixture(&block, 1);
+
+	bdef.position.Set(x / c::SCALE, (y + 111) / c::SCALE); //bdef.position.Set(x / c::SCALE, (y + 107) / c::SCALE);
+
+	b_ground = World.CreateBody(&bdef);
+	b_ground->CreateFixture(&block, 1);
+}
+
+void Map::takeRings(sf::Vector2f ballPosition)
+{
+	for (size_t i = 0; i < size(this->ringsPositions); i++)
+	{
+		if ((ballPosition.x <= ringsPositions[i].x && ballPosition.x + 45 >= ringsPositions[i].x) && (ballPosition.y - 30 <= ringsPositions[i].y && ballPosition.y + 30 >= ringsPositions[i].y))
+		{
+			std::cout << "True"  << "\n" << std::endl;
+			int row = (static_cast<int>(ringsPositions[i].y) + 20) / c::GRID_SIZE;
+			int col = (static_cast<int>(ringsPositions[i].x) + c::GRID_SIZE / 4 - c::GRID_SIZE / 2) / c::GRID_SIZE;
+			map[row][col] = 'o';
+			ringsCounter--;
+			
+			ringsPositions.erase(ringsPositions.begin() + i );
+		}
+	}
+}
+
 void Map::createBlocks(b2World &World)
 {
 	for (int i = 0; i < mapHeight; i++)
 		for (int j = 0; j < map[i].length(); j++)
 		{
-			int x = j * 80 + c::GRID_SIZE / 2;
-			int y = i * 80 + c::GRID_SIZE / 2;
+			int x = j * c::GRID_SIZE + c::GRID_SIZE / 2;
+			int y = i * c::GRID_SIZE + c::GRID_SIZE / 2;
 			if (map[i][j] == 'B')
 			{
 				createBlock(World, x, y);
@@ -100,16 +149,26 @@ void Map::createBlocks(b2World &World)
 			{
 				createLeftAscent(World, x, y);
 			}
+			if (map[i][j] == 'O')
+			{
+				ringsCounter++;
+				ringsPositions.push_back(sf::Vector2f(x + c::GRID_SIZE / 4, y - c::GRID_SIZE / 2 - 20));
+				createRing(World, x, y - c::GRID_SIZE - 20);
+			}
+
 			if (map[i][j] == ' ')
 				continue;
 		}
 }
 
+Map::Map()
+{
+	this->initTextures();
+	this->initSprites();
+}
+
 void Map::render(sf::RenderTarget& target)
 {
-	initTextures();
-	initSprites();
-
 	for(int i = 0; i < mapHeight; i++)
 		for (int j = 0; j < map[i].length(); j++)
 		{
@@ -128,9 +187,44 @@ void Map::render(sf::RenderTarget& target)
 				leftAscentSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
 				target.draw(leftAscentSprite);
 			}
+			if (map[i][j] == 'O')
+			{
+				bottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
+				target.draw(bottomRingSprite);
+			}
+			if (map[i][j] == 'o')
+			{
+				catchedBottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
+				target.draw(catchedBottomRingSprite);
+				
+			}
 			if (map[i][j] == ' ')
 				continue;
 
+		}
+}
+
+void Map::update(sf::Vector2f ballPosition)
+{
+	this->takeRings(ballPosition);
+}
+
+void Map::renderTopRings(sf::RenderTarget& target)
+{
+	for (int i = 0; i < mapHeight; i++)
+		for (int j = 0; j < map[i].length(); j++)
+		{
+			if (map[i][j] == 'O')
+			{
+				topRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
+				target.draw(topRingSprite);
+			}
+			if (map[i][j] == 'o')
+			{
+				catchedTopRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
+				target.draw(catchedTopRingSprite);
+
+			}
 		}
 }
 
@@ -147,9 +241,14 @@ sf::FloatRect Map::getBlockBounds()
 	return sf::FloatRect() ;
 }
 
-std::string *Map::setMap()
+std::string *Map::getMap()
 {
 	return this->map;
+}
+
+int Map::getRingsCounter()
+{
+	return this->ringsCounter;
 }
 
 

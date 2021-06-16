@@ -100,7 +100,6 @@ void Player::render(sf::RenderTarget& target, b2World& World)
 	target.draw(this->playerSprite); // было до цикла
 }
 
-
 void Player::initBall(b2World &World, b2Vec2 spawnPosition)
 {
 	bdef.type = b2_dynamicBody;

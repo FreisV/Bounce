@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "Consts.h"
+#include "Interface.h"
 
 class Game
 {
@@ -19,12 +20,14 @@ class Game
 	b2World World{Gravity};
 
 	Player *player;
-	Map* map;
+	Map *map;
+	Interface *interface;
 
 	void initWindow();
 	void initPlayer();
 	void initMap();
 	void initView();
+	void initInterface();
 
 public:
 	//Functions
@@ -33,11 +36,14 @@ public:
 
 	//Functions
 	void updatePlayer(float time, std::string *map);
-	void updateView(float time);
+	void updateView();
+	void updateMap();
+	void updateInterface();
 	void update(float time);
 	void renderPlayer();
 	void renderMap();
 	void renderView();
+	void renderInterface();
 	void render();
 	const sf::RenderWindow& getWindow() const;
 };
