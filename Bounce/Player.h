@@ -33,7 +33,7 @@ public:
 
 	//Functions
 	sf::Vector2f getPosition();
- 	void update(float time, std::string* map, b2World& World);
+ 	void update(float time, std::string* map, b2World& World, bool inWather);
 	void render(sf::RenderTarget& target, b2World& World);
 };
 

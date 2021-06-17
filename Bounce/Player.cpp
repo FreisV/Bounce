@@ -50,7 +50,7 @@ void Player::movement(float time, b2World &World)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) //Up
 	{
 		if (onGround) {
-			playerBody->SetLinearVelocity(b2Vec2(vel.x, -9 * time));
+			playerBody->SetLinearVelocity(b2Vec2(vel.x, -7 * time));//-9*time
 		}
 	}
 }
@@ -86,13 +86,18 @@ sf::Vector2f Player::getPosition()
 	return playerSprite.getPosition();
 }
 
-void Player::update(float time, std::string *map, b2World &World)
+void Player::update(float time, std::string *map, b2World &World, bool inWather)
 {
 	movement(time, World);
 	b2Vec2 pos = playerBody->GetPosition();
 	float angle = playerBody->GetAngle();
 	playerSprite.setPosition(pos.x * c::SCALE, pos.y * c::SCALE);
-	//std::cout << "X: " << pos.x * c::SCALE << "\n" << "Y: " << pos.y * c::SCALE << std::endl;
+	if (inWather)
+	{
+		//Исправить скорость выталкивания
+		b2Vec2 vel = playerBody->GetLinearVelocity();
+		playerBody->SetLinearVelocity(b2Vec2(vel.x, vel.y /100 * 60 - 1 * time));
+	}
 }
 
 void Player::render(sf::RenderTarget& target, b2World& World)

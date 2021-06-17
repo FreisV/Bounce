@@ -29,6 +29,10 @@ class Map
 	sf::Texture catchedBottomRingTextureSheet;
 
 	std::vector<sf::Vector2f> ringsPositions;
+	//Wather
+	sf::RectangleShape watherSprite;
+	std::vector<sf::Vector2f> watherPositions;
+	bool inWather = false;
 
 	//Interface
 	int ringsCounter = 0;
@@ -41,11 +45,11 @@ class Map
 		"B     BB     BB                                          B",
 		"B     BBBBBBBBB                                          B",
 		"B                                                        B",
-		"B                 RL                                     B",
-		"B                RBBL        O       O                   B",
-		"B               RBBBBL                                   B",
-		"B              RBBBBBBL                                  B",
-		"B  O O O O O ORBBBBBBBBL                                 B",
+		"B WWW             RL                                     B",
+		"B WWW            RBBL        O       O                   B",
+		"B WWW           RBBBBL                                   B",
+		"B WWW           RBBBBBBL                                 B",
+		"B WWW   O O O ORBBBBBBBBL                                B",
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 	};
 
@@ -57,13 +61,13 @@ class Map
 	void createLeftAscent(b2World& World, int x, int y);
 	void createRing(b2World& World, int x, int y);
 
-	void takeRings(sf::Vector2f ballPosition);
+	void takeRings(sf::Vector2f playerPosition);
+	void checkInWather(sf::Vector2f playerPosition);
 public:
 	Map();
 	void createBlocks(b2World& World);
 
-	void update(sf::Vector2f ballPosition);
-	
+	void update(sf::Vector2f playerPosition);
 	void render(sf::RenderTarget& target);
 	void renderTopRings(sf::RenderTarget& target);
 	
@@ -73,5 +77,6 @@ public:
 
 	int getRingsCounter();
 	int getScore();
+	bool getInWather();
 };
 

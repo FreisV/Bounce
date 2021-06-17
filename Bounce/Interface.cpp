@@ -44,7 +44,6 @@ void Interface::setScore(int playerScore)
 void Interface::update(sf::Vector2f viewPosition, int playerScore)
 {
 	setScore(playerScore);
-	std::cout << score.str() << std::endl;
 	scoreText.setPosition(viewPosition.x + 500, viewPosition.y - 580);
 	scoreText.setString(score.str());
 }

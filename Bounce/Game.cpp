@@ -47,7 +47,7 @@ Game::~Game()
 
 void Game::updatePlayer(float time, std::string *map)
 {
-	this->player->update(time, map, World);
+	this->player->update(time, map, World, this->map->getInWather());
 }
 
 void Game::updateView()

@@ -34,7 +34,8 @@ void Map::initSprites()
 	catchedTopRingSprite.setTexture(catchedTopRingTextureSheet);
 	bottomRingSprite.setTexture(bottomRingTextureSheet);
 	catchedBottomRingSprite.setTexture(catchedBottomRingTextureSheet);
-
+	watherSprite.setFillColor(sf::Color::Blue);
+	watherSprite.setSize(sf::Vector2f(c::GRID_SIZE, c::GRID_SIZE));
 }
 
 void Map::createBlock(b2World &World, int x, int y)
@@ -111,11 +112,10 @@ void Map::createRing(b2World& World, int x, int y)
 	b_ground->CreateFixture(&block, 1);
 }
 
-void Map::takeRings(sf::Vector2f ballPosition)
+void Map::takeRings(sf::Vector2f playerPosition)
 {
 	for (size_t i = 0; i < size(this->ringsPositions); i++)
-	{
-		if ((ballPosition.x <= ringsPositions[i].x && ballPosition.x + 45 >= ringsPositions[i].x) && (ballPosition.y - 30 <= ringsPositions[i].y && ballPosition.y + 30 >= ringsPositions[i].y))
+		if ((playerPosition.x <= ringsPositions[i].x && playerPosition.x + 45 >= ringsPositions[i].x) && (playerPosition.y - 30 <= ringsPositions[i].y && playerPosition.y + 30 >= ringsPositions[i].y))
 		{
 			std::cout << "True"  << "\n" << std::endl;
 			int row = (static_cast<int>(ringsPositions[i].y) + 20) / c::GRID_SIZE;
@@ -125,7 +125,6 @@ void Map::takeRings(sf::Vector2f ballPosition)
 			score += 500;
 			ringsPositions.erase(ringsPositions.begin() + i );
 		}
-	}
 }
 
 void Map::createBlocks(b2World &World)
@@ -152,6 +151,10 @@ void Map::createBlocks(b2World &World)
 				ringsCounter++;
 				ringsPositions.push_back(sf::Vector2f(x + c::GRID_SIZE / 4, y - c::GRID_SIZE / 2 - 20));
 				createRing(World, x, y - c::GRID_SIZE - 20);
+			}
+			if (map[i][j] == 'W')
+			{
+				watherPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2, y - c::GRID_SIZE / 2));
 			}
 
 			if (map[i][j] == ' ')
@@ -194,7 +197,11 @@ void Map::render(sf::RenderTarget& target)
 			{
 				catchedBottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
 				target.draw(catchedBottomRingSprite);
-				
+			}
+			if (map[i][j] == 'W')
+			{
+				watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(watherSprite);
 			}
 			if (map[i][j] == ' ')
 				continue;
@@ -202,9 +209,10 @@ void Map::render(sf::RenderTarget& target)
 		}
 }
 
-void Map::update(sf::Vector2f ballPosition)
+void Map::update(sf::Vector2f playerPosition)
 {
-	this->takeRings(ballPosition);
+	checkInWather(playerPosition);
+	this->takeRings(playerPosition);
 }
 
 void Map::renderTopRings(sf::RenderTarget& target)
@@ -239,6 +247,25 @@ sf::FloatRect Map::getBlockBounds()
 	return sf::FloatRect() ;
 }
 
+void Map::checkInWather(sf::Vector2f playerPosition)
+{
+	inWather = false;
+	for (auto pos : watherPositions)
+	{
+		//std::cout <<"posY: "<< pos.y + c::GRID_SIZE << std::endl;
+		//std::cout << playerPosition.y <<"\n" << std::endl;
+		//не правильно вычисляется положение воды
+		if ((playerPosition.x >= pos.x && playerPosition.x <= pos.x + c::GRID_SIZE) && (playerPosition.y >= pos.y && playerPosition.y<= pos.y + c::GRID_SIZE))
+		{
+			std::cout << playerPosition.x << std::endl;
+			std::cout <<"Left: "<< pos.x << std::endl;
+			std::cout <<"Right: "<< pos.y + c::GRID_SIZE << std::endl;
+
+			inWather = true;
+		}
+	}
+}
+
 std::string *Map::getMap()
 {
 	return this->map;
@@ -254,4 +281,7 @@ int Map::getScore()
 	return this->score;
 }
 
-
+bool Map::getInWather()
+{
+	return this->inWather;
+}
