@@ -5,9 +5,14 @@
 class Player
 {
 	sf::Sprite playerSprite;
-	sf::Texture textureSheet;
+	sf::Texture ballTextureSheet;
+	sf::Texture lightBallTextureSheet;
+	sf::Texture heavyBallTextureSheet;
+
 	float ballRadius = 39;
 	bool onGround = false;
+	bool isLight = false;
+	bool isHeavy = false;
 
 	b2BodyDef bdef;
 	b2CircleShape circle;
@@ -24,8 +29,8 @@ class Player
 	//Core
 	void initTexture();
 	void initSprite();
-	void initBall(b2World &World, b2Vec2 startPosition);
-
+	void initPlayer(b2World &World, b2Vec2 startPosition);
+	void setBall(int colorNumber);
 
 public:
 	Player(b2World &world, b2Vec2 spawnPosition);

@@ -212,6 +212,12 @@
     <Image Include="Assets\ui_nw_ground_block%402x.png">
       <Filter>Файлы ресурсов\image</Filter>
     </Image>
+    <Image Include="Assets\ball_small_heavy%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
+    <Image Include="Assets\ball_small_light%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

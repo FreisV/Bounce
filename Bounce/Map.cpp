@@ -117,7 +117,6 @@ void Map::takeRings(sf::Vector2f playerPosition)
 	for (size_t i = 0; i < size(this->ringsPositions); i++)
 		if ((playerPosition.x <= ringsPositions[i].x && playerPosition.x + 45 >= ringsPositions[i].x) && (playerPosition.y - 30 <= ringsPositions[i].y && playerPosition.y + 30 >= ringsPositions[i].y))
 		{
-			std::cout << "True"  << "\n" << std::endl;
 			int row = (static_cast<int>(ringsPositions[i].y) + 20) / c::GRID_SIZE;
 			int col = (static_cast<int>(ringsPositions[i].x) + c::GRID_SIZE / 4 - c::GRID_SIZE / 2) / c::GRID_SIZE;
 			map[row][col] = 'o';
@@ -251,19 +250,8 @@ void Map::checkInWather(sf::Vector2f playerPosition)
 {
 	inWather = false;
 	for (auto pos : watherPositions)
-	{
-		//std::cout <<"posY: "<< pos.y + c::GRID_SIZE << std::endl;
-		//std::cout << playerPosition.y <<"\n" << std::endl;
-		//не правильно вычисляется положение воды
 		if ((playerPosition.x >= pos.x && playerPosition.x <= pos.x + c::GRID_SIZE) && (playerPosition.y >= pos.y && playerPosition.y<= pos.y + c::GRID_SIZE))
-		{
-			std::cout << playerPosition.x << std::endl;
-			std::cout <<"Left: "<< pos.x << std::endl;
-			std::cout <<"Right: "<< pos.y + c::GRID_SIZE << std::endl;
-
 			inWather = true;
-		}
-	}
 }
 
 std::string *Map::getMap()

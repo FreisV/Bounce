@@ -45,9 +45,9 @@ class Map
 		"B     BB     BB                                          B",
 		"B     BBBBBBBBB                                          B",
 		"B                                                        B",
-		"B WWW             RL                                     B",
-		"B WWW            RBBL        O       O                   B",
-		"B WWW           RBBBBL                                   B",
+		"B WWW              RL                                    B",
+		"B WWW             RBBL                                   B",
+		"B WWW            RBBBBL                                  B",
 		"B WWW           RBBBBBBL                                 B",
 		"B WWW   O O O ORBBBBBBBBL                                B",
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"

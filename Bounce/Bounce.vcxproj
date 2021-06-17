@@ -173,6 +173,8 @@
     <Image Include="Assets\ball_big%402x.png" />
     <Image Include="Assets\ball_pop%402x.png" />
     <Image Include="Assets\ball_small%402x.png" />
+    <Image Include="Assets\ball_small_heavy%402x.png" />
+    <Image Include="Assets\ball_small_light%402x.png" />
     <Image Include="Assets\checkpoint%402x.png" />
     <Image Include="Assets\checkpoint_catched%402x.png" />
     <Image Include="Assets\deflater%402x.png" />
