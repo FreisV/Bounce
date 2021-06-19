@@ -50,7 +50,7 @@ public:
 	virtual ~Player();
 
 	//Functions
- 	void update(float time, std::string* map, b2World& World, bool inWather);
+ 	void update(float time, std::string* map, b2World& World, bool inWather, b2Vec2 spawnPosition);
 	void render(sf::RenderTarget& target, b2World& World);
 	
 	sf::Vector2f getPosition();

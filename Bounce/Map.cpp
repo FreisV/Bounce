@@ -26,6 +26,11 @@ void Map::initTextures()
 	if (!this->thornTextureSheet.loadFromFile("Assets/thorn@2x.png"))
 		std::cout << "ERROR::MAP::Could not load the thorn sheet!" << std::endl;
 
+	if (!this->checkpointTextureSheet.loadFromFile("Assets/checkpoint@2x.png"))
+		std::cout << "ERROR::MAP::Could not load the checkpoint sheet!" << std::endl;
+
+	if (!this->catchedCheckpointTextureSheet.loadFromFile("Assets/checkpoint_catched@2x.png"))
+		std::cout << "ERROR::MAP::Could not load the catched checkpoint sheet!" << std::endl;
 }
 
 void Map::initSprites()
@@ -41,6 +46,8 @@ void Map::initSprites()
 	watherSprite.setFillColor(sf::Color::Blue);
 	watherSprite.setSize(sf::Vector2f(c::GRID_SIZE, c::GRID_SIZE));
 	thornSprite.setTexture(thornTextureSheet);
+	checkpointSprite.setTexture(checkpointTextureSheet);
+	catchedCheckpointSprite.setTexture(catchedCheckpointTextureSheet);
 }
 
 void Map::createBlock(b2World &World, int x, int y)
@@ -163,6 +170,10 @@ void Map::createBlocks(b2World &World)
 				createThorn(World, x, y);
 				thornsPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2 + 19, y - c::GRID_SIZE / 2));
 			}
+			if (map[i][j] == 'C')
+			{
+				checkpointsPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2, y - c::GRID_SIZE / 2));
+			}
 			if (map[i][j] == ' ')
 				continue;
 		}
@@ -178,9 +189,36 @@ void Map::takeRings(sf::Vector2f playerPosition)
 			map[row][col] = 'o';
 			ringsCounter--;
 			score += 500;
-			ringsPositions.erase(ringsPositions.begin() + i );
+			ringsPositions.erase(ringsPositions.begin() + i);
 		}
 }
+
+void Map::checkInWather(sf::Vector2f playerPosition)
+{
+	inWather = false;
+	for (auto pos : watherPositions)
+		if ((playerPosition.x >= pos.x && playerPosition.x <= pos.x + c::GRID_SIZE) && (playerPosition.y >= pos.y && playerPosition.y<= pos.y + c::GRID_SIZE))
+			inWather = true;
+}
+
+void Map::takeCheckpoints(sf::Vector2f playerPosition)
+{
+	
+	for (size_t i = 0; i < size(this->checkpointsPositions); i++)
+		if ((playerPosition.x - 39 <= checkpointsPositions[i].x + c::GRID_SIZE && playerPosition.x + 39 >= checkpointsPositions[i].x) && (playerPosition.y - 39 <= checkpointsPositions[i].y + c::GRID_SIZE && playerPosition.y + 39 >= checkpointsPositions[i].y))
+		{
+			b2Vec2 spawnPosition = getSpawnPosition();
+			int removeSpawnY = static_cast<int>(spawnPosition.y) / c::GRID_SIZE;
+			int removeSpawnX = static_cast<int>(spawnPosition.x) / c::GRID_SIZE;
+			map[removeSpawnY][removeSpawnX] = ' ';
+			int row = (static_cast<int>(checkpointsPositions[i].y)) / c::GRID_SIZE;
+			int col = (static_cast<int>(checkpointsPositions[i].x)) / c::GRID_SIZE;
+			map[row][col] = 'P';
+			score += 500;
+			checkpointsPositions.erase(checkpointsPositions.begin() + i);
+		}
+}
+
 
 Map::Map()
 {
@@ -190,7 +228,7 @@ Map::Map()
 
 void Map::render(sf::RenderTarget& target)
 {
-	for(int i = 0; i < mapHeight; i++)
+	for (int i = 0; i < mapHeight; i++)
 		for (int j = 0; j < map[i].length(); j++)
 		{
 			if (map[i][j] == 'B')
@@ -228,6 +266,16 @@ void Map::render(sf::RenderTarget& target)
 				thornSprite.setPosition(j * c::GRID_SIZE + 19, i * c::GRID_SIZE);
 				target.draw(thornSprite);
 			}
+			if (map[i][j] == 'C')
+			{
+				checkpointSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(checkpointSprite);
+			}
+			if (map[i][j] == 'P')
+			{
+				catchedCheckpointSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(catchedCheckpointSprite);
+			}
 			if (map[i][j] == ' ')
 				continue;
 
@@ -236,8 +284,9 @@ void Map::render(sf::RenderTarget& target)
 
 void Map::update(sf::Vector2f playerPosition)
 {
-	checkInWather(playerPosition);
+	this->checkInWather(playerPosition);
 	this->takeRings(playerPosition);
+	this->takeCheckpoints(playerPosition);
 }
 
 void Map::renderTopRings(sf::RenderTarget& target)
@@ -272,13 +321,7 @@ sf::FloatRect Map::getBlockBounds()
 	return sf::FloatRect() ;
 }
 
-void Map::checkInWather(sf::Vector2f playerPosition)
-{
-	inWather = false;
-	for (auto pos : watherPositions)
-		if ((playerPosition.x >= pos.x && playerPosition.x <= pos.x + c::GRID_SIZE) && (playerPosition.y >= pos.y && playerPosition.y<= pos.y + c::GRID_SIZE))
-			inWather = true;
-}
+
 
 std::string *Map::getMap()
 {

@@ -35,10 +35,19 @@ class Map
 	std::vector<sf::Vector2f> watherPositions;
 	bool inWather = false;
 
-	//Thorn
+	//Thorns
 	sf::Sprite thornSprite;
 	sf::Texture thornTextureSheet;
 	std::vector<sf::Vector2f> thornsPositions;
+
+	//Checkpoints
+	sf::Sprite checkpointSprite;
+	sf::Texture checkpointTextureSheet;
+
+	sf::Sprite catchedCheckpointSprite;
+	sf::Texture catchedCheckpointTextureSheet;
+
+	std::vector<sf::Vector2f> checkpointsPositions;
 
 	//Interface
 	int ringsCounter = 0;
@@ -54,7 +63,7 @@ class Map
 		"B                  RL                                    B",
 		"B                 RBBL                                   B",
 		"B                RBBBBL                                  B",
-		"B               RBBBBBBL                                 B",
+		"B          C    RBBBBBBL                                 B",
 		"B  TTBBT       RBBBBBBBBL                   T            B",
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 	};
@@ -70,6 +79,8 @@ class Map
 
 	void takeRings(sf::Vector2f playerPosition);
 	void checkInWather(sf::Vector2f playerPosition);
+	void takeCheckpoints(sf::Vector2f playerPosition);
+
 public:
 	Map();
 	void createBlocks(b2World& World);

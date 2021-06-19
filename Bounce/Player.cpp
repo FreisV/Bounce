@@ -98,7 +98,6 @@ void Player::initPlayer(b2World &World, b2Vec2 spawnPosition)
 {
 	bdef.type = b2_dynamicBody;
 	bdef.position.Set(spawnPosition.x / c::SCALE, spawnPosition.y / c::SCALE);
-	std::cout << spawnPosition.x << "\t" << spawnPosition.y << std::endl;
 	this->spawnPosition = spawnPosition;
 	circle.m_radius = ballRadius/c::SCALE;
 	fdef.density = 1; //Задаём плотность 
@@ -115,7 +114,7 @@ void Player::checkThorns(b2World& World)
 	sf::Vector2f ballPos = playerSprite.getPosition();
 	for (auto thorn : this->thornsPositions)
 	{
-		if ((ballPos.x - 40 <= thorn.x + 42 && ballPos.x + 40 >= thorn.x) && (ballPos.y - 41 <= thorn.y + c::GRID_SIZE && ballPos.y + 41 >= thorn.y))
+		if ((ballPos.x - 40 <= thorn.x + 42 && ballPos.x + 40 >= thorn.x) && (ballPos.y - 41 <= thorn.y + c::GRID_SIZE && ballPos.y + 42 >= thorn.y))
 		{
 			isDead = true;
 			timeAfterDead = 50;
@@ -191,9 +190,8 @@ void Player::updateIfDead(float time, std::string* map, b2World& World, bool inW
 	}
 }
 
-void Player::update(float time, std::string *map, b2World &World, bool inWather)
+void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition)
 {
-	//std::cout << playerSprite.getPosition().x << "\t" << playerSprite.getPosition().y << std::endl;
 	if (!isDead)
 	{
 		updateIfLife(time, map, World, inWather);
@@ -201,6 +199,7 @@ void Player::update(float time, std::string *map, b2World &World, bool inWather)
 	}
 	else if (isDead)
 		updateIfDead(time, map, World, inWather);
+	this->spawnPosition = spawnPosition;
 }	
 
 void Player::render(sf::RenderTarget& target, b2World& World)
