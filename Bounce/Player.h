@@ -17,6 +17,7 @@ class Player
 	bool isDead = false;
 	bool godmodeOn = false;
 	int timeAfterDead = 0;
+	int livesCounter = 3;
 
 	b2BodyDef bdef;
 	b2CircleShape circle;
@@ -55,5 +56,6 @@ public:
 	void render(sf::RenderTarget& target, b2World& World);
 	
 	sf::Vector2f getPosition();
+	int getLivesCounter();
 };
 

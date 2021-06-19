@@ -65,7 +65,7 @@ void Game::updateMap()
 
 void Game::updateInterface()
 {
-	interface->update(view.getCenter(), map->getScore());
+	interface->update(view.getCenter(), map->getScore(), player->getLivesCounter());
 }
 
 void Game::update(float time)

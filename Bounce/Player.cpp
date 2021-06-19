@@ -117,8 +117,10 @@ void Player::checkThorns(b2World& World)
 		if ((ballPos.x - 40 <= thorn.x + 42 && ballPos.x + 40 >= thorn.x) && (ballPos.y - 41 <= thorn.y + c::GRID_SIZE && ballPos.y + 42 >= thorn.y))
 		{
 			isDead = true;
+			livesCounter--;
 			timeAfterDead = 50;
 			playerSprite.setTexture(deadBallTextureSheet);
+			break;
 		}
 	}
 }
@@ -202,6 +204,7 @@ void Player::update(float time, std::string *map, b2World &World, bool inWather,
 	}
 	else if (isDead)
 		updateIfDead(time, map, World, inWather);
+
 	this->spawnPosition = spawnPosition;
 }	
 
@@ -241,4 +244,9 @@ void Player::setBall(int colorNumber)
 sf::Vector2f Player::getPosition()
 {
 	return playerSprite.getPosition();
+}
+
+int Player::getLivesCounter()
+{
+	return this->livesCounter;
 }
