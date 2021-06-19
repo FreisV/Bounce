@@ -20,8 +20,6 @@ int main()
 
 		game.update(time);
 		game.render();
-
-		//tests
 	}
 }
 

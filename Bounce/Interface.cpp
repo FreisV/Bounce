@@ -69,8 +69,8 @@ void Interface::setLives(int livesCounterInt)
 void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter)
 {
 	setLives(livesCounter);
-	livesSprite.setPosition(viewPosition.x - 960, viewPosition.y - 520);
-	livesCounterText.setPosition(viewPosition.x - 865, viewPosition.y - 570);
+	livesSprite.setPosition(viewPosition.x - 940, viewPosition.y - 520);
+	livesCounterText.setPosition(viewPosition.x - 845, viewPosition.y - 570);
 	livesCounterText.setString(this->livesCounter.str());
 
 	setScore(playerScore);
@@ -80,7 +80,7 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 
 void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int ringsCounter)
 {
-	ringSprite.setPosition(viewPosition.x - 770, viewPosition.y - 515);
+	ringSprite.setPosition(viewPosition.x - 750, viewPosition.y - 515);
 
 	for (int i = 0; i < ringsCounter; i++)
 	{

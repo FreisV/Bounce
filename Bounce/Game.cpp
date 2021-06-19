@@ -1,8 +1,9 @@
 #include "Game.h"
+#include "Consts.h"
 
 void Game::initWindow()
 {
-	this->window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bounce", sf::Style::Close | sf::Style::Titlebar);
+	this->window.create(sf::VideoMode(c::WINDOW_WIDTH, c::WINDOW_HEIGHT), "Bounce", sf::Style::Close | sf::Style::Titlebar);
 	this->window.setFramerateLimit(60);
 }
 
@@ -21,7 +22,7 @@ void Game::initView()
 {
 	b2Vec2 pos = map->getSpawnPosition();
 	this->view.setCenter(pos.x, pos.y);
-	this->view.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	this->view.setSize(sf::Vector2f(c::WINDOW_WIDTH, c::WINDOW_HEIGHT));
 }
 
 void Game::initInterface()
@@ -29,9 +30,15 @@ void Game::initInterface()
 	this->interface = new Interface();
 }
 
+void Game::initMenu()
+{
+	this->menu = new Menu;
+}
+
 Game::Game()
 {
 	this->initWindow();
+	this->initMenu();
 	this->initMap();
 	this->initPlayer();
 	this->initView();
@@ -42,6 +49,11 @@ Game::Game()
 Game::~Game()
 {
 	delete this->player;
+}
+
+void Game::updateMenu()
+{
+	this->menu->update();
 }
 
 void Game::updatePlayer(float time, std::string *map)
@@ -73,16 +85,30 @@ void Game::update(float time)
 	{
 		if (this->ev.type == sf::Event::Closed)
 			this->window.close();
-		else if(this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape)
+		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape)
 			this->window.close();
 	}
 
-	World.Step(1 / 60.f, 8, 3);
+	changeDisplay();
 
-	this->updatePlayer(time, map->getMap());
-	this->updateView();
-	this->updateMap();
-	this->updateInterface();
+	if (isMenu)
+	{
+		this->updateMenu();
+	}
+	else if (isGame) {
+		World.Step(1 / 60.f, 8, 3);
+
+		this->updatePlayer(time, map->getMap());
+		this->updateView();
+		this->updateMap();
+		this->updateInterface();
+	}
+	
+}
+
+void Game::renderMenu()
+{
+	this->menu->render(window);
 }
 
 void Game::renderPlayer()
@@ -106,16 +132,32 @@ void Game::renderInterface()
 	this->interface->render(window, view.getCenter(), ringsCounter);
 }
 
+void Game::changeDisplay()
+{
+	if (menu->isPlayButtonPressed())
+	{
+		isMenu = false;
+		isGame = true;
+	}
+}
+
 void Game::render()
 {
 	this->window.clear(sf::Color(86, 219, 254, 0));
 
 	//Render game
-	this->renderMap();
-	this->renderPlayer();
-	this->map->renderTopRings(window);
-	this->renderView();
-	this->renderInterface();
+	if (isMenu)
+	{
+		this->renderMenu();
+	}
+	else if (isGame) 
+	{
+		this->renderMap();
+		this->renderPlayer();
+		this->map->renderTopRings(window);
+		this->renderView();
+		this->renderInterface();
+	}
 
 	this->window.display();
 }
