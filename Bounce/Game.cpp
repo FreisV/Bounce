@@ -8,14 +8,13 @@ void Game::initWindow()
 
 void Game::initPlayer()
 {
-	this->player = new Player(World, map->getSpawnPosition(), map->getThornsPositions());
+	this->player = new Player(World, map->getSpawnPosition(), map->getThornsPositions(), map->getBonusLivesPositions());
 }
 
 void Game::initMap()
 {
 	this->map = new Map();
 	this->map->createBlocks(World);
-
 }
 
 void Game::initView()

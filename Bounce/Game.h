@@ -15,7 +15,7 @@ class Game
 	sf::Event ev;
 	sf::View view;
 
-	b2Vec2 Gravity{ 0.f, 37.6f};//60
+	b2Vec2 Gravity{ 0.f, 37.6f};//37,6
 
 	b2World World{Gravity};
 

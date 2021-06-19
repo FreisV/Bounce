@@ -49,6 +49,12 @@ class Map
 
 	std::vector<sf::Vector2f> checkpointsPositions;
 
+	//Bonus life
+	sf::Sprite bonusLifeSprite;
+	sf::Texture bonusLifeTextureSheet;
+
+	std::vector<sf::Vector2f> bonusLivesPositions;
+
 	//Interface
 	int ringsCounter = 0;
 	int score = 0;
@@ -56,15 +62,15 @@ class Map
 	std::string map[mapHeight] = {
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 		"B   P BB                                                 B",
-		"B     BB     O                                           B",
-		"B     BBWWWWWBB                                          B",
+		"B     BB     OC                                          B",
+		"B     BBWWWWWBB    l                                     B",
 		"B BBB BBWWWWWBB                                          B",
 		"B     BBBBBBBBB                                          B",
 		"B                  RL                                    B",
 		"B                 RBBL                                   B",
 		"B                RBBBBL                                  B",
-		"B          C    RBBBBBBL                                 B",
-		"B  TTBBT       RBBBBBBBBL                   T            B",
+		"B               RBBBBBBL                                 B",
+		"BTTTTTBB       RBBBBBBBBL                                B",
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 	};
 
@@ -80,6 +86,8 @@ class Map
 	void takeRings(sf::Vector2f playerPosition);
 	void checkInWather(sf::Vector2f playerPosition);
 	void takeCheckpoints(sf::Vector2f playerPosition);
+	void takeBonusLives(sf::Vector2f playerPosition);
+
 
 public:
 	Map();
@@ -90,12 +98,12 @@ public:
 	void renderTopRings(sf::RenderTarget& target);
 	
 	b2Vec2 getSpawnPosition();
-	sf::FloatRect getBlockBounds();
 	std::string *getMap();
 
 	int getRingsCounter();
 	int getScore();
 	bool getInWather();
 	std::vector<sf::Vector2f> getThornsPositions();
+	std::vector<sf::Vector2f> getBonusLivesPositions();
 };
 

@@ -31,6 +31,9 @@ void Map::initTextures()
 
 	if (!this->catchedCheckpointTextureSheet.loadFromFile("Assets/checkpoint_catched@2x.png"))
 		std::cout << "ERROR::MAP::Could not load the catched checkpoint sheet!" << std::endl;
+
+	if (!this->bonusLifeTextureSheet.loadFromFile("Assets/life@2x.png"))
+		std::cout << "ERROR::MAP::Could not load the life sheet!" << std::endl;
 }
 
 void Map::initSprites()
@@ -48,6 +51,7 @@ void Map::initSprites()
 	thornSprite.setTexture(thornTextureSheet);
 	checkpointSprite.setTexture(checkpointTextureSheet);
 	catchedCheckpointSprite.setTexture(catchedCheckpointTextureSheet);
+	bonusLifeSprite.setTexture(bonusLifeTextureSheet);
 }
 
 void Map::createBlock(b2World &World, int x, int y)
@@ -174,6 +178,10 @@ void Map::createBlocks(b2World &World)
 			{
 				checkpointsPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2, y - c::GRID_SIZE / 2));
 			}
+			if (map[i][j] == 'l')
+			{
+				bonusLivesPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2, y - c::GRID_SIZE / 2));
+			}
 			if (map[i][j] == ' ')
 				continue;
 		}
@@ -216,6 +224,20 @@ void Map::takeCheckpoints(sf::Vector2f playerPosition)
 			map[row][col] = 'P';
 			score += 500;
 			checkpointsPositions.erase(checkpointsPositions.begin() + i);
+		}
+}
+
+void Map::takeBonusLives(sf::Vector2f playerPosition)
+{
+	sf::Vector2f ballPos = playerPosition;
+	for (size_t i = 0; i < size(bonusLivesPositions); i++)
+		if ((playerPosition.x - 39 <= bonusLivesPositions[i].x + c::GRID_SIZE && playerPosition.x + 39>= bonusLivesPositions[i].x) && (playerPosition.y - 39 <= bonusLivesPositions[i].y + c::GRID_SIZE && playerPosition.y + 39 >= bonusLivesPositions[i].y))
+		{
+			int bonusLifeX = static_cast<int>(bonusLivesPositions[i].x) / c::GRID_SIZE;
+			int bonusLifeY = static_cast<int>(bonusLivesPositions[i].y) / c::GRID_SIZE;
+			map[bonusLifeY][bonusLifeX] = ' ';
+			bonusLivesPositions.erase(bonusLivesPositions.begin() + i);
+			break;
 		}
 }
 
@@ -276,6 +298,11 @@ void Map::render(sf::RenderTarget& target)
 				catchedCheckpointSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
 				target.draw(catchedCheckpointSprite);
 			}
+			if (map[i][j] == 'l')
+			{
+				bonusLifeSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(bonusLifeSprite);
+			}
 			if (map[i][j] == ' ')
 				continue;
 
@@ -287,6 +314,7 @@ void Map::update(sf::Vector2f playerPosition)
 	this->checkInWather(playerPosition);
 	this->takeRings(playerPosition);
 	this->takeCheckpoints(playerPosition);
+	this->takeBonusLives(playerPosition);
 }
 
 void Map::renderTopRings(sf::RenderTarget& target)
@@ -316,13 +344,6 @@ b2Vec2 Map::getSpawnPosition()
 				return b2Vec2(j * 80, i * 80);
 }
 
-sf::FloatRect Map::getBlockBounds()
-{
-	return sf::FloatRect() ;
-}
-
-
-
 std::string *Map::getMap()
 {
 	return this->map;
@@ -346,4 +367,9 @@ bool Map::getInWather()
 std::vector<sf::Vector2f> Map::getThornsPositions()
 {
 	return thornsPositions;
+}
+
+std::vector<sf::Vector2f> Map::getBonusLivesPositions()
+{
+	return bonusLivesPositions;
 }

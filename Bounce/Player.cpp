@@ -109,11 +109,10 @@ void Player::initPlayer(b2World &World, b2Vec2 spawnPosition)
 	
 }
 
-void Player::checkThorns(b2World& World)
+void Player::checkThorns()
 {
 	sf::Vector2f ballPos = playerSprite.getPosition();
 	for (auto thorn : this->thornsPositions)
-	{
 		if ((ballPos.x - 40 <= thorn.x + 42 && ballPos.x + 40 >= thorn.x) && (ballPos.y - 41 <= thorn.y + c::GRID_SIZE && ballPos.y + 42 >= thorn.y))
 		{
 			isDead = true;
@@ -122,7 +121,18 @@ void Player::checkThorns(b2World& World)
 			playerSprite.setTexture(deadBallTextureSheet);
 			break;
 		}
-	}
+}
+
+void Player::takeBonusLives()
+{
+	sf::Vector2f ballPos = playerSprite.getPosition();
+	for (size_t i = 0; i < size(bonusLivesPositions); i++)
+		if ((ballPos.x - ballRadius <= bonusLivesPositions[i].x + c::GRID_SIZE && ballPos.x + ballRadius >= bonusLivesPositions[i].x) && (ballPos.y - ballRadius <= bonusLivesPositions[i].y + c::GRID_SIZE && ballPos.y + ballRadius >= bonusLivesPositions[i].y))
+		{
+			livesCounter++;
+			bonusLivesPositions.erase(bonusLivesPositions.begin() + i);
+			break;
+		}
 }
 
 void Player::initThornsPositions(std::vector<sf::Vector2f> thornsPositions)
@@ -131,12 +141,19 @@ void Player::initThornsPositions(std::vector<sf::Vector2f> thornsPositions)
 		this->thornsPositions.push_back(thornsPositions[i]);
 }
 
-Player::Player(b2World &World, b2Vec2 spawnPosition, std::vector<sf::Vector2f> thornsPositions)
+void Player::initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositions)
+{
+	for (size_t i = 0; i < size(bonusLivesPositions); i++)
+		this->bonusLivesPositions.push_back(bonusLivesPositions[i]);
+}
+
+Player::Player(b2World &World, b2Vec2 spawnPosition, std::vector<sf::Vector2f> thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions)
 {
 	this->initTexture();
 	this->initSprite();
 	this->initPlayer(World, spawnPosition);
 	this->initThornsPositions(thornsPositions);
+	this->initBonusLivesPositions(bonusLifesPositions);
 }
 
 Player::~Player()
@@ -157,6 +174,8 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 		godmodeOn = godmodeOn ? false : true;
 
 	movement(time, World);
+	takeBonusLives();
+
 	b2Vec2 pos = playerBody->GetPosition();
 	float angle = playerBody->GetAngle();
 
@@ -200,7 +219,7 @@ void Player::update(float time, std::string *map, b2World &World, bool inWather,
 	{
 		updateIfLife(time, map, World, inWather);
 		if (!godmodeOn)
-			checkThorns(World);
+			checkThorns();
 	}
 	else if (isDead)
 		updateIfDead(time, map, World, inWather);

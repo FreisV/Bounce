@@ -26,6 +26,7 @@ class Player
 	b2Vec2 spawnPosition;
 
 	std::vector<sf::Vector2f> thornsPositions;
+	std::vector<sf::Vector2f> bonusLivesPositions;
 
 	//Animation
 	void animation(float speed);
@@ -39,16 +40,18 @@ class Player
 	void initSprite();
 	void initPlayer(b2World &World, b2Vec2 startPosition);
 	void initThornsPositions(std::vector<sf::Vector2f> thornsPositions);
+	void initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositions);
 	void setBall(int colorNumber);
 
 	void updateIfLife(float time, std::string* map, b2World& World, bool inWather);
 	void updateIfDead(float time, std::string* map, b2World& World, bool inWather);
 
 	//Interaction with the map
-	void checkThorns(b2World& World);
+	void checkThorns();
+	void takeBonusLives();
 
 public:
-	Player(b2World &world, b2Vec2 spawnPosition, std::vector<sf::Vector2f>  thornsPositions);
+	Player(b2World &world, b2Vec2 spawnPosition, std::vector<sf::Vector2f>  thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions);
 	virtual ~Player();
 
 	//Functions
