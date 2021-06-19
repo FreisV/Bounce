@@ -151,6 +151,8 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 		setBall(2);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
 		setBall(3);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+		godmodeOn = godmodeOn ? false : true;
 
 	movement(time, World);
 	b2Vec2 pos = playerBody->GetPosition();
@@ -195,7 +197,8 @@ void Player::update(float time, std::string *map, b2World &World, bool inWather,
 	if (!isDead)
 	{
 		updateIfLife(time, map, World, inWather);
-		checkThorns(World);
+		if (!godmodeOn)
+			checkThorns(World);
 	}
 	else if (isDead)
 		updateIfDead(time, map, World, inWather);

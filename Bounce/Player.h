@@ -15,6 +15,7 @@ class Player
 	bool isLight = false;
 	bool isHeavy = false;
 	bool isDead = false;
+	bool godmodeOn = false;
 	int timeAfterDead = 0;
 
 	b2BodyDef bdef;
