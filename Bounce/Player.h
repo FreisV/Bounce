@@ -8,16 +8,22 @@ class Player
 	sf::Texture ballTextureSheet;
 	sf::Texture lightBallTextureSheet;
 	sf::Texture heavyBallTextureSheet;
+	sf::Texture deadBallTextureSheet;
 
 	float ballRadius = 39;
 	bool onGround = false;
 	bool isLight = false;
 	bool isHeavy = false;
+	bool isDead = false;
+	int timeAfterDead = 0;
 
 	b2BodyDef bdef;
 	b2CircleShape circle;
 	b2Body* playerBody;
 	b2FixtureDef fdef;
+	b2Vec2 spawnPosition;
+
+	std::vector<sf::Vector2f> thornsPositions;
 
 	//Animation
 	void animation(float speed);
@@ -30,15 +36,23 @@ class Player
 	void initTexture();
 	void initSprite();
 	void initPlayer(b2World &World, b2Vec2 startPosition);
+	void initThornsPositions(std::vector<sf::Vector2f> thornsPositions);
 	void setBall(int colorNumber);
 
+	void updateIfLife(float time, std::string* map, b2World& World, bool inWather);
+	void updateIfDead(float time, std::string* map, b2World& World, bool inWather);
+
+	//Interaction with the map
+	void checkThorns(b2World& World);
+
 public:
-	Player(b2World &world, b2Vec2 spawnPosition);
+	Player(b2World &world, b2Vec2 spawnPosition, std::vector<sf::Vector2f>  thornsPositions);
 	virtual ~Player();
 
 	//Functions
-	sf::Vector2f getPosition();
  	void update(float time, std::string* map, b2World& World, bool inWather);
 	void render(sf::RenderTarget& target, b2World& World);
+	
+	sf::Vector2f getPosition();
 };
 

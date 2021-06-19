@@ -3,25 +3,29 @@
 void Map::initTextures()
 {
 	if (!this->blockTextureSheet.loadFromFile("Assets/ui_ground_block@2x.png"))  
-		std::cout << "ERROR::PLYER::Could not load the Block sheet!" << std::endl;
+		std::cout << "ERROR::MAP::Could not load the Block sheet!" << std::endl;
 
 	if (!this->rightAscentTextureSheet.loadFromFile("Assets/ui_nw_ground_block@2x.png"))
-		std::cout << "ERROR::PLYER::Could not load the right ascent sheet!" << std::endl;
+		std::cout << "ERROR::MAP::Could not load the right ascent sheet!" << std::endl;
 
 	if (!this->leftAscentTextureSheet.loadFromFile("Assets/ui_ne_ground_block@2x.png"))
-		std::cout << "ERROR::PLYER::Could not load the left ascent sheet!" << std::endl;
+		std::cout << "ERROR::MAP::Could not load the left ascent sheet!" << std::endl;
 
 	if (!this->bottomRingTextureSheet.loadFromFile("Assets/ring_small_bottom@2x.png"))
-		std::cout << "ERROR::PLYER::Could not load the small bottom ring sheet!" << std::endl;
+		std::cout << "ERROR::MAP::Could not load the small bottom ring sheet!" << std::endl;
 
 	if (!this->topRingTextureSheet.loadFromFile("Assets/ring_small_top@2x.png"))
-		std::cout << "ERROR::PLYER::Could not load the small top ring sheet!" << std::endl;
+		std::cout << "ERROR::MAP::Could not load the small top ring sheet!" << std::endl;
 
 	if (!this->catchedBottomRingTextureSheet.loadFromFile("Assets/ring_small_catched_bottom@2x.png"))
-		std::cout << "ERROR::PLYER::Could not load the small catched bottom ring sheet!" << std::endl;
+		std::cout << "ERROR::MAP::Could not load the small catched bottom ring sheet!" << std::endl;
 
 	if (!this->catchedTopRingTextureSheet.loadFromFile("Assets/ring_small_catched_top@2x.png"))
-		std::cout << "ERROR::PLYER::Could not load the small catched top ring sheet!" << std::endl;
+		std::cout << "ERROR::MAP::Could not load the small catched top ring sheet!" << std::endl;
+
+	if (!this->thornTextureSheet.loadFromFile("Assets/thorn@2x.png"))
+		std::cout << "ERROR::MAP::Could not load the thorn sheet!" << std::endl;
+
 }
 
 void Map::initSprites()
@@ -36,6 +40,7 @@ void Map::initSprites()
 	catchedBottomRingSprite.setTexture(catchedBottomRingTextureSheet);
 	watherSprite.setFillColor(sf::Color::Blue);
 	watherSprite.setSize(sf::Vector2f(c::GRID_SIZE, c::GRID_SIZE));
+	thornSprite.setTexture(thornTextureSheet);
 }
 
 void Map::createBlock(b2World &World, int x, int y)
@@ -112,18 +117,16 @@ void Map::createRing(b2World& World, int x, int y)
 	b_ground->CreateFixture(&block, 1);
 }
 
-void Map::takeRings(sf::Vector2f playerPosition)
+void Map::createThorn(b2World& World, int x, int y)
 {
-	for (size_t i = 0; i < size(this->ringsPositions); i++)
-		if ((playerPosition.x <= ringsPositions[i].x && playerPosition.x + 45 >= ringsPositions[i].x) && (playerPosition.y - 30 <= ringsPositions[i].y && playerPosition.y + 30 >= ringsPositions[i].y))
-		{
-			int row = (static_cast<int>(ringsPositions[i].y) + 20) / c::GRID_SIZE;
-			int col = (static_cast<int>(ringsPositions[i].x) + c::GRID_SIZE / 4 - c::GRID_SIZE / 2) / c::GRID_SIZE;
-			map[row][col] = 'o';
-			ringsCounter--;
-			score += 500;
-			ringsPositions.erase(ringsPositions.begin() + i );
-		}
+	b2PolygonShape thorn;
+	thorn.SetAsBox(c::GRID_SIZE / 4 / c::SCALE, c::GRID_SIZE / 2 / c::SCALE);
+
+	b2BodyDef bdef;
+	bdef.position.Set(x / c::SCALE, y / c::SCALE);
+
+	b2Body* b_ground = World.CreateBody(&bdef);
+	b_ground->CreateFixture(&thorn, 1);
 }
 
 void Map::createBlocks(b2World &World)
@@ -155,9 +158,27 @@ void Map::createBlocks(b2World &World)
 			{
 				watherPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2, y - c::GRID_SIZE / 2));
 			}
-
+			if (map[i][j] == 'T')
+			{
+				createThorn(World, x, y);
+				thornsPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2 + 19, y - c::GRID_SIZE / 2));
+			}
 			if (map[i][j] == ' ')
 				continue;
+		}
+}
+
+void Map::takeRings(sf::Vector2f playerPosition)
+{
+	for (size_t i = 0; i < size(this->ringsPositions); i++)
+		if ((playerPosition.x <= ringsPositions[i].x && playerPosition.x + 45 >= ringsPositions[i].x) && (playerPosition.y - 30 <= ringsPositions[i].y && playerPosition.y + 30 >= ringsPositions[i].y))
+		{
+			int row = (static_cast<int>(ringsPositions[i].y) + 20) / c::GRID_SIZE;
+			int col = (static_cast<int>(ringsPositions[i].x) + c::GRID_SIZE / 4 - c::GRID_SIZE / 2) / c::GRID_SIZE;
+			map[row][col] = 'o';
+			ringsCounter--;
+			score += 500;
+			ringsPositions.erase(ringsPositions.begin() + i );
 		}
 }
 
@@ -201,6 +222,11 @@ void Map::render(sf::RenderTarget& target)
 			{
 				watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
 				target.draw(watherSprite);
+			}
+			if (map[i][j] == 'T')
+			{
+				thornSprite.setPosition(j * c::GRID_SIZE + 19, i * c::GRID_SIZE);
+				target.draw(thornSprite);
 			}
 			if (map[i][j] == ' ')
 				continue;
@@ -272,4 +298,9 @@ int Map::getScore()
 bool Map::getInWather()
 {
 	return this->inWather;
+}
+
+std::vector<sf::Vector2f> Map::getThornsPositions()
+{
+	return thornsPositions;
 }

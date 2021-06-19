@@ -29,10 +29,16 @@ class Map
 	sf::Texture catchedBottomRingTextureSheet;
 
 	std::vector<sf::Vector2f> ringsPositions;
+
 	//Wather
 	sf::RectangleShape watherSprite;
 	std::vector<sf::Vector2f> watherPositions;
 	bool inWather = false;
+
+	//Thorn
+	sf::Sprite thornSprite;
+	sf::Texture thornTextureSheet;
+	std::vector<sf::Vector2f> thornsPositions;
 
 	//Interface
 	int ringsCounter = 0;
@@ -40,16 +46,16 @@ class Map
 
 	std::string map[mapHeight] = {
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
-		"B   P BBB                                                B",
-		"B     BB     BB                                          B",
-		"B     BB     BB                                          B",
+		"B   P BB                                                 B",
+		"B     BB     O                                           B",
+		"B     BBWWWWWBB                                          B",
+		"B BBB BBWWWWWBB                                          B",
 		"B     BBBBBBBBB                                          B",
-		"B                                                        B",
-		"B WWW              RL                                    B",
-		"B WWW             RBBL                                   B",
-		"B WWW            RBBBBL                                  B",
-		"B WWW           RBBBBBBL                                 B",
-		"B WWW   O O O ORBBBBBBBBL                                B",
+		"B                  RL                                    B",
+		"B                 RBBL                                   B",
+		"B                RBBBBL                                  B",
+		"B               RBBBBBBL                                 B",
+		"B  TTBBT       RBBBBBBBBL                   T            B",
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 	};
 
@@ -60,6 +66,7 @@ class Map
 	void createRightAscent(b2World& World, int x, int y);
 	void createLeftAscent(b2World& World, int x, int y);
 	void createRing(b2World& World, int x, int y);
+	void createThorn(b2World& World, int x, int y);
 
 	void takeRings(sf::Vector2f playerPosition);
 	void checkInWather(sf::Vector2f playerPosition);
@@ -78,5 +85,6 @@ public:
 	int getRingsCounter();
 	int getScore();
 	bool getInWather();
+	std::vector<sf::Vector2f> getThornsPositions();
 };
 

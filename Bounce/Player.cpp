@@ -77,11 +77,15 @@ void Player::initTexture()
 {
 	if (!this->ballTextureSheet.loadFromFile("Assets/ball_small@2x.png"))
 		std::cout << "ERROR::PLYER::Could not load the ball sheet!" << std::endl;
+	
 	if (!this->lightBallTextureSheet.loadFromFile("Assets/ball_small_light@2x.png"))
 		std::cout << "ERROR::PLYER::Could not load the light ball sheet!" << std::endl;
+	
 	if (!this->heavyBallTextureSheet.loadFromFile("Assets/ball_small_heavy@2x.png"))
 		std::cout << "ERROR::PLYER::Could not load the heavy ball sheet!" << std::endl;
 
+	if (!this->deadBallTextureSheet.loadFromFile("Assets/ball_pop@2x.png"))
+		std::cout << "ERROR::PLYER::Could not load the dead ball sheet!" << std::endl;
 }
 
 void Player::initSprite()
@@ -94,6 +98,8 @@ void Player::initPlayer(b2World &World, b2Vec2 spawnPosition)
 {
 	bdef.type = b2_dynamicBody;
 	bdef.position.Set(spawnPosition.x / c::SCALE, spawnPosition.y / c::SCALE);
+	std::cout << spawnPosition.x << "\t" << spawnPosition.y << std::endl;
+	this->spawnPosition = spawnPosition;
 	circle.m_radius = ballRadius/c::SCALE;
 	fdef.density = 1; //Задаём плотность 
 	fdef.restitution = 0.3; //Задаём упругость
@@ -104,11 +110,32 @@ void Player::initPlayer(b2World &World, b2Vec2 spawnPosition)
 	
 }
 
-Player::Player(b2World &World, b2Vec2 spawnPosition)
+void Player::checkThorns(b2World& World)
+{
+	sf::Vector2f ballPos = playerSprite.getPosition();
+	for (auto thorn : this->thornsPositions)
+	{
+		if ((ballPos.x - 40 <= thorn.x + 42 && ballPos.x + 40 >= thorn.x) && (ballPos.y - 41 <= thorn.y + c::GRID_SIZE && ballPos.y + 41 >= thorn.y))
+		{
+			isDead = true;
+			timeAfterDead = 50;
+			playerSprite.setTexture(deadBallTextureSheet);
+		}
+	}
+}
+
+void Player::initThornsPositions(std::vector<sf::Vector2f> thornsPositions)
+{
+	for (size_t i = 0; i < size(thornsPositions); i++)
+		this->thornsPositions.push_back(thornsPositions[i]);
+}
+
+Player::Player(b2World &World, b2Vec2 spawnPosition, std::vector<sf::Vector2f> thornsPositions)
 {
 	this->initTexture();
 	this->initSprite();
 	this->initPlayer(World, spawnPosition);
+	this->initThornsPositions(thornsPositions);
 }
 
 Player::~Player()
@@ -116,12 +143,8 @@ Player::~Player()
 
 }
 
-sf::Vector2f Player::getPosition()
-{
-	return playerSprite.getPosition();
-}
 
-void Player::update(float time, std::string *map, b2World &World, bool inWather)
+void Player::updateIfLife(float time, std::string* map, b2World& World, bool inWather)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
 		setBall(1);
@@ -133,13 +156,52 @@ void Player::update(float time, std::string *map, b2World &World, bool inWather)
 	movement(time, World);
 	b2Vec2 pos = playerBody->GetPosition();
 	float angle = playerBody->GetAngle();
+
 	playerSprite.setPosition(pos.x * c::SCALE, pos.y * c::SCALE);
+
 	if (inWather && !isHeavy)
 	{
 		b2Vec2 vel = playerBody->GetLinearVelocity();
-		playerBody->SetLinearVelocity(b2Vec2(vel.x, vel.y /100 * 60 - 1 * time));
+		playerBody->SetLinearVelocity(b2Vec2(vel.x, vel.y / 100 * 60 - 1 * time));
 	}
 }
+
+void Player::updateIfDead(float time, std::string* map, b2World& World, bool inWather)
+{
+	if (timeAfterDead > 0)
+	{
+		//playerSprite.setPosition(pos.x * c::SCALE, pos.y * c::SCALE);
+		timeAfterDead--;
+	}
+	else
+	{
+
+		bdef.position.Set((spawnPosition.x + c::GRID_SIZE /2) / c::SCALE, (spawnPosition.y + c::GRID_SIZE / 2) / c::SCALE);
+		World.DestroyBody(playerBody);
+		playerBody = World.CreateBody(&bdef);
+		playerBody->CreateFixture(&fdef);
+		isDead = false;
+
+		if (isLight)
+			setBall(2);
+		else if (isHeavy)
+			setBall(3);
+		else
+			setBall(1);
+	}
+}
+
+void Player::update(float time, std::string *map, b2World &World, bool inWather)
+{
+	//std::cout << playerSprite.getPosition().x << "\t" << playerSprite.getPosition().y << std::endl;
+	if (!isDead)
+	{
+		updateIfLife(time, map, World, inWather);
+		checkThorns(World);
+	}
+	else if (isDead)
+		updateIfDead(time, map, World, inWather);
+}	
 
 void Player::render(sf::RenderTarget& target, b2World& World)
 {
@@ -172,4 +234,9 @@ void Player::setBall(int colorNumber)
 	default:
 		break;
 	}
+}
+
+sf::Vector2f Player::getPosition()
+{
+	return playerSprite.getPosition();
 }
