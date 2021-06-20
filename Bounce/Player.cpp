@@ -162,7 +162,6 @@ Player::Player(b2World &World, b2Vec2 spawnPosition, std::vector<sf::Vector2f> t
 
 Player::~Player()
 {
-
 }
 
 void Player::updateIfLife(float time, std::string* map, b2World& World, bool inWather)
@@ -283,4 +282,9 @@ sf::Vector2f Player::getPosition()
 int Player::getLivesCounter()
 {
 	return this->livesCounter;
+}
+
+b2Body*& Player::getPlayerBody()
+{
+	return playerBody;
 }

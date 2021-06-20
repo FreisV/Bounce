@@ -490,7 +490,7 @@ b2Vec2 Map::getSpawnPosition()
 	for (int i = 0; i < mapHeight; i++)
 		for (int j = 0; j < map[i].length(); j++)
 			if (map[i][j] == 'P')
-				return b2Vec2(j * 80, i * 80);
+				return b2Vec2(j * 80 , i * 80);
 }
 
 std::string *Map::getMap()

@@ -94,18 +94,20 @@ void Game::changeDisplay()
 	if (menu->checkPlayPressed() && isMenu)
 	{
 		if (counter == 0)
-			counter = 7;
-		else if (counter > 1)
-			counter--;
-		else
+			counter = 300;
+		while (counter >= 1)
 		{
-			isMenu = false;
-			isLevelsMenu = true;
+			std::cout << counter << std::endl;
+			if (counter == 1)
+			{
+				isMenu = false;
+				isLevelsMenu = true;
+				counter--;
+			}
 			counter--;
-
 		}
 	}
-	if (levelsMenu->checkLevelSelected() && isLevelsMenu)
+	if (levelsMenu->checkLevelSelected() && this->isLevelsMenu)
 	{
 		isLevelsMenu = false;
 		selectedLevel = levelsMenu->getSelectedLevel();
@@ -115,6 +117,16 @@ void Game::changeDisplay()
 		this->map->createBlocks(World);
 		this->player->setItemsPositions(map->getSpawnPosition(), World, map->getThornsPositions(), map->getBonusLivesPositions());
 	}
+	if (interface->getIsRestartPressed() && this->isGame)
+	{
+		World.DestroyBody(player->getPlayerBody());
+		delete player;
+		delete map;
+		initMap();
+		map->setMap(selectedLevel);
+		map->createBlocks(World);
+		initPlayer();
+	};
 }
 
 void Game::update(float time)

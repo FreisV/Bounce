@@ -71,6 +71,8 @@ void Menu::render(sf::RenderTarget& target)
 
 bool Menu::checkPlayPressed()
 {
-	return this->isPlayPressed;
+	bool buffer = this->isPlayPressed;
+	this->isPlayPressed = false;
+	return buffer;
 }
 

@@ -13,6 +13,9 @@ void Interface::initTextures()
 
 	if (!this->levelFailedTextureSheet.loadFromFile("Assets/game_dialog_failed_title@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the level failed sheet!" << std::endl;
+
+	if (!this->restartButtonTextureShape.loadFromFile("Assets/game_dialog_failed_button_retry@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the restart button sheet!" << std::endl;
 }
 
 void Interface::initSprites()
@@ -23,6 +26,8 @@ void Interface::initSprites()
 	this->livesSprite.setScale(1.0 / 44 * 80, 1.0 / 44 * 80);
 	this->levelFailedSprite.setTexture(levelFailedTextureSheet);
 	this->levelFailedSprite.setOrigin(128, 164);
+	this->restartButtonSprite.setTexture(restartButtonTextureShape);
+	this->restartButtonSprite.setOrigin(148, 50);
 }
 
 void Interface::initShapes()
@@ -102,6 +107,14 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	this->whiteBackgroundShape.setPosition(viewPosition.x, viewPosition.y);
 	this->levelFailedWindowShape.setPosition(viewPosition.x, viewPosition.y - 20);
 	this->levelFailedSprite.setPosition(viewPosition.x , viewPosition.y - 180);
+	this->restartButtonSprite.setPosition(viewPosition.x + 200, viewPosition.y + 250);
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && isLastDead)
+	{
+		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x - 960, sf::Mouse::getPosition().y);
+		if((mousePos.x >= 60 && mousePos.x <= 296) &&(mousePos.y >= 770 && mousePos.y <= 870))
+			isRestartPressed = true;
+	}
 
 }
 
@@ -124,6 +137,16 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 		target.draw(whiteBackgroundShape);
 		target.draw(levelFailedWindowShape);
 		target.draw(levelFailedSprite);
+		target.draw(restartButtonSprite);
 	}
+}
+
+bool Interface::getIsRestartPressed()
+{
+	bool buffer = isRestartPressed;
+	isRestartPressed = false;
+	if (buffer)
+		isLastDead = false;
+	return buffer;
 }
 
