@@ -57,13 +57,11 @@ void LevelsMenu::update()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
-		std::cout << "Hui" << std::endl;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 		for (size_t i = 0; i < size(levelsPositions); i++)
 		{
 			if (levelsPositions[i].contains(mousePos))
 			{
-				std::cout << "Pizda" << std::endl;
 				this->selectedLevel = i + 1;
 				this->isLevelSelected = true;
 				break;

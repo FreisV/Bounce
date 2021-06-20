@@ -404,11 +404,21 @@ void Map::render(sf::RenderTarget& target)
 			}
 			if (map[i][j] == 'O')
 			{
+				if (i != 1 && map[i - 1][j] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
 				bottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
 				target.draw(bottomRingSprite);
 			}
 			if (map[i][j] == 'o')
 			{
+				if (map[i - 1][j] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
 				catchedBottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
 				target.draw(catchedBottomRingSprite);
 			}
@@ -419,6 +429,11 @@ void Map::render(sf::RenderTarget& target)
 			}
 			if (map[i][j] == 'T')
 			{
+				if (i != 1 && map[i - 1][j] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
 				thornSprite.setPosition(j * c::GRID_SIZE + 19, i * c::GRID_SIZE);
 				target.draw(thornSprite);
 			}

@@ -153,10 +153,10 @@ class Map
 		"B                               B",
 		"B                               B",
 		"B                               B",
-		"B  P                            B",
-		"B                               B",
-		"B                               B",
-		"B          O                    B",
+		"B  P       WWWWWWWWW            B",
+		"B          WWWWOWWWW            B",
+		"B          WWWWWWWWW            B",
+		"B          WTWWTWWTW            B",
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 	};
 

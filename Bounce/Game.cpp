@@ -107,7 +107,6 @@ void Game::changeDisplay()
 	}
 	if (levelsMenu->checkLevelSelected() && isLevelsMenu)
 	{
-		std::cout << "111" << std::endl;
 		isLevelsMenu = false;
 		selectedLevel = levelsMenu->getSelectedLevel();
 		isGame = true;
