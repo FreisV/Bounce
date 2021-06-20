@@ -16,6 +16,7 @@ class Player
 	bool isHeavy = false;
 	bool isDead = false;
 	bool godmodeOn = false;
+	bool isLastDead = false;
 	int timeAfterDead = 0;
 	int livesCounter = 3;
 

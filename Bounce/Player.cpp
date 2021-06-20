@@ -113,10 +113,12 @@ void Player::checkThorns()
 {
 	sf::Vector2f ballPos = playerSprite.getPosition();
 	for (auto thorn : this->thornsPositions) 
-		if ((ballPos.x - 40 <= thorn.x + 42 && ballPos.x + 40 >= thorn.x) && (ballPos.y - 41 <= thorn.y + c::GRID_SIZE && ballPos.y + 42 >= thorn.y))
+		if ((ballPos.x - 40 <= thorn.x + 42 && ballPos.x + 40 >= thorn.x) && (ballPos.y - 41 <= thorn.y + c::GRID_SIZE && ballPos.y + 43 >= thorn.y))
 		{
 			isDead = true;
 			livesCounter--;
+			if (livesCounter == 0)
+				isLastDead = true;
 			timeAfterDead = 50;
 			playerSprite.setTexture(deadBallTextureSheet);
 			break;
@@ -163,7 +165,6 @@ Player::~Player()
 
 }
 
-
 void Player::updateIfLife(float time, std::string* map, b2World& World, bool inWather)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
@@ -194,10 +195,9 @@ void Player::updateIfDead(float time, std::string* map, b2World& World, bool inW
 {
 	if (timeAfterDead > 0)
 	{
-		//playerSprite.setPosition(pos.x * c::SCALE, pos.y * c::SCALE);
 		timeAfterDead--;
 	}
-	else
+	else if (!isLastDead)
 	{
 
 		spawnBall(World);

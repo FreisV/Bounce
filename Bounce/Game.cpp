@@ -94,7 +94,7 @@ void Game::changeDisplay()
 	if (menu->checkPlayPressed() && isMenu)
 	{
 		if (counter == 0)
-			counter = 5;
+			counter = 7;
 		else if (counter > 1)
 			counter--;
 		else
@@ -126,8 +126,6 @@ void Game::update(float time)
 		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape)
 			this->window.close();
 	}
-
-	//std::cout << selectedLevel << std::endl;
 
 	if (isMenu)
 	{

@@ -10,6 +10,9 @@ void Interface::initTextures()
 
 	if (!this->livesTextureSheet.loadFromFile("Assets/gbar_life@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the life sheet!" << std::endl;
+
+	if (!this->levelFailedTextureSheet.loadFromFile("Assets/game_dialog_failed_title@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the level failed sheet!" << std::endl;
 }
 
 void Interface::initSprites()
@@ -18,6 +21,21 @@ void Interface::initSprites()
 	this->ringSprite.setScale(1.0 / 4 * 3, 1.0 / 12 * 8);
 	this->livesSprite.setTexture(livesTextureSheet);
 	this->livesSprite.setScale(1.0 / 44 * 80, 1.0 / 44 * 80);
+	this->levelFailedSprite.setTexture(levelFailedTextureSheet);
+	this->levelFailedSprite.setOrigin(128, 164);
+}
+
+void Interface::initShapes()
+{
+	this->levelFailedWindowShape.setFillColor(sf::Color::White);
+	this->levelFailedWindowShape.setOutlineColor(sf::Color::Black);
+	this->levelFailedWindowShape.setOutlineThickness(10);
+	this->levelFailedWindowShape.setSize(sf::Vector2f(1200, 900));
+	this->levelFailedWindowShape.setOrigin(sf::Vector2f(600, 450));
+
+	this->whiteBackgroundShape.setFillColor(sf::Color(255,255,255,120));
+	this->whiteBackgroundShape.setSize(sf::Vector2f(1920, 1080));
+	this->whiteBackgroundShape.setOrigin(sf::Vector2f(960, 540));
 }
 
 void Interface::initFont()
@@ -46,6 +64,7 @@ Interface::Interface()
 {
 	this->initTextures();
 	this->initSprites();
+	this->initShapes();
 	this->initFont();
 	this->initScoreText();
 	this->initLivesCounterText();
@@ -68,6 +87,9 @@ void Interface::setLives(int livesCounterInt)
 
 void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter)
 {
+	if (livesCounter == 0)
+		isLastDead = true;
+
 	setLives(livesCounter);
 	livesSprite.setPosition(viewPosition.x - 940, viewPosition.y - 520);
 	livesCounterText.setPosition(viewPosition.x - 845, viewPosition.y - 570);
@@ -76,6 +98,11 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	setScore(playerScore);
 	scoreText.setPosition(viewPosition.x + 500, viewPosition.y - 570);
 	scoreText.setString(score.str());
+
+	this->whiteBackgroundShape.setPosition(viewPosition.x, viewPosition.y);
+	this->levelFailedWindowShape.setPosition(viewPosition.x, viewPosition.y - 20);
+	this->levelFailedSprite.setPosition(viewPosition.x , viewPosition.y - 180);
+
 }
 
 void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int ringsCounter)
@@ -91,5 +118,12 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 	target.draw(scoreText);
 	target.draw(livesCounterText);
 	target.draw(livesSprite);
+
+	if (isLastDead == true)
+	{
+		target.draw(whiteBackgroundShape);
+		target.draw(levelFailedWindowShape);
+		target.draw(levelFailedSprite);
+	}
 }
 

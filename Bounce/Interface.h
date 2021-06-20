@@ -10,6 +10,7 @@ class Interface
 	sf::Texture livesTextureSheet;
 	sf::Text livesCounterText;
 	std::ostringstream livesCounter;
+	bool isLastDead = false;
 
 	//rings
 	sf::Sprite ringSprite;
@@ -20,9 +21,17 @@ class Interface
 	sf::Text scoreText;
 	std::ostringstream score;
 
+	//LevelFailed
+	sf::Sprite levelFailedSprite;
+	sf::Texture levelFailedTextureSheet;
+
+	sf::RectangleShape levelFailedWindowShape;
+
+	sf::RectangleShape whiteBackgroundShape;
 
 	void initTextures();
 	void initSprites();
+	void initShapes();
 	void initFont();
 	void initScoreText();
 	void initLivesCounterText();
