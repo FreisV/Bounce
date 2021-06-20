@@ -69,7 +69,7 @@ void Menu::render(sf::RenderTarget& target)
 	target.draw(playButtonSprite);
 }
 
-bool Menu::isPlayButtonPressed()
+bool Menu::checkPlayPressed()
 {
 	return this->isPlayPressed;
 }

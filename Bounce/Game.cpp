@@ -35,10 +35,16 @@ void Game::initMenu()
 	this->menu = new Menu;
 }
 
+void Game::initLevelsMenu()
+{
+	this->levelsMenu = new LevelsMenu;
+}
+
 Game::Game()
 {
 	this->initWindow();
 	this->initMenu();
+	this->initLevelsMenu();
 	this->initMap();
 	this->initPlayer();
 	this->initView();
@@ -54,6 +60,11 @@ Game::~Game()
 void Game::updateMenu()
 {
 	this->menu->update();
+}
+
+void Game::updateLevelsMenu()
+{
+	this->levelsMenu->update();
 }
 
 void Game::updatePlayer(float time, std::string *map)
@@ -79,6 +90,29 @@ void Game::updateInterface()
 	interface->update(view.getCenter(), map->getScore(), player->getLivesCounter());
 }
 
+void Game::changeDisplay()
+{
+	if (menu->checkPlayPressed() && isMenu)
+	{
+		if (counter == 0)
+			counter = 5;
+		else if (counter > 1)
+			counter--;
+		else
+		{
+			isMenu = false;
+			isLevelsMenu = true;
+			counter--;
+		}
+	}
+	if (levelsMenu->checkLevelSelected())
+	{
+		isLevelsMenu = false;
+		selectedLevel = levelsMenu->getSelectedLevel();
+		isGame = true;
+	}
+}
+
 void Game::update(float time)
 {
 	while (this->window.pollEvent(this->ev))
@@ -89,11 +123,15 @@ void Game::update(float time)
 			this->window.close();
 	}
 
-	changeDisplay();
+	//std::cout << selectedLevel << std::endl;
 
 	if (isMenu)
 	{
 		this->updateMenu();
+	}
+	else if (isLevelsMenu)
+	{
+		this->updateLevelsMenu();
 	}
 	else if (isGame) {
 		World.Step(1 / 60.f, 8, 3);
@@ -102,13 +140,23 @@ void Game::update(float time)
 		this->updateView();
 		this->updateMap();
 		this->updateInterface();
+
 	}
+
+	changeDisplay();
+
+
 	
 }
 
 void Game::renderMenu()
 {
 	this->menu->render(window);
+}
+
+void Game::renderLevelsMenu()
+{
+	this->levelsMenu->render(window);
 }
 
 void Game::renderPlayer()
@@ -132,14 +180,6 @@ void Game::renderInterface()
 	this->interface->render(window, view.getCenter(), ringsCounter);
 }
 
-void Game::changeDisplay()
-{
-	if (menu->isPlayButtonPressed())
-	{
-		isMenu = false;
-		isGame = true;
-	}
-}
 
 void Game::render()
 {
@@ -149,6 +189,10 @@ void Game::render()
 	if (isMenu)
 	{
 		this->renderMenu();
+	}
+	else if (isLevelsMenu)
+	{
+		this->renderLevelsMenu();
 	}
 	else if (isGame) 
 	{

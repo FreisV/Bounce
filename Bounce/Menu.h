@@ -26,6 +26,6 @@ public:
 	void update();
 	void render(sf::RenderTarget& target);
 
-	bool isPlayButtonPressed();
+	bool checkPlayPressed();
 };
 
