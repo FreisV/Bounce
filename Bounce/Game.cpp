@@ -15,7 +15,6 @@ void Game::initPlayer()
 void Game::initMap()
 {
 	this->map = new Map();
-	this->map->createBlocks(World);
 }
 
 void Game::initView()
@@ -103,13 +102,19 @@ void Game::changeDisplay()
 			isMenu = false;
 			isLevelsMenu = true;
 			counter--;
+
 		}
 	}
-	if (levelsMenu->checkLevelSelected())
+	if (levelsMenu->checkLevelSelected() && isLevelsMenu)
 	{
+		std::cout << "111" << std::endl;
 		isLevelsMenu = false;
 		selectedLevel = levelsMenu->getSelectedLevel();
 		isGame = true;
+
+		this->map->setMap(selectedLevel);
+		this->map->createBlocks(World);
+		this->player->setItemsPositions(map->getSpawnPosition(), World, map->getThornsPositions(), map->getBonusLivesPositions());
 	}
 }
 
@@ -140,7 +145,6 @@ void Game::update(float time)
 		this->updateView();
 		this->updateMap();
 		this->updateInterface();
-
 	}
 
 	changeDisplay();

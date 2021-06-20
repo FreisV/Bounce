@@ -142,6 +142,12 @@ void Map::createThorn(b2World& World, int x, int y)
 
 void Map::createBlocks(b2World &World)
 {
+	ringsPositions.clear();
+	watherPositions.clear();
+	thornsPositions.clear();
+	checkpointsPositions.clear();
+	bonusLivesPositions.clear();
+
 	for (int i = 0; i < mapHeight; i++)
 		for (int j = 0; j < map[i].length(); j++)
 		{
@@ -185,6 +191,135 @@ void Map::createBlocks(b2World &World)
 			if (map[i][j] == ' ')
 				continue;
 		}
+}
+
+void Map::setMap(int levelNumber)
+{
+	switch (levelNumber)
+	{
+	case 1: 
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelOne[i];
+		break;
+	}
+	case 2:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelTwo[i];
+		break;
+	}
+	case 3:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelThree[i];
+		break;
+	}
+	case 4:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelFour[i];
+		break;
+	}
+	case 5:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelFive[i];
+		break;
+	}
+	case 6:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelSix[i];
+		break;
+	}
+	case 7:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelSeven[i];
+		break;
+	}
+	case 8:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelEight[i];
+		break;
+	}
+	case 9:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelNine[i];
+		break;
+	}
+	case 10:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelTen[i];
+		break;
+	}
+	case 11:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelEleven[i];
+		break;
+	}
+	case 12:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelTwelve[i];
+		break;
+	}
+	case 13:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelThirteen[i];
+		break;
+	}
+	case 14:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelFourteen[i];
+		break;
+	}
+	case 15:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelFifeteen[i];
+		break;
+	}
+	case 16:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelSixteen[i];
+		break;
+	}
+	case 17:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelSeventeen[i];
+		break;
+	}
+	case 18:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelEighteen[i];
+		break;
+	}
+	case 19:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelNineteen[i];
+		break;
+	}
+	case 20:
+	{
+		for (size_t i = 0; i < mapHeight; i++)
+			this->map[i] = this->levelTwenty[i];
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 void Map::takeRings(sf::Vector2f playerPosition)
@@ -240,7 +375,6 @@ void Map::takeBonusLives(sf::Vector2f playerPosition)
 			break;
 		}
 }
-
 
 Map::Map()
 {

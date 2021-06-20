@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "Consts.h"
 
-const int mapHeight = 12;
+const int mapHeight = 30;
 
 class Map
 {
@@ -66,6 +66,317 @@ class Map
 		"B     BBWWWWWBB    l                                     B",
 		"B BBB BBWWWWWBB                                          B",
 		"B     BBBBBBBBB                                          B",
+		"B                                                        B",
+		"B                                                        B",
+		"B                                                        B",
+		"B                                                        B",
+		"BTTTTTBB                                                 B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelOne[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O        O       O   B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelTwo[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                       O       B",
+		"B               WWBBBBBBBBBBBBBBB",
+		"B               WWBBBBBBBBBBBBBBB",
+		"B               WWBBBBBBBBBBBBBBB",
+		"B  P            WWBBBBBBBBBBBBBBB",
+		"B               WWBBBBBBBBBBBBBBB",
+		"B               WWBBBBBBBBBBBBBBB",
+		"B               WWBBBBBBBBBBBBBBB",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelThree[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B       T   T   T   T   T    O  B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelFour[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                        BBBBBBBBBBBBBBBBBBBBBB",
+		"B   P                    BBBBBBBBBBBBBBBBBBBBBB",
+		"B                               BBBBBBBBBBBBBBB",
+		"B                          l  O BBBBBBBBBBBBBBB",
+		"B                        BBBBBBBBBBBBBBBBBBBBBB",
+		"B                        BBBBBBBBBBBBBBBBBBBBBB",
+		"B                                             B",
+		"B                   C                         B",
+		"B                     T    T   T   O      O   B",
+		"B                WBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                WBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                WBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                WBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                WBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                WBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B           O    WBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B         T   T  WBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelFive[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelSix[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelSeven[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelEight[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelNine[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelTen[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelEleven[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelTwelve[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelThirteen[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelFourteen[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelFifeteen[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelSixteen[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelSeventeen[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelEighteen[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelNineteen[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B                               B",
+		"B  P                            B",
+		"B                               B",
+		"B                               B",
+		"B          O                    B",
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	};
+
+	std::string levelTwenty[mapHeight] = {
+		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+		"B   P BB                                                 B",
+		"B     BB     OC                                          B",
+		"B     BBWWWWWBB    l                                     B",
+		"B BBB BBWWWWWBB                                          B",
+		"B     BBBBBBBBB                                          B",
 		"B                  RL                                    B",
 		"B                 RBBL                                   B",
 		"B                RBBBBL                                  B",
@@ -92,6 +403,7 @@ class Map
 public:
 	Map();
 	void createBlocks(b2World& World);
+	void setMap(int levelNumber);
 
 	void update(sf::Vector2f playerPosition);
 	void render(sf::RenderTarget& target);

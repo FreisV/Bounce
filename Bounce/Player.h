@@ -41,7 +41,9 @@ class Player
 	void initPlayer(b2World &World, b2Vec2 startPosition);
 	void initThornsPositions(std::vector<sf::Vector2f> thornsPositions);
 	void initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositions);
+	
 	void setBall(int colorNumber);
+	void spawnBall(b2World& World);
 
 	void updateIfLife(float time, std::string* map, b2World& World, bool inWather);
 	void updateIfDead(float time, std::string* map, b2World& World, bool inWather);
@@ -57,6 +59,8 @@ public:
 	//Functions
  	void update(float time, std::string* map, b2World& World, bool inWather, b2Vec2 spawnPosition);
 	void render(sf::RenderTarget& target, b2World& World);
+
+	void setItemsPositions(b2Vec2 spawnPosition, b2World& World, std::vector<sf::Vector2f>  thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions);
 	
 	sf::Vector2f getPosition();
 	int getLivesCounter();

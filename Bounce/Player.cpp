@@ -112,7 +112,7 @@ void Player::initPlayer(b2World &World, b2Vec2 spawnPosition)
 void Player::checkThorns()
 {
 	sf::Vector2f ballPos = playerSprite.getPosition();
-	for (auto thorn : this->thornsPositions)
+	for (auto thorn : this->thornsPositions) 
 		if ((ballPos.x - 40 <= thorn.x + 42 && ballPos.x + 40 >= thorn.x) && (ballPos.y - 41 <= thorn.y + c::GRID_SIZE && ballPos.y + 42 >= thorn.y))
 		{
 			isDead = true;
@@ -137,12 +137,14 @@ void Player::takeBonusLives()
 
 void Player::initThornsPositions(std::vector<sf::Vector2f> thornsPositions)
 {
+	this->thornsPositions.clear();
 	for (size_t i = 0; i < size(thornsPositions); i++)
 		this->thornsPositions.push_back(thornsPositions[i]);
 }
 
 void Player::initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositions)
 {
+	this->bonusLivesPositions.clear();
 	for (size_t i = 0; i < size(bonusLivesPositions); i++)
 		this->bonusLivesPositions.push_back(bonusLivesPositions[i]);
 }
@@ -198,11 +200,7 @@ void Player::updateIfDead(float time, std::string* map, b2World& World, bool inW
 	else
 	{
 
-		bdef.position.Set((spawnPosition.x + c::GRID_SIZE /2) / c::SCALE, (spawnPosition.y + c::GRID_SIZE / 2) / c::SCALE);
-		World.DestroyBody(playerBody);
-		playerBody = World.CreateBody(&bdef);
-		playerBody->CreateFixture(&fdef);
-		isDead = false;
+		spawnBall(World);
 
 		if (isLight)
 			setBall(2);
@@ -232,6 +230,14 @@ void Player::render(sf::RenderTarget& target, b2World& World)
 	target.draw(this->playerSprite); // было до цикла
 }
 
+void Player::setItemsPositions(b2Vec2 spawnPosition, b2World& World, std::vector<sf::Vector2f> thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions)
+{
+	this->spawnPosition = spawnPosition;
+	spawnBall(World);
+	this->initThornsPositions(thornsPositions);
+	this->initBonusLivesPositions(bonusLifesPositions);
+}
+
 void Player::setBall(int colorNumber)
 {
 	isLight = false;
@@ -258,6 +264,15 @@ void Player::setBall(int colorNumber)
 	default:
 		break;
 	}
+}
+
+void Player::spawnBall(b2World& World)
+{
+	bdef.position.Set((spawnPosition.x + c::GRID_SIZE / 2) / c::SCALE, (spawnPosition.y + c::GRID_SIZE / 2) / c::SCALE);
+	World.DestroyBody(playerBody);
+	playerBody = World.CreateBody(&bdef);
+	playerBody->CreateFixture(&fdef);
+	isDead = false;
 }
 
 sf::Vector2f Player::getPosition()
