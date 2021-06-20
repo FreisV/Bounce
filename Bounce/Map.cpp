@@ -68,6 +68,8 @@ void Map::createBlock(b2World &World, int x, int y)
 
 	b2Body* b_ground = World.CreateBody(&bdef);
 	b_ground->CreateFixture(&fdef); 
+
+	bodyList.push_back(b_ground);
 }
 
 void Map::createRightAscent(b2World& World, int x, int y)
@@ -89,6 +91,7 @@ void Map::createRightAscent(b2World& World, int x, int y)
 	b2Body* b_ground = World.CreateBody(&bdef);
 	b_ground->CreateFixture(&rightAscent,1);
 
+	bodyList.push_back(b_ground);
 }
 
 void Map::createLeftAscent(b2World& World, int x, int y)
@@ -109,6 +112,8 @@ void Map::createLeftAscent(b2World& World, int x, int y)
 
 	b2Body* b_ground = World.CreateBody(&bdef);
 	b_ground->CreateFixture(&rightAscent, 1);
+
+	bodyList.push_back(b_ground);
 }
 
 void Map::createRing(b2World& World, int x, int y)
@@ -122,10 +127,14 @@ void Map::createRing(b2World& World, int x, int y)
 	b2Body* b_ground = World.CreateBody(&bdef);
 	b_ground->CreateFixture(&block, 1);
 
+	bodyList.push_back(b_ground);
+	
 	bdef.position.Set(x / c::SCALE, (y + 111) / c::SCALE); //bdef.position.Set(x / c::SCALE, (y + 107) / c::SCALE);
 
 	b_ground = World.CreateBody(&bdef);
 	b_ground->CreateFixture(&block, 1);
+
+	bodyList.push_back(b_ground);
 }
 
 void Map::createThorn(b2World& World, int x, int y)
@@ -138,6 +147,8 @@ void Map::createThorn(b2World& World, int x, int y)
 
 	b2Body* b_ground = World.CreateBody(&bdef);
 	b_ground->CreateFixture(&thorn, 1);
+
+	bodyList.push_back(b_ground);
 }
 
 void Map::createBlocks(b2World &World)
@@ -319,6 +330,15 @@ void Map::setMap(int levelNumber)
 	}
 	default:
 		break;
+	}
+}
+
+void Map::clearWorld(b2World& World)
+{
+	for (size_t i = 0; i < size(bodyList); i++)
+	{
+		World.DestroyBody(bodyList[i]);
+		//bodyList.erase(bodyList.begin() + i);
 	}
 }
 

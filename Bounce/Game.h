@@ -7,12 +7,14 @@
 #include "Player.h"
 #include "Interface.h"
 #include "LevelsMenu.h"
+#include <Windows.h>
 
 class Game
 {
 	sf::RenderWindow window;
 	sf::Event ev;
-	sf::View view;
+	sf::View viewInGame;
+	sf::View viewInMenu;
 
 	b2Vec2 Gravity{ 0.f, 37.6f};//37,6
 	b2World World{Gravity};
@@ -21,7 +23,7 @@ class Game
 	LevelsMenu *levelsMenu;
 	Player *player;
 	Map *map;
-	Interface *interface;
+	Interface *gameInterface;
 
 	bool isMenu = true;
 	bool isLevelsMenu = false;

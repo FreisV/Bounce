@@ -100,9 +100,11 @@ void LevelsMenu::render(sf::RenderTarget& target)
 	}
 }
 
-bool LevelsMenu::checkLevelSelected()
+bool LevelsMenu::getIsLevelSelected()
 {
-	return isLevelSelected;
+	bool buffer = this->isLevelSelected;
+	this->isLevelSelected = false;
+	return buffer;
 }
 
 int LevelsMenu::getSelectedLevel()

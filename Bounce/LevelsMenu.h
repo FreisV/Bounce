@@ -30,7 +30,7 @@ public:
 	void update();
 	void render(sf::RenderTarget& target);
 
-	bool checkLevelSelected();
+	bool getIsLevelSelected();
 	int getSelectedLevel();
 
 };

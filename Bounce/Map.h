@@ -6,6 +6,8 @@ const int mapHeight = 30;
 
 class Map
 {
+	std::vector<b2Body*> bodyList;
+
 	//blocks
 	sf::Sprite blockSprite;
 	sf::Texture blockTextureSheet;
@@ -399,11 +401,11 @@ class Map
 	void takeCheckpoints(sf::Vector2f playerPosition);
 	void takeBonusLives(sf::Vector2f playerPosition);
 
-
 public:
 	Map();
 	void createBlocks(b2World& World);
 	void setMap(int levelNumber);
+	void clearWorld(b2World& World);
 
 	void update(sf::Vector2f playerPosition);
 	void render(sf::RenderTarget& target);

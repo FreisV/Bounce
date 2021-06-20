@@ -1,4 +1,5 @@
 #include "Interface.h"
+#include "Consts.h"
 
 void Interface::initTextures()
 {
@@ -14,8 +15,11 @@ void Interface::initTextures()
 	if (!this->levelFailedTextureSheet.loadFromFile("Assets/game_dialog_failed_title@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the level failed sheet!" << std::endl;
 
-	if (!this->restartButtonTextureShape.loadFromFile("Assets/game_dialog_failed_button_retry@2x.png"))
+	if (!this->restartButtonTextureSheet.loadFromFile("Assets/game_dialog_failed_button_retry@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the restart button sheet!" << std::endl;
+
+	if (!this->menuButtonTextureSheet.loadFromFile("Assets/game_dialog_failed_button_menu@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the menu button sheet!" << std::endl;
 }
 
 void Interface::initSprites()
@@ -26,8 +30,11 @@ void Interface::initSprites()
 	this->livesSprite.setScale(1.0 / 44 * 80, 1.0 / 44 * 80);
 	this->levelFailedSprite.setTexture(levelFailedTextureSheet);
 	this->levelFailedSprite.setOrigin(128, 164);
-	this->restartButtonSprite.setTexture(restartButtonTextureShape);
+	this->restartButtonSprite.setTexture(restartButtonTextureSheet);
 	this->restartButtonSprite.setOrigin(148, 50);
+	this->menuButtonSprite.setTexture(menuButtonTextureSheet);
+	this->menuButtonSprite.setOrigin(50, 50);
+
 }
 
 void Interface::initShapes()
@@ -107,13 +114,17 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	this->whiteBackgroundShape.setPosition(viewPosition.x, viewPosition.y);
 	this->levelFailedWindowShape.setPosition(viewPosition.x, viewPosition.y - 20);
 	this->levelFailedSprite.setPosition(viewPosition.x , viewPosition.y - 180);
-	this->restartButtonSprite.setPosition(viewPosition.x + 200, viewPosition.y + 250);
+	this->menuButtonSprite.setPosition(viewPosition.x - 150, viewPosition.y + 250);
+	this->restartButtonSprite.setPosition(viewPosition.x + 100, viewPosition.y + 250);
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && isLastDead)
 	{
-		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x - 960, sf::Mouse::getPosition().y);
-		if((mousePos.x >= 60 && mousePos.x <= 296) &&(mousePos.y >= 770 && mousePos.y <= 870))
+		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+		if((mousePos.x >= 920 && mousePos.x <= 1215) &&(mousePos.y >= 770 && mousePos.y <= 870))
 			isRestartPressed = true;
+
+		if ((mousePos.x >= 768 && mousePos.x <= 868) && (mousePos.y >= 770 && mousePos.y <= 870))
+			isMenuPressed = true;
 	}
 
 }
@@ -138,6 +149,7 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 		target.draw(levelFailedWindowShape);
 		target.draw(levelFailedSprite);
 		target.draw(restartButtonSprite);
+		target.draw(menuButtonSprite);
 	}
 }
 
@@ -145,6 +157,15 @@ bool Interface::getIsRestartPressed()
 {
 	bool buffer = isRestartPressed;
 	isRestartPressed = false;
+	if (buffer)
+		isLastDead = false;
+	return buffer;
+}
+
+bool Interface::getIsMenuPressed()
+{
+	bool buffer = isMenuPressed;
+	isMenuPressed = false;
 	if (buffer)
 		isLastDead = false;
 	return buffer;

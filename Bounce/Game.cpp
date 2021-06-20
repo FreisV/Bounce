@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Consts.h"
+
 
 void Game::initWindow()
 {
@@ -20,13 +20,17 @@ void Game::initMap()
 void Game::initView()
 {
 	b2Vec2 pos = map->getSpawnPosition();
-	this->view.setCenter(pos.x, pos.y);
-	this->view.setSize(sf::Vector2f(c::WINDOW_WIDTH, c::WINDOW_HEIGHT));
+	this->viewInGame.setCenter(pos.x, pos.y);
+	this->viewInGame.setSize(sf::Vector2f(c::WINDOW_WIDTH, c::WINDOW_HEIGHT));
+
+	this->viewInMenu.setCenter(sf::Vector2f(c::WINDOW_WIDTH / 2, c::WINDOW_HEIGHT / 2));
+	this->viewInMenu.setSize(sf::Vector2f(c::WINDOW_WIDTH, c::WINDOW_HEIGHT));
+
 }
 
 void Game::initInterface()
 {
-	this->interface = new Interface();
+	this->gameInterface = new Interface();
 }
 
 void Game::initMenu()
@@ -74,9 +78,9 @@ void Game::updatePlayer(float time, std::string *map)
 void Game::updateView()
 {
 	sf::Vector2f playerPosition = player->getPosition();
-	sf::Vector2f viewPosition = view.getCenter();
+	sf::Vector2f viewPosition = viewInGame.getCenter();
 	sf::Vector2f nextPosition = sf::Vector2f(viewPosition.x + (playerPosition.x - viewPosition.x) * 0.1, viewPosition.y + (playerPosition.y - viewPosition.y) * 0.1);
-	view.setCenter(nextPosition);
+	viewInGame.setCenter(nextPosition);
 }
 
 void Game::updateMap()
@@ -86,28 +90,19 @@ void Game::updateMap()
 
 void Game::updateInterface()
 {
-	interface->update(view.getCenter(), map->getScore(), player->getLivesCounter());
+	this->gameInterface->update(viewInGame.getCenter(), map->getScore(), player->getLivesCounter());
 }
 
 void Game::changeDisplay()
 {
 	if (menu->checkPlayPressed() && isMenu)
 	{
-		if (counter == 0)
-			counter = 300;
-		while (counter >= 1)
-		{
-			std::cout << counter << std::endl;
-			if (counter == 1)
-			{
-				isMenu = false;
-				isLevelsMenu = true;
-				counter--;
-			}
-			counter--;
-		}
+		Sleep(100);
+		isMenu = false;
+		isLevelsMenu = true;
+			
 	}
-	if (levelsMenu->checkLevelSelected() && this->isLevelsMenu)
+	if (levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
 	{
 		isLevelsMenu = false;
 		selectedLevel = levelsMenu->getSelectedLevel();
@@ -117,16 +112,30 @@ void Game::changeDisplay()
 		this->map->createBlocks(World);
 		this->player->setItemsPositions(map->getSpawnPosition(), World, map->getThornsPositions(), map->getBonusLivesPositions());
 	}
-	if (interface->getIsRestartPressed() && this->isGame)
+	if (this->gameInterface->getIsRestartPressed() && this->isGame)
 	{
 		World.DestroyBody(player->getPlayerBody());
 		delete player;
+		this->map->clearWorld(World); 
 		delete map;
 		initMap();
-		map->setMap(selectedLevel);
-		map->createBlocks(World);
+		this->map->setMap(selectedLevel);
+		this->map->createBlocks(World);
 		initPlayer();
-	};
+	}
+	if (this->gameInterface->getIsMenuPressed() && this->isGame)
+	{
+		World.DestroyBody(player->getPlayerBody());
+		delete player;
+		this->map->clearWorld(World); 
+		delete map;
+		initMap();
+		initPlayer();
+		window.setView(viewInMenu);
+		isGame = false;
+		isLevelsMenu = true;
+	}
+
 }
 
 void Game::update(float time)
@@ -184,13 +193,13 @@ void Game::renderMap()
 
 void Game::renderView()
 {
-	this->window.setView(view);
+	this->window.setView(viewInGame);
 }
 
 void Game::renderInterface()
 {
 	int ringsCounter = map->getRingsCounter();
-	this->interface->render(window, view.getCenter(), ringsCounter);
+	this->gameInterface->render(window, viewInGame.getCenter(), ringsCounter);
 }
 
 

@@ -4,7 +4,6 @@ class Interface
 {
 
 	sf::Font font;
-	sf::RectangleShape whiteBackgroundShape;
 
 	//lives
 	sf::Sprite livesSprite;
@@ -13,6 +12,7 @@ class Interface
 	std::ostringstream livesCounter;
 	bool isLastDead = false;
 	bool isRestartPressed = false;
+	bool isMenuPressed = false;
 
 	//rings
 	sf::Sprite ringSprite;
@@ -23,15 +23,22 @@ class Interface
 	sf::Text scoreText;
 	std::ostringstream score;
 
-	//LevelFailed
+	//Windows 
+	sf::RectangleShape whiteBackgroundShape;
+	
+	sf::Sprite menuButtonSprite;
+	sf::Texture menuButtonTextureSheet;
+		
+		//LevelFailed
 	sf::Sprite levelFailedSprite;
 	sf::Texture levelFailedTextureSheet;
 
 	sf::RectangleShape levelFailedWindowShape;
 
-	//Restart
+		//Restart
 	sf::Sprite restartButtonSprite;
-	sf::Texture restartButtonTextureShape;
+	sf::Texture restartButtonTextureSheet;
+
 
 
 
@@ -52,5 +59,7 @@ public:
 	void render(sf::RenderTarget& target,sf::Vector2f viewPosition, int ringsCounter);
 
 	bool getIsRestartPressed();
+	bool getIsMenuPressed();
+
 };
 
