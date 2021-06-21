@@ -541,3 +541,4 @@ std::vector<sf::Vector2f> Map::getBonusLivesPositions()
 {
 	return bonusLivesPositions;
 }
+

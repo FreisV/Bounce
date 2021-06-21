@@ -12,7 +12,6 @@ void Menu::initTextures()
 void Menu::initSprites()
 {
 	this->playButtonSprite.setTexture(playButtonTextureSheet);
-	//this->playButtonSprite.setOrigin(127, 50);
 	this->playButtonSprite.setPosition(c::WINDOW_WIDTH / 2 - c::GRID_SIZE/2 - 127, c::WINDOW_HEIGHT / 2 - 50);
 
 	this->blockSprite.setTexture(blockTextureSheet);

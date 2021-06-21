@@ -210,9 +210,13 @@ void Player::updateIfDead(float time, std::string* map, b2World& World, bool inW
 	}
 }
 
-void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition)
+void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition, bool isLastRing)
 {
-	if (!isDead)
+	if (isLastRing)
+	{
+
+	}
+	else if (!isDead)
 	{
 		updateIfLife(time, map, World, inWather);
 		if (!godmodeOn)

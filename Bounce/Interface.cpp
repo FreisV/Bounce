@@ -39,11 +39,11 @@ void Interface::initSprites()
 
 void Interface::initShapes()
 {
-	this->levelFailedWindowShape.setFillColor(sf::Color::White);
-	this->levelFailedWindowShape.setOutlineColor(sf::Color::Black);
-	this->levelFailedWindowShape.setOutlineThickness(10);
-	this->levelFailedWindowShape.setSize(sf::Vector2f(1200, 900));
-	this->levelFailedWindowShape.setOrigin(sf::Vector2f(600, 450));
+	this->levelEndedWindowShape.setFillColor(sf::Color::White);
+	this->levelEndedWindowShape.setOutlineColor(sf::Color::Black);
+	this->levelEndedWindowShape.setOutlineThickness(10);
+	this->levelEndedWindowShape.setSize(sf::Vector2f(1200, 900));
+	this->levelEndedWindowShape.setOrigin(sf::Vector2f(600, 450));
 
 	this->whiteBackgroundShape.setFillColor(sf::Color(255,255,255,120));
 	this->whiteBackgroundShape.setSize(sf::Vector2f(1920, 1080));
@@ -99,8 +99,12 @@ void Interface::setLives(int livesCounterInt)
 
 void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter)
 {
+	std::cout << ringsCounter << std::endl;
+ 
 	if (livesCounter == 0)
 		isLastDead = true;
+	if (ringsCounter == 0)
+		isLastRing = true;
 
 	setLives(livesCounter);
 	livesSprite.setPosition(viewPosition.x - 940, viewPosition.y - 520);
@@ -112,19 +116,27 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	scoreText.setString(score.str());
 
 	this->whiteBackgroundShape.setPosition(viewPosition.x, viewPosition.y);
-	this->levelFailedWindowShape.setPosition(viewPosition.x, viewPosition.y - 20);
+	this->levelEndedWindowShape.setPosition(viewPosition.x, viewPosition.y - 20);
 	this->levelFailedSprite.setPosition(viewPosition.x , viewPosition.y - 180);
 	this->menuButtonSprite.setPosition(viewPosition.x - 150, viewPosition.y + 250);
 	this->restartButtonSprite.setPosition(viewPosition.x + 100, viewPosition.y + 250);
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && isLastDead)
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
+		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
-		if((mousePos.x >= 920 && mousePos.x <= 1215) &&(mousePos.y >= 770 && mousePos.y <= 870))
+		if(isLastDead && (mousePos.x >= 920 && mousePos.x <= 1215) &&(mousePos.y >= 770 && mousePos.y <= 870))
 			isRestartPressed = true;
 
-		if ((mousePos.x >= 768 && mousePos.x <= 868) && (mousePos.y >= 770 && mousePos.y <= 870))
+		if ((isLastDead || isLastRing) && (mousePos.x >= 768 && mousePos.x <= 868) && (mousePos.y >= 770 && mousePos.y <= 870))
 			isMenuPressed = true;
+	}
+	else
+	{
+		if (isClickActive)
+		{
+			isClickActive = false;
+		}
 	}
 
 }
@@ -132,6 +144,8 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int ringsCounter)
 {
 	ringSprite.setPosition(viewPosition.x - 750, viewPosition.y - 515);
+
+	this->ringsCounter = ringsCounter;
 
 	for (int i = 0; i < ringsCounter; i++)
 	{
@@ -146,15 +160,32 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 	if (isLastDead == true)
 	{
 		target.draw(whiteBackgroundShape);
-		target.draw(levelFailedWindowShape);
+		target.draw(levelEndedWindowShape);
 		target.draw(levelFailedSprite);
 		target.draw(restartButtonSprite);
 		target.draw(menuButtonSprite);
 	}
+	if (isLastRing == true)
+	{
+		target.draw(whiteBackgroundShape);
+		target.draw(levelEndedWindowShape);
+		target.draw(menuButtonSprite);
+	}
 }
+
+
+bool Interface::getIsLastRing()
+{		return false;
+
+	return this->isLastRing;
+}
+
 
 bool Interface::getIsRestartPressed()
 {
+	if (this->isClickActive)
+		return false;
+
 	bool buffer = isRestartPressed;
 	isRestartPressed = false;
 	if (buffer)
@@ -164,10 +195,16 @@ bool Interface::getIsRestartPressed()
 
 bool Interface::getIsMenuPressed()
 {
+	if (this->isClickActive)
+		return false;
+
 	bool buffer = isMenuPressed;
 	isMenuPressed = false;
 	if (buffer)
+	{
 		isLastDead = false;
+		isLastRing = false;
+	}
 	return buffer;
 }
 

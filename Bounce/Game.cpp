@@ -72,7 +72,7 @@ void Game::updateLevelsMenu()
 
 void Game::updatePlayer(float time, std::string *map)
 {
-	this->player->update(time, map, World, this->map->getInWather(), this->map->getSpawnPosition());
+	this->player->update(time, map, World, this->map->getInWather(), this->map->getSpawnPosition(), this->gameInterface->getIsLastRing());
 }
 
 void Game::updateView()

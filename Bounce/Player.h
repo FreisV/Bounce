@@ -17,6 +17,7 @@ class Player
 	bool isDead = false;
 	bool godmodeOn = false;
 	bool isLastDead = false;
+	//bool isLastRing = false; 
 	int timeAfterDead = 0;
 	int livesCounter = 2;
 
@@ -58,7 +59,7 @@ public:
 	virtual ~Player();
 
 	//Functions
- 	void update(float time, std::string* map, b2World& World, bool inWather, b2Vec2 spawnPosition);
+ 	void update(float time, std::string* map, b2World& World, bool inWather, b2Vec2 spawnPosition, bool isLastRing);
 	void render(sf::RenderTarget& target, b2World& World);
 
 	void setItemsPositions(b2Vec2 spawnPosition, b2World& World, std::vector<sf::Vector2f>  thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions);

@@ -5,14 +5,18 @@ class Interface
 
 	sf::Font font;
 
+	bool isClickActive = true;
+
+	bool isLastDead = false;
+	bool isLastRing = false;
+	bool isRestartPressed = false;
+	bool isMenuPressed = false;
+
 	//lives
 	sf::Sprite livesSprite;
 	sf::Texture livesTextureSheet;
 	sf::Text livesCounterText;
 	std::ostringstream livesCounter;
-	bool isLastDead = false;
-	bool isRestartPressed = false;
-	bool isMenuPressed = false;
 
 	//rings
 	sf::Sprite ringSprite;
@@ -25,6 +29,7 @@ class Interface
 
 	//Windows 
 	sf::RectangleShape whiteBackgroundShape;
+	sf::RectangleShape levelEndedWindowShape;
 	
 	sf::Sprite menuButtonSprite;
 	sf::Texture menuButtonTextureSheet;
@@ -33,15 +38,10 @@ class Interface
 	sf::Sprite levelFailedSprite;
 	sf::Texture levelFailedTextureSheet;
 
-	sf::RectangleShape levelFailedWindowShape;
 
 		//Restart
 	sf::Sprite restartButtonSprite;
 	sf::Texture restartButtonTextureSheet;
-
-
-
-
 
 	void initTextures();
 	void initSprites();
@@ -57,6 +57,8 @@ public:
 
 	void update(sf::Vector2f viewPosition, int scoreInt, int livesCounter);
 	void render(sf::RenderTarget& target,sf::Vector2f viewPosition, int ringsCounter);
+
+	bool getIsLastRing();
 
 	bool getIsRestartPressed();
 	bool getIsMenuPressed();
