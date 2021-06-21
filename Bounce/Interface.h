@@ -9,8 +9,9 @@ class Interface
 
 	bool isLastDead = false;
 	bool isLastRing = false;
-	bool isRestartPressed = false;
 	bool isMenuPressed = false;
+	bool isRestartPressed = false;
+	bool isNextPresssed = false; 
 
 	//lives
 	sf::Sprite livesSprite;
@@ -43,6 +44,10 @@ class Interface
 	sf::Sprite restartButtonSprite;
 	sf::Texture restartButtonTextureSheet;
 
+		//Next Level 
+	sf::Sprite nextButtonSprite;
+	sf::Texture nextButtonTextureSheet;
+
 	void initTextures();
 	void initSprites();
 	void initShapes();
@@ -60,8 +65,8 @@ public:
 
 	bool getIsLastRing();
 
-	bool getIsRestartPressed();
 	bool getIsMenuPressed();
-
+	bool getIsRestartPressed();
+	bool getIsNextPressed();
 };
 

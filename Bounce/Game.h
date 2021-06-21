@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "Interface.h"
 #include "LevelsMenu.h"
-#include <Windows.h>
 
 class Game
 {
@@ -56,7 +55,10 @@ class Game
 	void renderView();
 	void renderInterface();
 
+	void moveInLevelsMenu();
+	void reloadLevel();
 	void changeDisplay();
+	
 
 public:
 	//Functions

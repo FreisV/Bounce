@@ -9,28 +9,4 @@ D:\College\OAiP\Bounce\Bounce\Game.cpp(82,58): warning C4244: аргумент: 
           [
               T=float
           ]
-  Interface.cpp
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(28,53): warning C4305: аргумент: усечение из "double" в "float"
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(30,57): warning C4305: аргумент: усечение из "double" в "float"
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(127,92): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(127,64): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-  Main.cpp
-D:\College\OAiP\Bounce\Bounce\Main.cpp(17,14): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
-  Создание кода...
   Bounce.vcxproj -> D:\College\OAiP\Bounce\x64\Debug\Bounce.exe

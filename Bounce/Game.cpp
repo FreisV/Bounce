@@ -93,14 +93,38 @@ void Game::updateInterface()
 	this->gameInterface->update(viewInGame.getCenter(), map->getScore(), player->getLivesCounter());
 }
 
+void Game::moveInLevelsMenu()
+{
+	World.DestroyBody(player->getPlayerBody());
+	delete player;
+	this->map->clearWorld(World);
+	delete map;
+	initMap();
+	initPlayer();
+	window.setView(viewInMenu);
+	isGame = false;
+	isLevelsMenu = true;
+}
+
+void Game::reloadLevel()
+{
+	World.DestroyBody(player->getPlayerBody());
+	delete player;
+	this->map->clearWorld(World);
+	delete map;
+	initMap();
+	this->map->setMap(selectedLevel);
+	this->map->createBlocks(World);
+	initPlayer();
+}
+
 void Game::changeDisplay()
 {
 	if (menu->checkPlayPressed() && isMenu)
 	{
-		///Sleep(100);
 		isMenu = false;
 		isLevelsMenu = true;
-			
+
 	}
 	if (levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
 	{
@@ -119,26 +143,25 @@ void Game::changeDisplay()
 	}
 	if (this->gameInterface->getIsRestartPressed() && this->isGame)
 	{
-		World.DestroyBody(player->getPlayerBody());
-		delete player;
-		this->map->clearWorld(World); 
-		delete map;
-		initMap();
-		this->map->setMap(selectedLevel);
-		this->map->createBlocks(World);
-		initPlayer();
+		reloadLevel();
 	}
 	if (this->gameInterface->getIsMenuPressed() && this->isGame)
 	{
-		World.DestroyBody(player->getPlayerBody());
-		delete player;
-		this->map->clearWorld(World); 
-		delete map;
-		initMap();
-		initPlayer();
-		window.setView(viewInMenu);
-		isGame = false;
-		isLevelsMenu = true;
+		moveInLevelsMenu();
+	}
+	if (this->gameInterface->getIsNextPressed() && this->isGame)
+	{
+		selectedLevel++;
+
+		if (selectedLevel > 20)
+		{
+			selectedLevel = 20;
+			moveInLevelsMenu();
+		}
+		else
+		{
+			reloadLevel();
+		}
 	}
 
 }
@@ -208,6 +231,7 @@ void Game::renderInterface()
 }
 
 
+
 void Game::render()
 {
 	this->window.clear(sf::Color(86, 219, 254, 0));
@@ -219,6 +243,7 @@ void Game::render()
 	}
 	else if (isLevelsMenu)
 	{
+		std::cout << window.getView().getCenter().x << "\t" << window.getView().getCenter().y << std::endl;
 		this->renderLevelsMenu();
 	}
 	else if (isGame) 

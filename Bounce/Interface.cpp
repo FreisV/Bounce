@@ -20,6 +20,9 @@ void Interface::initTextures()
 
 	if (!this->menuButtonTextureSheet.loadFromFile("Assets/game_dialog_failed_button_menu@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the menu button sheet!" << std::endl;
+
+	if (!this->nextButtonTextureSheet.loadFromFile("Assets/game_dialog_complete_button_next@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the next level button sheet!" << std::endl;
 }
 
 void Interface::initSprites()
@@ -34,6 +37,8 @@ void Interface::initSprites()
 	this->restartButtonSprite.setOrigin(148, 50);
 	this->menuButtonSprite.setTexture(menuButtonTextureSheet);
 	this->menuButtonSprite.setOrigin(50, 50);
+	this->nextButtonSprite.setTexture(nextButtonTextureSheet);
+	this->nextButtonSprite.setOrigin(143, 50);
 
 }
 
@@ -82,7 +87,6 @@ Interface::Interface()
 	this->initLivesCounterText();
 }
 
-
 void Interface::setScore(int playerScore)
 {
 	this->score.str("");
@@ -95,12 +99,8 @@ void Interface::setLives(int livesCounterInt)
 	this->livesCounter << "X" << livesCounterInt;
 }
 
-
-
 void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter)
 {
-	std::cout << ringsCounter << std::endl;
- 
 	if (livesCounter == 0)
 		isLastDead = true;
 	if (ringsCounter == 0)
@@ -120,6 +120,7 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	this->levelFailedSprite.setPosition(viewPosition.x , viewPosition.y - 180);
 	this->menuButtonSprite.setPosition(viewPosition.x - 150, viewPosition.y + 250);
 	this->restartButtonSprite.setPosition(viewPosition.x + 100, viewPosition.y + 250);
+	this->nextButtonSprite.setPosition(viewPosition.x + 105, viewPosition.y + 250);
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
@@ -128,15 +129,16 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		if(isLastDead && (mousePos.x >= 920 && mousePos.x <= 1215) &&(mousePos.y >= 770 && mousePos.y <= 870))
 			isRestartPressed = true;
 
+		if (isLastRing && (mousePos.x >= 930 && mousePos.x <= 1215) && (mousePos.y >= 770 && mousePos.y <= 870))
+			isNextPresssed = true;
+
 		if ((isLastDead || isLastRing) && (mousePos.x >= 768 && mousePos.x <= 868) && (mousePos.y >= 770 && mousePos.y <= 870))
 			isMenuPressed = true;
 	}
 	else
 	{
 		if (isClickActive)
-		{
 			isClickActive = false;
-		}
 	}
 
 }
@@ -170,6 +172,7 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 		target.draw(whiteBackgroundShape);
 		target.draw(levelEndedWindowShape);
 		target.draw(menuButtonSprite);
+		target.draw(nextButtonSprite);
 	}
 }
 
@@ -181,6 +184,21 @@ bool Interface::getIsLastRing()
 }
 
 
+bool Interface::getIsMenuPressed()
+{
+	if (this->isClickActive)
+		return false;
+
+	bool buffer = isMenuPressed;
+	isMenuPressed = false;
+	if (buffer)
+	{
+		isLastDead = false;
+		isLastRing = false;
+	}
+	return buffer;
+}
+
 bool Interface::getIsRestartPressed()
 {
 	if (this->isClickActive)
@@ -189,17 +207,20 @@ bool Interface::getIsRestartPressed()
 	bool buffer = isRestartPressed;
 	isRestartPressed = false;
 	if (buffer)
+	{
 		isLastDead = false;
+		isLastRing = false;
+	}
 	return buffer;
 }
 
-bool Interface::getIsMenuPressed()
+bool Interface::getIsNextPressed()
 {
 	if (this->isClickActive)
 		return false;
 
-	bool buffer = isMenuPressed;
-	isMenuPressed = false;
+	bool buffer = isNextPresssed;
+	isNextPresssed = false;
 	if (buffer)
 	{
 		isLastDead = false;
