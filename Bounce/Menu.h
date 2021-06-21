@@ -9,10 +9,12 @@ class Menu
 
 	sf::Sprite playButtonSprite;
 	sf::Texture playButtonTextureSheet;
+	sf::FloatRect playBottonRect;
 
 	sf::Sprite blockSprite;
 	sf::Texture blockTextureSheet;
 
+	bool isClickActive = false;
 	bool isPlayPressed = false;
 
 	void initTextures();

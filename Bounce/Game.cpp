@@ -97,7 +97,7 @@ void Game::changeDisplay()
 {
 	if (menu->checkPlayPressed() && isMenu)
 	{
-		Sleep(100);
+		///Sleep(100);
 		isMenu = false;
 		isLevelsMenu = true;
 			
@@ -111,6 +111,11 @@ void Game::changeDisplay()
 		this->map->setMap(selectedLevel);
 		this->map->createBlocks(World);
 		this->player->setItemsPositions(map->getSpawnPosition(), World, map->getThornsPositions(), map->getBonusLivesPositions());
+	}
+	if (levelsMenu->getIsBackPressed() && this->isLevelsMenu)
+	{
+		isMenu = true;
+		isLevelsMenu = false;
 	}
 	if (this->gameInterface->getIsRestartPressed() && this->isGame)
 	{

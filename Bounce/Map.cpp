@@ -338,7 +338,6 @@ void Map::clearWorld(b2World& World)
 	for (size_t i = 0; i < size(bodyList); i++)
 	{
 		World.DestroyBody(bodyList[i]);
-		//bodyList.erase(bodyList.begin() + i);
 	}
 }
 

@@ -209,6 +209,7 @@
     <Image Include="Assets\lselect_level_locked%402x.png" />
     <Image Include="Assets\lselect_star%402x.png" />
     <Image Include="Assets\lselect_star_grey%402x.png" />
+    <Image Include="Assets\menu_button_back%402x.png" />
     <Image Include="Assets\menu_button_leaderboard%402x.png" />
     <Image Include="Assets\menu_button_play%402x.png" />
     <Image Include="Assets\menu_button_rate%402x.png" />

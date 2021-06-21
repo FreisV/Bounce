@@ -224,6 +224,9 @@
     <Image Include="Assets\ball_small_light%402x.png">
       <Filter>Файлы ресурсов\image</Filter>
     </Image>
+    <Image Include="Assets\menu_button_back%402x.png">
+      <Filter>Файлы ресурсов\image</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

@@ -8,16 +8,23 @@ class LevelsMenu
 	sf::Text levelNumberText;
 	std::ostringstream levelNumber;
 
+	//level Blocks 
 	sf::Sprite levelBlockSprite;
 	sf::Texture levelBlockTextureSheet;
-
+	
+	std::vector<sf::FloatRect> levelsPositions;
+	
+	//Blocks
 	sf::Sprite blockSprite;
 	sf::Texture blockTextureSheet;
 
-	std::vector<sf::FloatRect> levelsPositions;
+	//Back button 
+	sf::Sprite backButtonSprite;
+	sf::Texture backButtonTextureSheet;
 
 	bool isLevelSelected = false;
 	int selectedLevel = 0;
+	bool isBackPressed = false;
 
 	void initTextures();
 	void initSprites();
@@ -32,6 +39,6 @@ public:
 
 	bool getIsLevelSelected();
 	int getSelectedLevel();
-
+	bool getIsBackPressed();
 };
 
