@@ -4,6 +4,7 @@ class Interface
 {
 
 	sf::Font font;
+	sf::Font finalScoreFont;
 
 	bool isClickActive = true;
 
@@ -13,20 +14,25 @@ class Interface
 	bool isRestartPressed = false;
 	bool isNextPresssed = false; 
 
+	int maxScore = 0;
+	int maxLives = 0;
+
 	//lives
 	sf::Sprite livesSprite;
 	sf::Texture livesTextureSheet;
 	sf::Text livesCounterText;
-	std::ostringstream livesCounter;
+	std::ostringstream livesCounterString;
+	int livesCounter = 0;
 
 	//rings
 	sf::Sprite ringSprite;
 	sf::Texture ringTextureSheet;
-	int ringsCounter;
+	int ringsCounter = 0;
 
 	//score
 	sf::Text scoreText;
-	std::ostringstream score;
+	std::ostringstream scoreString;
+	int score = 0;
 
 	//Windows 
 	sf::RectangleShape whiteBackgroundShape;
@@ -47,6 +53,16 @@ class Interface
 		//Next Level 
 	sf::Sprite nextButtonSprite;
 	sf::Texture nextButtonTextureSheet;
+	
+		//Final Score
+	sf::Text finalScoreText;
+	 
+		//Stars 
+	sf::Sprite starSprite;
+	sf::Texture starTextureSheet;
+
+	sf::Sprite activeStarSprite;
+	sf::Texture activeStarTextureSheet;
 
 	void initTextures();
 	void initSprites();
@@ -60,7 +76,7 @@ class Interface
 public:
 	Interface();
 
-	void update(sf::Vector2f viewPosition, int scoreInt, int livesCounter);
+	void update(sf::Vector2f viewPosition, int scoreInt, int livesCounter, int maxScore, int maxLives);
 	void render(sf::RenderTarget& target,sf::Vector2f viewPosition, int ringsCounter);
 
 	bool getIsLastRing();

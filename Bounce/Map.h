@@ -59,7 +59,11 @@ class Map
 
 	//Interface
 	int ringsCounter = 0;
+
+	//Statistics
 	int score = 0;
+	int maxScore = 0;
+	int maxLives = 3;
 
 	std::string map[mapHeight] = {
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
@@ -413,11 +417,12 @@ public:
 	
 	b2Vec2 getSpawnPosition();
 	std::string *getMap();
-
 	int getRingsCounter();
 	int getScore();
 	bool getInWather();
 	std::vector<sf::Vector2f> getThornsPositions();
 	std::vector<sf::Vector2f> getBonusLivesPositions();
+	int getMaxScore();
+	int getMaxLives();
 };
 

@@ -178,6 +178,7 @@ void Map::createBlocks(b2World &World)
 			}
 			if (map[i][j] == 'O')
 			{
+				maxScore += 500;
 				ringsCounter++;
 				ringsPositions.push_back(sf::Vector2f(x + c::GRID_SIZE / 4, y - c::GRID_SIZE / 2 - 20));
 				createRing(World, x, y - c::GRID_SIZE - 20);
@@ -193,10 +194,13 @@ void Map::createBlocks(b2World &World)
 			}
 			if (map[i][j] == 'C')
 			{
+				maxScore += 500;
 				checkpointsPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2, y - c::GRID_SIZE / 2));
 			}
 			if (map[i][j] == 'l')
 			{
+				maxScore += 1000;
+				maxLives++;
 				bonusLivesPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2, y - c::GRID_SIZE / 2));
 			}
 			if (map[i][j] == ' ')
@@ -390,6 +394,7 @@ void Map::takeBonusLives(sf::Vector2f playerPosition)
 			int bonusLifeX = static_cast<int>(bonusLivesPositions[i].x) / c::GRID_SIZE;
 			int bonusLifeY = static_cast<int>(bonusLivesPositions[i].y) / c::GRID_SIZE;
 			map[bonusLifeY][bonusLifeX] = ' ';
+			score += 1000;
 			bonusLivesPositions.erase(bonusLivesPositions.begin() + i);
 			break;
 		}
@@ -540,5 +545,15 @@ std::vector<sf::Vector2f> Map::getThornsPositions()
 std::vector<sf::Vector2f> Map::getBonusLivesPositions()
 {
 	return bonusLivesPositions;
+}
+
+int Map::getMaxScore()
+{
+	return this->maxScore;
+}
+
+int Map::getMaxLives()
+{
+	return this->maxLives;
 }
 

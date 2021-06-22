@@ -19,7 +19,7 @@ class Player
 	bool isLastDead = false;
 	//bool isLastRing = false; 
 	int timeAfterDead = 0;
-	int livesCounter = 2;
+	int livesCounter = 3;
 
 	b2BodyDef bdef;
 	b2CircleShape circle;

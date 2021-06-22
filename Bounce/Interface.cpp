@@ -23,23 +23,41 @@ void Interface::initTextures()
 
 	if (!this->nextButtonTextureSheet.loadFromFile("Assets/game_dialog_complete_button_next@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the next level button sheet!" << std::endl;
+
+	if (!this->starTextureSheet.loadFromFile("Assets/game_dialog_complete_star_gray@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the star sheet!" << std::endl;
+
+	if (!this->activeStarTextureSheet.loadFromFile("Assets/game_dialog_complete_star_yellow@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the active star sheet!" << std::endl;
 }
 
 void Interface::initSprites()
 {
 	this->ringSprite.setTexture(ringTextureSheet);
 	this->ringSprite.setScale(1.0 / 4 * 3, 1.0 / 12 * 8);
+
 	this->livesSprite.setTexture(livesTextureSheet);
 	this->livesSprite.setScale(1.0 / 44 * 80, 1.0 / 44 * 80);
+	
 	this->levelFailedSprite.setTexture(levelFailedTextureSheet);
 	this->levelFailedSprite.setOrigin(128, 164);
+	
 	this->restartButtonSprite.setTexture(restartButtonTextureSheet);
 	this->restartButtonSprite.setOrigin(148, 50);
+	
 	this->menuButtonSprite.setTexture(menuButtonTextureSheet);
 	this->menuButtonSprite.setOrigin(50, 50);
+	
 	this->nextButtonSprite.setTexture(nextButtonTextureSheet);
 	this->nextButtonSprite.setOrigin(143, 50);
+	
+	this->starSprite.setTexture(starTextureSheet);
+	this->starSprite.setOrigin(32, 32);
+	this->starSprite.setScale(1.5, 1.5);
 
+	this->activeStarSprite.setTexture(activeStarTextureSheet);
+	this->activeStarSprite.setOrigin(32, 32);
+	this->activeStarSprite.setScale(1.5, 1.5);
 }
 
 void Interface::initShapes()
@@ -59,6 +77,9 @@ void Interface::initFont()
 {
 	if (!this->font.loadFromFile("Assets/Fonts/Pixels.otf"))
 		std::cout << "ERROR:: Could not load the Pixels.otf font" << std::endl;
+
+	if (!this->finalScoreFont.loadFromFile("Assets/Fonts/TwCen.otf"))
+		std::cout << "ERROR:: Could not load the TwCen.otf font" << std::endl;
 }
 
 void Interface::initScoreText()
@@ -67,6 +88,11 @@ void Interface::initScoreText()
 	this->scoreText.setCharacterSize(120);
 	this->scoreText.setFont(font);
 	this->scoreText.setFillColor(sf::Color::White);
+
+	this->finalScoreText.setString("");
+	this->finalScoreText.setCharacterSize(190);
+	this->finalScoreText.setFont(finalScoreFont);
+	this->finalScoreText.setFillColor(sf::Color::Red);
 }
 
 void Interface::initLivesCounterText()
@@ -89,38 +115,52 @@ Interface::Interface()
 
 void Interface::setScore(int playerScore)
 {
-	this->score.str("");
-	this->score << std::setw(6) << std::setfill('0') << playerScore;
+	this->scoreString.str("");
+	this->scoreString << std::setw(6) << std::setfill('0') << playerScore;
 }
 
 void Interface::setLives(int livesCounterInt)
 {
-	this->livesCounter.str("");
-	this->livesCounter << "X" << livesCounterInt;
+	this->livesCounterString.str("");
+	this->livesCounterString << "X" << livesCounterInt;
 }
 
-void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter)
+void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter, int maxScore, int maxLives)
 {
 	if (livesCounter == 0)
 		isLastDead = true;
 	if (ringsCounter == 0)
 		isLastRing = true;
 
+	this->score = playerScore;
+	this->livesCounter = livesCounter;
+	this->maxScore = maxScore;
+	this->maxLives = maxLives;
+
 	setLives(livesCounter);
 	livesSprite.setPosition(viewPosition.x - 940, viewPosition.y - 520);
 	livesCounterText.setPosition(viewPosition.x - 845, viewPosition.y - 570);
-	livesCounterText.setString(this->livesCounter.str());
+	livesCounterText.setString(this->livesCounterString.str());
 
 	setScore(playerScore);
 	scoreText.setPosition(viewPosition.x + 500, viewPosition.y - 570);
-	scoreText.setString(score.str());
+	scoreText.setString(scoreString.str());
+	finalScoreText.setPosition(viewPosition.x - 250, viewPosition.y - 300);
+	finalScoreText.setString(scoreString.str());
 
 	this->whiteBackgroundShape.setPosition(viewPosition.x, viewPosition.y);
 	this->levelEndedWindowShape.setPosition(viewPosition.x, viewPosition.y - 20);
 	this->levelFailedSprite.setPosition(viewPosition.x , viewPosition.y - 180);
-	this->menuButtonSprite.setPosition(viewPosition.x - 150, viewPosition.y + 250);
 	this->restartButtonSprite.setPosition(viewPosition.x + 100, viewPosition.y + 250);
 	this->nextButtonSprite.setPosition(viewPosition.x + 105, viewPosition.y + 250);
+	this->starSprite.setPosition(viewPosition.x - 150, viewPosition.y + 50);
+	this->activeStarSprite.setPosition(viewPosition.x - 150, viewPosition.y + 50);
+	if (isLastDead)
+		this->menuButtonSprite.setPosition(viewPosition.x - 150, viewPosition.y + 250);
+	else if (isLastRing)
+		this->menuButtonSprite.setPosition(viewPosition.x - 200, viewPosition.y + 250);
+
+
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
@@ -132,7 +172,9 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		if (isLastRing && (mousePos.x >= 930 && mousePos.x <= 1215) && (mousePos.y >= 770 && mousePos.y <= 870))
 			isNextPresssed = true;
 
-		if ((isLastDead || isLastRing) && (mousePos.x >= 768 && mousePos.x <= 868) && (mousePos.y >= 770 && mousePos.y <= 870))
+		if (isLastDead && (mousePos.x >= 768 && mousePos.x <= 868) && (mousePos.y >= 770 && mousePos.y <= 870))
+			isMenuPressed = true;
+		if (isLastRing && (mousePos.x >= 718 && mousePos.x <= 818) && (mousePos.y >= 770 && mousePos.y <= 870))
 			isMenuPressed = true;
 	}
 	else
@@ -163,15 +205,38 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 	{
 		target.draw(whiteBackgroundShape);
 		target.draw(levelEndedWindowShape);
+		
 		target.draw(levelFailedSprite);
 		target.draw(restartButtonSprite);
 		target.draw(menuButtonSprite);
 	}
 	if (isLastRing == true)
 	{
+
 		target.draw(whiteBackgroundShape);
 		target.draw(levelEndedWindowShape);
+		
+		target.draw(finalScoreText);
+		for (int i = -1; i < 2; i++)
+		{
+			starSprite.setPosition(viewPosition.x + 150 * i , viewPosition.y + 50);
+			activeStarSprite.setPosition(viewPosition.x + 150 * i , viewPosition.y + 50);
+
+			if (i == -1)
+				target.draw(activeStarSprite);
+
+			if (i == 0 && maxScore == score)
+				target.draw(activeStarSprite);
+			else if (i == 0 && maxScore != score)
+				target.draw(starSprite);
+
+			if (i == 1 && maxLives == livesCounter)
+				target.draw(activeStarSprite);
+			else if (i == 1 && maxLives != livesCounter)
+				target.draw(starSprite);
+		}
 		target.draw(menuButtonSprite);
+
 		target.draw(nextButtonSprite);
 	}
 }
@@ -182,7 +247,6 @@ bool Interface::getIsLastRing()
 
 	return this->isLastRing;
 }
-
 
 bool Interface::getIsMenuPressed()
 {

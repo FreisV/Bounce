@@ -90,7 +90,7 @@ void Game::updateMap()
 
 void Game::updateInterface()
 {
-	this->gameInterface->update(viewInGame.getCenter(), map->getScore(), player->getLivesCounter());
+	this->gameInterface->update(viewInGame.getCenter(), map->getScore(), player->getLivesCounter(), map->getMaxScore(), map->getMaxLives());
 }
 
 void Game::moveInLevelsMenu()
@@ -243,7 +243,6 @@ void Game::render()
 	}
 	else if (isLevelsMenu)
 	{
-		std::cout << window.getView().getCenter().x << "\t" << window.getView().getCenter().y << std::endl;
 		this->renderLevelsMenu();
 	}
 	else if (isGame) 
