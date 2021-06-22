@@ -153,6 +153,7 @@ void Game::renderInterface()
 
 void Game::moveInLevelsMenu()
 {
+	World.SetGravity(Gravity);
 	World.DestroyBody(player->getPlayerBody());
 	delete player;
 	this->map->clearWorld(World);
@@ -166,6 +167,7 @@ void Game::moveInLevelsMenu()
 
 void Game::reloadLevel()
 {
+	World.SetGravity(Gravity);
 	World.DestroyBody(player->getPlayerBody());
 	delete player;
 	this->map->clearWorld(World);

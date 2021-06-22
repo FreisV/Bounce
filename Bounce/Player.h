@@ -20,6 +20,9 @@ class Player
 	bool godmodeOn = false;
 	bool isGPressed = false;
 
+	bool flyOn = false;
+	bool isFPressed = false;
+
 	bool isLastDead = false;
 	bool isPause = false;
 
@@ -41,6 +44,7 @@ class Player
 	//Movement
 	void checkOnGround(b2World& World);
 	void movement(float time, b2World& World);
+	void flyMovement(float time, b2World& World);
 
 	//Core
 	void initTexture();

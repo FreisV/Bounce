@@ -23,7 +23,6 @@ void Player::checkOnGround(b2World &World)
 void Player::movement(float time, b2World &World)
 {
 	b2Vec2 vel = playerBody->GetLinearVelocity();
-	float  angVel = playerBody->GetAngularVelocity();
 	checkOnGround(World);
 	int speedX = 0;
 	int speedY = 0;
@@ -49,7 +48,6 @@ void Player::movement(float time, b2World &World)
 		speedAnimation = 2 * time;
 	}
 	playerBody->SetLinearVelocity(b2Vec2(0.f,vel.y));
-	playerBody->ApplyTorque(0, false);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) //Right
 	{
@@ -71,6 +69,97 @@ void Player::movement(float time, b2World &World)
 			playerBody->SetLinearVelocity(b2Vec2(vel.x, -speedY));//-9*time
 		}
 	}
+	else if (flyOn && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		playerBody->SetLinearVelocity(b2Vec2(vel.x, speedY));
+}
+
+void Player::flyMovement(float time, b2World& World)
+{
+	b2Vec2 vel = playerBody->GetLinearVelocity();
+	int speed = 0;
+	float speedAnimation = 0;
+	bool isDPressed = false;
+	bool isAPressed = false;
+	bool isSPressed = false;
+	bool isWPressed = false;
+
+	if (isLight)
+	{
+		speed = 5.f * time;
+		speedAnimation = 2.25 * time;
+
+	}
+	else if (isHeavy)
+	{
+		speed = 3.f * time;
+		speedAnimation = 1.5 * time;
+	}
+	else
+	{
+		speed = 4.f * time;
+		speedAnimation = 2 * time;
+	}
+	playerBody->SetLinearVelocity(b2Vec2(0.f, 0.f));
+	//std::cout << "Test: " << vel.x << std::endl;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) //Right
+	{
+		isDPressed = true;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) //Left
+	{
+		isAPressed = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) //Up
+	{
+		isWPressed = true;
+
+	}
+	else if (flyOn && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		isSPressed = true;
+	}
+
+	if (isDPressed && isWPressed)
+	{
+		//animation(speedAnimation);
+		playerBody->SetLinearVelocity(b2Vec2(speed, -speed));
+	}
+	else if (isDPressed && isSPressed)
+	{
+		//animation(speedAnimation);
+		playerBody->SetLinearVelocity(b2Vec2(speed, speed));
+	}
+	else if (isAPressed && isWPressed)
+	{
+		//animation(-speedAnimation);
+		playerBody->SetLinearVelocity(b2Vec2(-speed, -speed));
+	}
+	else if (isAPressed && isSPressed)
+	{
+		//animation(-speedAnimation);
+		playerBody->SetLinearVelocity(b2Vec2(-speed, speed));
+	}
+	else if (isDPressed )
+	{
+		//animation(speedAnimation);
+		playerBody->SetLinearVelocity(b2Vec2(speed, 0.f));
+	}
+	else if (isAPressed)
+	{
+		//animation(-speedAnimation);
+		playerBody->SetLinearVelocity(b2Vec2(-speed, 0.f));
+	}
+	else if (isWPressed)
+	{
+		playerBody->SetLinearVelocity(b2Vec2(0.f, -speed));
+	}
+	else if (isSPressed)
+	{
+		playerBody->SetLinearVelocity(b2Vec2(0.f, speed));
+	}
+
 }
 
 void Player::initTexture()
@@ -172,6 +261,7 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 		setBall(2);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
 		setBall(3);
+	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
 		isGPressed = true;
 	else if (isGPressed)
@@ -179,7 +269,25 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 		isGPressed = false;
 		godmodeOn = godmodeOn ? false : true;
 	}
-	movement(time, World);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+		isFPressed = true;
+	else if (isFPressed)
+	{
+		isFPressed = false;
+		flyOn = flyOn ? false : true;
+		if (flyOn)
+			World.SetGravity(b2Vec2(0.f, 0.f));
+		else 
+			World.SetGravity(b2Vec2(0.f, 37.6f));
+	}
+
+
+	if (flyOn)
+		flyMovement(time, World);
+	else 
+		movement(time, World);
+	
 	takeBonusLives();
 
 	b2Vec2 pos = playerBody->GetPosition();
@@ -187,7 +295,7 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 
 	playerSprite.setPosition(pos.x * c::SCALE, pos.y * c::SCALE);
 
-	if (inWather && !isHeavy)
+	if (inWather && !isHeavy && !flyOn)
 	{
 		b2Vec2 vel = playerBody->GetLinearVelocity();
 		playerBody->SetLinearVelocity(b2Vec2(vel.x, vel.y / 100 * 60 - 1 * time));
