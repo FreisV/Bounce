@@ -30,6 +30,8 @@ class Game
 
 	int selectedLevel = 0;
 
+	int earnedStarsInLevels[20];
+
 	//Test
 	int counter = 0;
 
@@ -47,6 +49,7 @@ class Game
 	void updateView();
 	void updateMap();
 	void updateInterface();
+	void updateEarnedStarsInLevels(int quantityStars);
 	
 	void renderMenu();
 	void renderLevelsMenu();

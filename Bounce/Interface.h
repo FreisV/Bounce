@@ -67,6 +67,11 @@ class Interface
 
 	sf::Sprite activeStarSprite;
 	sf::Texture activeStarTextureSheet;
+	int earnedStars = 0;
+
+
+	//bool isStarsCalculated;
+	void calculateEarnedStars();
 
 	void initTextures();
 	void initSprites();
@@ -84,9 +89,11 @@ public:
 	void render(sf::RenderTarget& target,sf::Vector2f viewPosition, int ringsCounter);
 
 	bool getIsLastRing();
+	int getEarnedStars();
 
 	bool getIsMenuPressed();
 	bool getIsRestartPressed();
 	bool getIsNextPressed();
+	
 };
 

@@ -10,15 +10,29 @@ void LevelsMenu::initTextures()
 
 	if (!this->backButtonTextureSheet.loadFromFile("Assets/menu_button_back@2x.png"))
 		std::cout << "ERROR::MENU::Could not load the back button sheet!" << std::endl;
+
+	if (!this->starTextureSheet.loadFromFile("Assets/lselect_star_grey@2x.png"))
+		std::cout << "ERROR::MENU::Could not load the star sheet!" << std::endl;
+
+	if (!this->activeStarTextureSheet.loadFromFile("Assets/lselect_star@2x.png"))
+		std::cout << "ERROR::MENU::Could not load the active star sheet!" << std::endl;
 }
 
 void LevelsMenu::initSprites()
 {
 	this->levelBlockSprite.setTexture(levelBlockTextureSheet);
+	
 	this->blockSprite.setTexture(blockTextureSheet);
 	this->blockSprite.setScale(1.0 / 125 * 80, 1.0 / 125 * 80);
+	
 	this->backButtonSprite.setTexture(backButtonTextureSheet);
 	this->backButtonSprite.setOrigin(178, 50);
+
+	this->starSprite.setTexture(starTextureSheet);
+	this->starSprite.setOrigin(12, 12);
+
+	this->activeStarSprite.setTexture(activeStarTextureSheet);
+	this->activeStarSprite.setOrigin(12, 12);
 }
 
 void LevelsMenu::initFont()
@@ -99,6 +113,18 @@ void LevelsMenu::render(sf::RenderTarget& target)
 				levelNumberText.setPosition(640 + 128 * j + 20, y - 20);
 			levelNumberText.setString(levelNumber.str());
 			target.draw(levelNumberText);
+
+			for (size_t n = 1; n < 4; n++)
+			{
+				starSprite.setPosition(648 + 128 * j + 30 * n, y + 100);
+				activeStarSprite.setPosition(648 + 128 * j + 30 * n, y + 100);
+
+				if (earnedStarsInLevels[levelsCounter - 1] > 0 && earnedStarsInLevels[levelsCounter - 1] >= n)
+					target.draw(activeStarSprite);
+				else 
+					target.draw(starSprite);
+			}
+
 			levelsCounter++;
 		}
 	}
@@ -110,6 +136,16 @@ void LevelsMenu::render(sf::RenderTarget& target)
 	}
 
 	target.draw(backButtonSprite);
+}
+
+void LevelsMenu::setEarnedStarsInLevels(int *earnedStarsInLevels)
+{
+	for (int i = 0; i < 20; i++)
+	{
+		this->earnedStarsInLevels[i] = earnedStarsInLevels[i];
+	}
+	std::cout << std::endl;
+
 }
 
 bool LevelsMenu::getIsLevelSelected()

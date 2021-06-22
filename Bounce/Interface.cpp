@@ -1,6 +1,7 @@
 #include "Interface.h"
 #include "Consts.h"
 
+
 void Interface::initTextures()
 {
 	if (!this->ringTextureSheet.loadFromFile("Assets/ring_small@2x.png"))
@@ -111,6 +112,17 @@ void Interface::initLivesCounterText()
 	this->livesCounterText.setFillColor(sf::Color::White);
 }
 
+void Interface::calculateEarnedStars()
+{
+	earnedStars = 1;
+
+	if (maxScore == score)
+		earnedStars += 1;
+
+	if (maxLives == livesCounter)
+		earnedStars += 1;
+}
+
 Interface::Interface()
 {
 	this->initTextures();
@@ -176,8 +188,6 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 
-		std::cout << mousePos.x << "\t" << mousePos.y << std::endl;
-
 		if(isLastDead && (mousePos.x >= 920 && mousePos.x <= 1215) &&(mousePos.y >= 770 && mousePos.y <= 870))
 			isRestartPressed = true;
 		if (isLastRing && (mousePos.x >= 823 && mousePos.x <= 923) && (mousePos.y >= 770 && mousePos.y <= 870))
@@ -226,6 +236,9 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 	}
 	if (isLastRing == true)
 	{
+		if (!earnedStars)
+			calculateEarnedStars();
+
 
 		target.draw(whiteBackgroundShape);
 		target.draw(levelEndedWindowShape);
@@ -236,17 +249,9 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 			starSprite.setPosition(viewPosition.x + 150 * i , viewPosition.y + 50);
 			activeStarSprite.setPosition(viewPosition.x + 150 * i , viewPosition.y + 50);
 
-			if (i == -1)
+			if (i + 2 <= earnedStars)
 				target.draw(activeStarSprite);
-
-			if (i == 0 && maxScore == score)
-				target.draw(activeStarSprite);
-			else if (i == 0 && maxScore != score)
-				target.draw(starSprite);
-
-			if (i == 1 && maxLives == livesCounter)
-				target.draw(activeStarSprite);
-			else if (i == 1 && maxLives != livesCounter)
+			else
 				target.draw(starSprite);
 		}
 		target.draw(menuButtonSprite);
@@ -255,11 +260,17 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 	}
 }
 
-
 bool Interface::getIsLastRing()
 {		return false;
 
 	return this->isLastRing;
+}
+
+int Interface::getEarnedStars()
+{
+	int buffer = this->earnedStars;
+	this->earnedStars = 0;
+	return buffer;
 }
 
 bool Interface::getIsMenuPressed()

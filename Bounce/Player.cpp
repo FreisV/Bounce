@@ -173,8 +173,12 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
 		setBall(3);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+		isGPressed = true;
+	else if (isGPressed)
+	{
+		isGPressed = false;
 		godmodeOn = godmodeOn ? false : true;
-
+	}
 	movement(time, World);
 	takeBonusLives();
 

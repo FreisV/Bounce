@@ -93,6 +93,12 @@ void Game::updateInterface()
 	this->gameInterface->update(viewInGame.getCenter(), map->getScore(), player->getLivesCounter(), map->getMaxScore(), map->getMaxLives());
 }
 
+void Game::updateEarnedStarsInLevels(int quantityStars)
+{
+	if (earnedStarsInLevels[selectedLevel - 1] < quantityStars)
+		earnedStarsInLevels[selectedLevel - 1] = quantityStars;
+}
+
 void Game::moveInLevelsMenu()
 {
 	World.DestroyBody(player->getPlayerBody());
@@ -124,6 +130,7 @@ void Game::changeDisplay()
 	{
 		isMenu = false;
 		isLevelsMenu = true;
+		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
 
 	}
 	if (levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
@@ -143,14 +150,23 @@ void Game::changeDisplay()
 	}
 	if (this->gameInterface->getIsRestartPressed() && this->isGame)
 	{
+		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
+		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
+
 		reloadLevel();
 	}
 	if (this->gameInterface->getIsMenuPressed() && this->isGame)
 	{
+		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
+		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
+
 		moveInLevelsMenu();
 	}
 	if (this->gameInterface->getIsNextPressed() && this->isGame)
 	{
+		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
+		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
+
 		selectedLevel++;
 
 		if (selectedLevel > 20)
@@ -163,11 +179,16 @@ void Game::changeDisplay()
 			reloadLevel();
 		}
 	}
-
 }
 
 void Game::update(float time)
 {
+
+	/*for (auto i : earnedStarsInLevels)
+		std::cout << i << std::endl;
+	std::cout << std::endl;*/
+
+
 	while (this->window.pollEvent(this->ev))
 	{
 		if (this->ev.type == sf::Event::Closed)
@@ -194,15 +215,13 @@ void Game::update(float time)
 	}
 
 	changeDisplay();
-
-
-	
 }
 
 void Game::renderMenu()
 {
 	this->menu->render(window);
 }
+
 
 void Game::renderLevelsMenu()
 {
@@ -229,8 +248,6 @@ void Game::renderInterface()
 	int ringsCounter = map->getRingsCounter();
 	this->gameInterface->render(window, viewInGame.getCenter(), ringsCounter);
 }
-
-
 
 void Game::render()
 {

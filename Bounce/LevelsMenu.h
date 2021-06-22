@@ -13,7 +13,14 @@ class LevelsMenu
 	sf::Texture levelBlockTextureSheet;
 	
 	std::vector<sf::FloatRect> levelsPositions;
-	
+
+	//Stars
+	sf::Sprite starSprite;
+	sf::Texture starTextureSheet;
+
+	sf::Sprite activeStarSprite;
+	sf::Texture activeStarTextureSheet;
+
 	//Blocks
 	sf::Sprite blockSprite;
 	sf::Texture blockTextureSheet;
@@ -21,6 +28,8 @@ class LevelsMenu
 	//Back button 
 	sf::Sprite backButtonSprite;
 	sf::Texture backButtonTextureSheet;
+
+	int earnedStarsInLevels[20];
 
 	bool isLevelSelected = false;
 	int selectedLevel = 0;
@@ -31,11 +40,14 @@ class LevelsMenu
 	void initFont();
 	void initText();
 	void createLevelsBlock();
+
 public:
 	LevelsMenu();
 
 	void update();
 	void render(sf::RenderTarget& target);
+
+	void setEarnedStarsInLevels(int* earnedStarsInLevels);
 
 	bool getIsLevelSelected();
 	int getSelectedLevel();
