@@ -1,7 +1,7 @@
 ﻿  Interface.cpp
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(37,53): warning C4305: аргумент: усечение из "double" в "float"
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(40,57): warning C4305: аргумент: усечение из "double" в "float"
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(168,92): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(42,53): warning C4305: аргумент: усечение из "double" в "float"
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(45,57): warning C4305: аргумент: усечение из "double" в "float"
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(177,92): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
           with
           [
               T=int
@@ -10,7 +10,7 @@ D:\College\OAiP\Bounce\Bounce\Interface.cpp(168,92): warning C4244: аргуме
           [
               T=float
           ]
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(168,64): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(177,64): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
           with
           [
               T=int

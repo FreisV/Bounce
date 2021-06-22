@@ -50,6 +50,10 @@ class Interface
 	sf::Sprite restartButtonSprite;
 	sf::Texture restartButtonTextureSheet;
 
+	sf::Sprite winRestartButtonSprite;
+	sf::Texture winRestartButtonTextureSheet;
+
+
 		//Next Level 
 	sf::Sprite nextButtonSprite;
 	sf::Texture nextButtonTextureSheet;

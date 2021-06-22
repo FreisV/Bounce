@@ -17,6 +17,9 @@ void Interface::initTextures()
 
 	if (!this->restartButtonTextureSheet.loadFromFile("Assets/game_dialog_failed_button_retry@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the restart button sheet!" << std::endl;
+	
+	if (!this->winRestartButtonTextureSheet.loadFromFile("Assets/game_dialog_complete_button_retry@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the win restart button sheet!" << std::endl;
 
 	if (!this->menuButtonTextureSheet.loadFromFile("Assets/game_dialog_failed_button_menu@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the menu button sheet!" << std::endl;
@@ -29,6 +32,8 @@ void Interface::initTextures()
 
 	if (!this->activeStarTextureSheet.loadFromFile("Assets/game_dialog_complete_star_yellow@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the active star sheet!" << std::endl;
+
+
 }
 
 void Interface::initSprites()
@@ -45,6 +50,9 @@ void Interface::initSprites()
 	this->restartButtonSprite.setTexture(restartButtonTextureSheet);
 	this->restartButtonSprite.setOrigin(148, 50);
 	
+	this->winRestartButtonSprite.setTexture(winRestartButtonTextureSheet);
+	this->winRestartButtonSprite.setOrigin(50, 50);
+
 	this->menuButtonSprite.setTexture(menuButtonTextureSheet);
 	this->menuButtonSprite.setOrigin(50, 50);
 	
@@ -152,6 +160,7 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	this->levelEndedWindowShape.setPosition(viewPosition.x, viewPosition.y - 20);
 	this->levelFailedSprite.setPosition(viewPosition.x , viewPosition.y - 180);
 	this->restartButtonSprite.setPosition(viewPosition.x + 100, viewPosition.y + 250);
+	this->winRestartButtonSprite.setPosition(viewPosition.x - 95, viewPosition.y + 250);
 	this->nextButtonSprite.setPosition(viewPosition.x + 105, viewPosition.y + 250);
 	this->starSprite.setPosition(viewPosition.x - 150, viewPosition.y + 50);
 	this->activeStarSprite.setPosition(viewPosition.x - 150, viewPosition.y + 50);
@@ -166,7 +175,12 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	{
 		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+
+		std::cout << mousePos.x << "\t" << mousePos.y << std::endl;
+
 		if(isLastDead && (mousePos.x >= 920 && mousePos.x <= 1215) &&(mousePos.y >= 770 && mousePos.y <= 870))
+			isRestartPressed = true;
+		if (isLastRing && (mousePos.x >= 823 && mousePos.x <= 923) && (mousePos.y >= 770 && mousePos.y <= 870))
 			isRestartPressed = true;
 
 		if (isLastRing && (mousePos.x >= 930 && mousePos.x <= 1215) && (mousePos.y >= 770 && mousePos.y <= 870))
@@ -236,7 +250,7 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 				target.draw(starSprite);
 		}
 		target.draw(menuButtonSprite);
-
+		target.draw(winRestartButtonSprite);
 		target.draw(nextButtonSprite);
 	}
 }
