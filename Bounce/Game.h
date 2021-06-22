@@ -32,9 +32,6 @@ class Game
 
 	int earnedStarsInLevels[20];
 
-	//Test
-	int counter = 0;
-
 	void initWindow();
 	void initMenu();
 	void initLevelsMenu();
@@ -42,6 +39,9 @@ class Game
 	void initMap();
 	void initView();
 	void initInterface();
+
+	void readProgressFile();
+	void changeProgressFile();
 
 	void updateMenu();
 	void updateLevelsMenu();

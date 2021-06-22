@@ -1,7 +1,6 @@
 #include "Interface.h"
 #include "Consts.h"
 
-
 void Interface::initTextures()
 {
 	if (!this->ringTextureSheet.loadFromFile("Assets/ring_small@2x.png"))

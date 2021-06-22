@@ -28,11 +28,6 @@ void Game::initView()
 
 }
 
-void Game::initInterface()
-{
-	this->gameInterface = new Interface();
-}
-
 void Game::initMenu()
 {
 	this->menu = new Menu;
@@ -43,22 +38,41 @@ void Game::initLevelsMenu()
 	this->levelsMenu = new LevelsMenu;
 }
 
-Game::Game()
+void Game::initInterface()
 {
-	this->initWindow();
-	this->initMenu();
-	this->initLevelsMenu();
-	this->initMap();
-	this->initPlayer();
-	this->initView();
-	this->initInterface();
-
+	this->gameInterface = new Interface();
 }
 
-Game::~Game()
+
+
+void Game::changeProgressFile()
 {
-	delete this->player;
+	std::ofstream F("Save/progress.txt", std::ofstream::out | std::ofstream::trunc);
+
+	for (int i = 0; i < 20; i++)
+		F << earnedStarsInLevels[i] << ", ";
+	F.close();
 }
+
+void Game::readProgressFile()
+{
+	std::ifstream F("Save/progress.txt");
+	std::vector<int> numbers{};
+	std::string line{};
+	std::string number{};
+	while (std::getline(F, line))
+	{
+		std::stringstream strStream(line);
+		int elementNumber = 0;
+		while (std::getline(strStream, number, ','))
+		{
+			earnedStarsInLevels[elementNumber] = atoi(number.c_str());
+			elementNumber++;
+		}
+	}
+}
+
+
 
 void Game::updateMenu()
 {
@@ -97,7 +111,10 @@ void Game::updateEarnedStarsInLevels(int quantityStars)
 {
 	if (earnedStarsInLevels[selectedLevel - 1] < quantityStars)
 		earnedStarsInLevels[selectedLevel - 1] = quantityStars;
+	changeProgressFile();
 }
+
+
 
 void Game::moveInLevelsMenu()
 {
@@ -128,10 +145,11 @@ void Game::changeDisplay()
 {
 	if (menu->checkPlayPressed() && isMenu)
 	{
+		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
+		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
+		
 		isMenu = false;
 		isLevelsMenu = true;
-		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
-
 	}
 	if (levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
 	{
@@ -179,6 +197,25 @@ void Game::changeDisplay()
 			reloadLevel();
 		}
 	}
+}
+
+Game::Game()
+{
+	this->initWindow();
+	this->initMenu();
+	this->initLevelsMenu();
+	this->initMap();
+	this->initPlayer();
+	this->initView();
+	this->initInterface();
+
+	this->readProgressFile();
+
+}
+
+Game::~Game()
+{
+	delete this->player;
 }
 
 void Game::update(float time)
