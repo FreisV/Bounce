@@ -7,6 +7,9 @@ void Menu::initTextures()
 
 	if (!this->blockTextureSheet.loadFromFile("Assets/ui_ground_block@2x.png"))
 		std::cout << "ERROR::MENU::Could not load the Block sheet!" << std::endl;
+
+	if (!this->exitButtonTextureSheet.loadFromFile("Assets/menu_button_exit@2x.png"))
+		std::cout << "ERROR::MENU::Could not load the exit sheet!" << std::endl;
 }
 
 void Menu::initSprites()
@@ -16,6 +19,9 @@ void Menu::initSprites()
 
 	this->blockSprite.setTexture(blockTextureSheet);
 	this->blockSprite.setScale(1.0 / 125 * 80, 1.0 / 125 * 80);
+
+	this->exitButtonSprite.setTexture(exitButtonTextureSheet);
+	this->exitButtonSprite.setPosition(c::WINDOW_WIDTH / 2 - c::GRID_SIZE / 2 - 127, c::WINDOW_HEIGHT / 2 + 100);
 }
 
 void Menu::initFont()
@@ -48,25 +54,26 @@ Menu::Menu()
 
 	sf::Vector2f playerButtonPosition = sf::Vector2f(this->playButtonSprite.getPosition().x + 10, this->playButtonSprite.getPosition().y + 30);
 	this->playBottonRect = sf::FloatRect(playerButtonPosition, sf::Vector2f(356, 100));
+
+	sf::Vector2f exitButtonPosition = sf::Vector2f(this->exitButtonSprite.getPosition().x + 10, this->exitButtonSprite.getPosition().y + 30);
+	this->exitBottonRect = sf::FloatRect(exitButtonPosition, sf::Vector2f(356, 100));
 }
 
 void Menu::update()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{	
+		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 		if (playBottonRect.contains(mousePos))
-			isClickActive = true;
-		else
-			isClickActive = false;
+			isPlayPressed = true;
+
+		if (exitBottonRect.contains(mousePos))
+			isExitPressed = true;
 	}
 	else
 	{
-		if (isClickActive)
-		{
-			isPlayPressed = true;
-			isClickActive = false;
-		}
+		isClickActive = false;
 	}
 }
 
@@ -80,12 +87,28 @@ void Menu::render(sf::RenderTarget& target)
 	
 	target.draw(text);
 	target.draw(playButtonSprite);
+	target.draw(exitButtonSprite);
 }
 
 bool Menu::checkPlayPressed()
 {
+	if (isClickActive)
+		return false;
+
 	bool buffer = this->isPlayPressed;
 	this->isPlayPressed = false;
 	return buffer;
 }
+
+bool Menu::checkExitPressed()
+{
+	if (isClickActive)
+		return false;
+
+	bool buffer = this->isExitPressed;
+	this->isExitPressed = false;
+	return buffer;
+}
+
+
 

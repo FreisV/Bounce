@@ -17,7 +17,6 @@ int main()
 		float time = clock.getElapsedTime().asMicroseconds() / 4000;
 		clock.restart();
 
-
 		game.update(time);
 		game.render();
 	}

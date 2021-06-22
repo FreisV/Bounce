@@ -50,25 +50,29 @@ void Game::changeProgressFile()
 	std::ofstream F("Save/progress.txt", std::ofstream::out | std::ofstream::trunc);
 
 	for (int i = 0; i < 20; i++)
-		F << earnedStarsInLevels[i] << ", ";
+		F << earnedStarsInLevels[i] << " ";
 	F.close();
 }
 
 void Game::readProgressFile()
 {
+
 	std::ifstream F("Save/progress.txt");
-	std::vector<int> numbers{};
-	std::string line{};
-	std::string number{};
-	while (std::getline(F, line))
+	if (F.is_open())
 	{
-		std::stringstream strStream(line);
-		int elementNumber = 0;
-		while (std::getline(strStream, number, ','))
+		int counter = 0;
+		while (true)
 		{
-			earnedStarsInLevels[elementNumber] = atoi(number.c_str());
-			elementNumber++;
+			int x;
+			F >> x;
+			if (F.eof())
+				break;
+			earnedStarsInLevels[counter++] = x;
 		}
+	}
+	else
+	{
+		std::cout << "Unable to open file";
 	}
 }
 
@@ -115,6 +119,37 @@ void Game::updateEarnedStarsInLevels(int quantityStars)
 }
 
 
+void Game::renderMenu()
+{
+	this->menu->render(window);
+}
+
+void Game::renderLevelsMenu()
+{
+	this->levelsMenu->render(window);
+}
+
+void Game::renderPlayer()
+{
+	this->player->render(this->window, World);
+}
+
+void Game::renderMap()
+{
+	this->map->render(this->window);
+}
+
+void Game::renderView()
+{
+	this->window.setView(viewInGame);
+}
+
+void Game::renderInterface()
+{
+	int ringsCounter = map->getRingsCounter();
+	this->gameInterface->render(window, viewInGame.getCenter(), ringsCounter);
+}
+
 
 void Game::moveInLevelsMenu()
 {
@@ -150,6 +185,10 @@ void Game::changeDisplay()
 		
 		isMenu = false;
 		isLevelsMenu = true;
+	}
+	if (menu->checkExitPressed() && isMenu)
+	{
+		window.close();
 	}
 	if (levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
 	{
@@ -198,6 +237,8 @@ void Game::changeDisplay()
 		}
 	}
 }
+
+
 
 Game::Game()
 {
@@ -254,37 +295,6 @@ void Game::update(float time)
 	changeDisplay();
 }
 
-void Game::renderMenu()
-{
-	this->menu->render(window);
-}
-
-
-void Game::renderLevelsMenu()
-{
-	this->levelsMenu->render(window);
-}
-
-void Game::renderPlayer()
-{
-	this->player->render(this->window, World);
-}
-
-void Game::renderMap()
-{
-	this->map->render(this->window);
-}
-
-void Game::renderView()
-{
-	this->window.setView(viewInGame);
-}
-
-void Game::renderInterface()
-{
-	int ringsCounter = map->getRingsCounter();
-	this->gameInterface->render(window, viewInGame.getCenter(), ringsCounter);
-}
 
 void Game::render()
 {
