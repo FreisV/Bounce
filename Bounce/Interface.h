@@ -8,8 +8,11 @@ class Interface
 
 	bool isClickActive = true;
 
+
 	bool isLastDead = false;
 	bool isLastRing = false;
+	bool isPause = false;
+
 	bool isMenuPressed = false;
 	bool isRestartPressed = false;
 	bool isNextPresssed = false; 
@@ -90,6 +93,7 @@ public:
 
 	bool getIsLastRing();
 	int getEarnedStars();
+	bool getIsPause();
 
 	bool getIsMenuPressed();
 	bool getIsRestartPressed();

@@ -11,13 +11,18 @@ class Player
 	sf::Texture deadBallTextureSheet;
 
 	float ballRadius = 39;
+
 	bool onGround = false;
 	bool isLight = false;
 	bool isHeavy = false;
 	bool isDead = false;
+
 	bool godmodeOn = false;
 	bool isGPressed = false;
+
 	bool isLastDead = false;
+	bool isPause = false;
+
 	int timeAfterDead = 0;
 	int livesCounter = 3;
 

@@ -214,9 +214,12 @@ void Player::updateIfDead(float time, std::string* map, b2World& World, bool inW
 	}
 }
 
-void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition, bool isLastRing)
+void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition, bool isPause)
 {
-	if (isLastRing)
+	if (isPause)
+		this->isPause = true;
+
+	if (isPause)
 	{
 
 	}

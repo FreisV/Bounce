@@ -150,7 +150,12 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	if (livesCounter == 0)
 		isLastDead = true;
 	if (ringsCounter == 0)
+	{
+		isPause = true;
 		isLastRing = true;
+	}
+	else
+		isPause = false;
 
 	this->score = playerScore;
 	this->livesCounter = livesCounter;
@@ -180,8 +185,6 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		this->menuButtonSprite.setPosition(viewPosition.x - 150, viewPosition.y + 250);
 	else if (isLastRing)
 		this->menuButtonSprite.setPosition(viewPosition.x - 200, viewPosition.y + 250);
-
-
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
@@ -271,6 +274,11 @@ int Interface::getEarnedStars()
 	int buffer = this->earnedStars;
 	this->earnedStars = 0;
 	return buffer;
+}
+
+bool Interface::getIsPause()
+{
+	return this->isPause;
 }
 
 bool Interface::getIsMenuPressed()
