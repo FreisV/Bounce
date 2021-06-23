@@ -18,7 +18,13 @@ void LevelsMenu::initTextures()
 		std::cout << "ERROR::MENU::Could not load the active star sheet!" << std::endl;
 
 	if (!this->resetButtonTextureSheet.loadFromFile("Assets/game_dialog_complete_button_retry@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the restart button sheet!" << std::endl;
+		std::cout << "ERROR::MENU::Could not load the reset button sheet!" << std::endl;
+
+	if (!this->enterNameButtonTextureSheet.loadFromFile("Assets/dialog_pause_button_resume@2x.png"))
+		std::cout << "ERROR::MENU::Could not load the enter name sheet!" << std::endl;
+
+	if (!this->cancelResetButtonTextureSheet.loadFromFile("Assets/menu_button_back@2x.png"))
+		std::cout << "ERROR::MENU::Could not load the cancel reset sheet!" << std::endl;
 }
 
 void LevelsMenu::initSprites()
@@ -42,6 +48,31 @@ void LevelsMenu::initSprites()
 	this->resetButtonSprite.setOrigin(50, 50);
 	this->resetButtonSprite.setPosition(c::WINDOW_WIDTH / 4 * 3, c::WINDOW_HEIGHT / 2 - 40);
 
+	this->cancelResetButtonSprite.setTexture(cancelResetButtonTextureSheet);
+	this->cancelResetButtonSprite.setOrigin(178, 50);
+	this->cancelResetButtonSprite.setPosition(c::WINDOW_WIDTH / 2 - 190, c::WINDOW_HEIGHT / 2 + 250);
+
+	this->enterNameButtonSprite.setTexture(enterNameButtonTextureSheet);
+	this->enterNameButtonSprite.setOrigin(178, 50);
+	this->enterNameButtonSprite.setPosition(c::WINDOW_WIDTH / 2 + 190, c::WINDOW_HEIGHT / 2 + 250);
+
+
+
+}
+
+void LevelsMenu::initShapes()
+{
+	this->enterNameWindowShape.setFillColor(sf::Color::White);
+	this->enterNameWindowShape.setOutlineColor(sf::Color::Black);
+	this->enterNameWindowShape.setOutlineThickness(10);
+	this->enterNameWindowShape.setSize(sf::Vector2f(1200, 900));
+	this->enterNameWindowShape.setOrigin(sf::Vector2f(600, 450));
+	this->enterNameWindowShape.setPosition(c::WINDOW_WIDTH / 2, c::WINDOW_HEIGHT / 2 - 20);
+
+	this->whiteBackgroundShape.setFillColor(sf::Color(255, 255, 255, 120));
+	this->whiteBackgroundShape.setSize(sf::Vector2f(1920, 1080));
+	this->whiteBackgroundShape.setOrigin(sf::Vector2f(960, 540));
+	this->whiteBackgroundShape.setPosition(c::WINDOW_WIDTH / 2, c::WINDOW_HEIGHT / 2);
 }
 
 void LevelsMenu::initFont()
@@ -56,6 +87,18 @@ void LevelsMenu::initText()
 	this->levelNumberText.setCharacterSize(100);
 	this->levelNumberText.setFont(font);
 	this->levelNumberText.setFillColor(sf::Color::White);
+
+	this->enterNameTitleText.setString("Enter your nickname:");
+	this->enterNameTitleText.setCharacterSize(100);
+	this->enterNameTitleText.setFont(font);
+	this->enterNameTitleText.setFillColor(sf::Color::Black);
+	this->enterNameTitleText.setPosition(c::WINDOW_WIDTH / 3.2, c::WINDOW_HEIGHT / 9);
+
+	this->enterNameText.setString("");
+	this->enterNameText.setCharacterSize(140);
+	this->enterNameText.setFont(font);
+	this->enterNameText.setFillColor(sf::Color::Black);
+	this->enterNameText.setPosition(c::WINDOW_WIDTH / 3.2, c::WINDOW_HEIGHT / 3);
 }
 
 void LevelsMenu::createLevelsBlock()
@@ -76,35 +119,59 @@ LevelsMenu::LevelsMenu()
 {
 	this->initTextures();
 	this->initSprites();
+	this->initShapes();
 	this->initFont();
 	this->initText();
 	this->createLevelsBlock();
 }
 
-void LevelsMenu::update()
+void LevelsMenu::update(std::string playerName)
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
 		isClickActive = true;
 
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
-		if ((mousePos.x >= 790 && mousePos.x <= 1146) && (mousePos.y >= 846 && mousePos.y <= 946))
-			isBackPressed = true;
-
 		if ((mousePos.x >=  1398 && mousePos.x <= 1498) && (mousePos.y >= 481 && mousePos.y <= 581))
-			isResetPressed = true;
+			bufferForIsEnterNamePressed = true;
 
-		for (size_t i = 0; i < size(levelsPositions); i++)
-			if (levelsPositions[i].contains(mousePos))
+		//std::cout << mousePos.x << "\t" << mousePos.y << std::endl;
+
+		if (isEnterNamePressed)
+		{
+			if ((mousePos.x >= 600 && mousePos.x <= 956) && (mousePos.y >= 771 && mousePos.y <= 871))
+				bufferForIsEnterNamePressed = false;
+
+			if ((mousePos.x >= 980 && mousePos.x <= 1336) && (mousePos.y >= 771 && mousePos.y <= 871))
 			{
-				this->selectedLevel = i + 1;
-				this->isLevelSelected = true;
-				break;
+				isResetPressed = true;
+				bufferForIsEnterNamePressed = false;
 			}
-	}
-	else
-		isClickActive = false;
+		}
+		else if (!isEnterNamePressed)
+		{
+			if ((mousePos.x >= 790 && mousePos.x <= 1146) && (mousePos.y >= 846 && mousePos.y <= 946))
+				isBackPressed = true;
 
+			for (size_t i = 0; i < size(levelsPositions); i++)
+				if (levelsPositions[i].contains(mousePos))
+				{
+					this->selectedLevel = i + 1;
+					this->isLevelSelected = true;
+					break;
+				}
+		}
+	}
+	else {
+		if (bufferForIsEnterNamePressed)
+			isEnterNamePressed = true;
+		if (!bufferForIsEnterNamePressed)
+			isEnterNamePressed = false;
+
+		isClickActive = false;
+	}
+
+	this->enterNameText.setString(sf::String::fromUtf8(playerName.begin(), playerName.end()));
 }
 
 void LevelsMenu::render(sf::RenderTarget& target)
@@ -150,6 +217,18 @@ void LevelsMenu::render(sf::RenderTarget& target)
 
 	target.draw(backButtonSprite);
 	target.draw(resetButtonSprite);
+
+	if (isEnterNamePressed)
+	{
+		target.draw(whiteBackgroundShape);
+		target.draw(enterNameWindowShape);
+
+		target.draw(enterNameTitleText);
+		target.draw(enterNameText);
+
+		target.draw(cancelResetButtonSprite);
+		target.draw(enterNameButtonSprite);
+	}
 }
 
 void LevelsMenu::setEarnedStarsInLevels(int *earnedStarsInLevels)
@@ -195,4 +274,9 @@ bool LevelsMenu::getIsResetPressed()
 	bool buffer = this->isResetPressed;
 	this->isResetPressed = false;
 	return buffer;
+}
+
+bool LevelsMenu::getIsEnterNamePressed()
+{
+	return this->isEnterNamePressed;
 }

@@ -1,6 +1,5 @@
 #include "Game.h"
 
-
 void Game::initWindow()
 {
 	this->window.create(sf::VideoMode(c::WINDOW_WIDTH, c::WINDOW_HEIGHT), "Bounce", sf::Style::Close | sf::Style::Titlebar);
@@ -66,7 +65,6 @@ void Game::changeProgressFile()
 
 void Game::readProgressFile()
 {
-
 	std::ifstream F("Save/progress.txt");
 	if (F.is_open())
 	{
@@ -84,10 +82,13 @@ void Game::readProgressFile()
 	{
 		std::cout << "Unable to open file";
 	}
+	F.close();
 }
 
 void Game::resetProgress()
 {
+	addGamer();
+
 	std::ofstream F("Save/progress.txt", std::ofstream::out | std::ofstream::trunc);
 
 	for (int i = 0; i < 20; i++)
@@ -98,6 +99,71 @@ void Game::resetProgress()
 	F.close();
 }
 
+void Game::readGamers()
+{
+	std::string str;
+	std::ifstream F("Save/gamers.txt");
+
+	int counter = 0;
+	while (std::getline(F, str)) { // пока не достигнут конец файла класть очередную строку в переменную (s)
+		std::cout << str << std::endl; // выводим на экран
+		gamers[counter++] = str;
+	}
+	F.close();
+}
+
+void Game::addGamer()
+{
+
+	std::string newGamer = "";
+
+	newGamer += playerName;
+	playerName = "";
+
+	std::cout << newGamer << std::endl;
+
+	for (int i = 0; i < 5; i++)
+		if (gamers[i] == "" || i == 4)
+		{
+			std::cout << "i: " << i << std::endl;
+ 			for (int j = i; j >= 0; j--)
+			{
+				if (j == 0)
+					gamers[j] = newGamer;
+				else
+				{
+					
+					gamers[j] = gamers[j - 1];
+					std::cout << "j: " << gamers[j] << std::endl;
+				}
+			}
+			break;
+		}
+	
+	std::ofstream F("Save/gamers.txt", std::ofstream::out);
+
+	for (int i = 0; i < 5 ; i++)
+	{
+		if (gamers[i] == "")
+			break;
+		F << gamers[i] << " ";
+
+		if (i == 0)
+		{
+			for (int j = 0; j < 20; j++)
+			{
+				F << earnedStarsInLevels[j] << " ";
+				earnedStarsInLevels[j] = 0;
+			}
+		}
+		F << "\n";
+	}
+	F.close();
+
+	readGamers();
+}
+
+
 
 void Game::updateMenu()
 {
@@ -106,12 +172,12 @@ void Game::updateMenu()
 
 void Game::updateLevelsMenu()
 {
-	this->levelsMenu->update();
+	this->levelsMenu->update(this->playerName);
 }
 
 void Game::updatePlayer(float time, std::string *map)
 {
-	this->player->update(time, map, World, this->map->getInWather(), this->map->getSpawnPosition(), this->gameInterface->getIsPause());
+	this->player->update(time, map, World, this->map->getInWather(), this->map->getSpawnPosition(), this->gameInterface->getIsLastRing(), this->gameInterface->getIsPause());
 }
 
 void Game::updateView()
@@ -149,6 +215,7 @@ void Game::renderLevelsMenu()
 {
 	this->levelsMenu->render(window);
 }
+
 
 void Game::renderPlayer()
 {
@@ -280,7 +347,6 @@ void Game::changeDisplay()
 }
 
 
-
 Game::Game()
 {
 	this->initWindow();
@@ -294,7 +360,7 @@ Game::Game()
 	this->initSound();
 
 	this->readProgressFile();
-
+	this->readGamers();
 }
 
 Game::~Game()
@@ -302,21 +368,35 @@ Game::~Game()
 	delete this->player;
 }
 
+
 void Game::update(float time)
 {
-
-	/*for (auto i : earnedStarsInLevels)
-		std::cout << i << std::endl;
-	std::cout << std::endl;*/
-
-
 	while (this->window.pollEvent(this->ev))
 	{
+		if (levelsMenu->getIsEnterNamePressed()  && this->ev.type == sf::Event::TextEntered)
+		{
+			switch (this->ev.text.unicode)
+			{
+			case 0xD: //Return
+				break;
+			case 0x8://Backspace
+				if (playerName.length() != 0)
+					playerName.erase(playerName.length() - 1);
+				break;
+			default:
+			{
+				if (playerName.length() < 9 && this->ev.text.unicode < 128)
+					playerName += static_cast<char>(static_cast<wchar_t>(this->ev.text.unicode));
+			}
+			}
+		}
+
 		if (this->ev.type == sf::Event::Closed)
 			this->window.close();
 		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape)
 			this->window.close();
 	}
+
 
 	if (isMenu)
 	{
@@ -337,7 +417,6 @@ void Game::update(float time)
 
 	changeDisplay();
 }
-
 
 void Game::render()
 {
@@ -363,6 +442,7 @@ void Game::render()
 
 	this->window.display();
 }
+
 
 const sf::RenderWindow& Game::getWindow() const
 {

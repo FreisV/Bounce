@@ -27,6 +27,8 @@ class Game
 	sf::SoundBuffer buttonBuffer;
 	sf::Sound buttonSound;
 
+	std::string playerName;
+
 	bool isMenu = true;
 	bool isLevelsMenu = false;
 	bool isGame = false;
@@ -34,6 +36,7 @@ class Game
 	int selectedLevel = 0;
 
 	int earnedStarsInLevels[20];
+	std::string gamers[5];
 
 	void initWindow();
 	void initMenu();
@@ -48,7 +51,8 @@ class Game
 	void readProgressFile();
 	void changeProgressFile();
 	void resetProgress();
-
+	void readGamers();
+	void addGamer();
 
 	void updateMenu();
 	void updateLevelsMenu();

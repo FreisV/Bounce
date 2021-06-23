@@ -3,6 +3,18 @@
 
 void Interface::initTextures()
 {
+	if (!this->pauseButtonTextureSheet.loadFromFile("Assets/gbar_pause@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the pause sheet!" << std::endl;
+
+	if (!this->pauseResumeButtonTextureSheet.loadFromFile("Assets/dialog_pause_button_resume@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the pause resume sheet!" << std::endl;
+
+	if (!this->pauseRestartButtonTextureSheet.loadFromFile("Assets/dialog_pause_button_restart@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the pause restart sheet!" << std::endl;
+
+	if (!this->pauseMenuButtonTextureSheet.loadFromFile("Assets/dialog_pause_button_menu@2x.png"))
+		std::cout << "ERROR::INTERFACE::Could not load the pause menu sheet!" << std::endl;
+
 	if (!this->ringTextureSheet.loadFromFile("Assets/ring_small@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the ring sheet!" << std::endl;
 
@@ -33,11 +45,22 @@ void Interface::initTextures()
 	if (!this->activeStarTextureSheet.loadFromFile("Assets/game_dialog_complete_star_yellow@2x.png"))
 		std::cout << "ERROR::INTERFACE::Could not load the active star sheet!" << std::endl;
 
-
 }
 
 void Interface::initSprites()
 {
+	this->pauseButtonSprite.setTexture(pauseButtonTextureSheet);
+	this->pauseButtonSprite.setScale(1.0 / 88 * 120, 1.0 / 88 * 120);
+
+	this->pauseResumeButtonSprite.setTexture(pauseResumeButtonTextureSheet);
+	this->pauseResumeButtonSprite.setOrigin(178, 50);
+
+	this->pauseRestartButtonSprite.setTexture(pauseRestartButtonTextureSheet);
+	this->pauseRestartButtonSprite.setOrigin(178, 50);
+
+	this->pauseMenuButtonSprite.setTexture(pauseMenuButtonTextureSheet);
+	this->pauseMenuButtonSprite.setOrigin(178, 50);
+
 	this->ringSprite.setTexture(ringTextureSheet);
 	this->ringSprite.setScale(1.0 / 4 * 3, 1.0 / 12 * 8);
 
@@ -111,6 +134,7 @@ void Interface::initLivesCounterText()
 	this->livesCounterText.setFillColor(sf::Color::White);
 }
 
+
 void Interface::calculateEarnedStars()
 {
 	earnedStars = 1;
@@ -122,6 +146,7 @@ void Interface::calculateEarnedStars()
 		earnedStars += 1;
 }
 
+
 Interface::Interface()
 {
 	this->initTextures();
@@ -132,29 +157,12 @@ Interface::Interface()
 	this->initLivesCounterText();
 }
 
-void Interface::setScore(int playerScore)
-{
-	this->scoreString.str("");
-	this->scoreString << std::setw(6) << std::setfill('0') << playerScore;
-}
-
-void Interface::setLives(int livesCounterInt)
-{
-	this->livesCounterString.str("");
-	this->livesCounterString << "X" << livesCounterInt;
-}
-
 void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter, int maxScore, int maxLives)
 {
 	if (livesCounter == 0)
 		isLastDead = true;
 	if (ringsCounter == 0)
-	{
-		isPause = true;
 		isLastRing = true;
-	}
-	else
-		isPause = false;
 
 	this->score = playerScore;
 	this->livesCounter = livesCounter;
@@ -167,11 +175,18 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	livesCounterText.setString(this->livesCounterString.str());
 
 	setScore(playerScore);
-	scoreText.setPosition(viewPosition.x + 500, viewPosition.y - 570);
+	scoreText.setPosition(viewPosition.x + 490, viewPosition.y - 570);
 	scoreText.setString(scoreString.str());
 	finalScoreText.setPosition(viewPosition.x - 250, viewPosition.y - 300);
 	finalScoreText.setString(scoreString.str());
 
+	this->pauseButtonSprite.setPosition(viewPosition.x + 840, viewPosition.y - 537);
+	this->pauseResumeButtonSprite.setPosition(viewPosition.x, viewPosition.y - 150);
+	this->pauseRestartButtonSprite.setPosition(viewPosition.x, viewPosition.y);
+	this->pauseMenuButtonSprite.setPosition(viewPosition.x, viewPosition.y + 150);
+
+	this->ringSprite.setPosition(viewPosition.x - 750, viewPosition.y - 515);
+	
 	this->whiteBackgroundShape.setPosition(viewPosition.x, viewPosition.y);
 	this->levelEndedWindowShape.setPosition(viewPosition.x, viewPosition.y - 20);
 	this->levelFailedSprite.setPosition(viewPosition.x , viewPosition.y - 180);
@@ -189,6 +204,21 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	{
 		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+
+		//std::cout << mousePos.x << "\t" << mousePos.y << std::endl;
+
+		if (!isPause && !isLastDead && !isLastRing && (mousePos.x >= 1842 && mousePos.x <= 1962) && (mousePos.y >= 69 && mousePos.y <= 189))
+			isPause = true;
+
+		if (isPause && (mousePos.x >= 790 && mousePos.x <= 1146) && (mousePos.y >= 371 && mousePos.y <= 471))
+			isPause = false;
+
+		if (isPause && (mousePos.x >= 790 && mousePos.x <= 1146) && (mousePos.y >= 521 && mousePos.y <= 621))
+			isRestartPressed = true;
+
+		if (isPause && (mousePos.x >= 790 && mousePos.x <= 1146) && (mousePos.y >= 671 && mousePos.y <= 771))
+			isMenuPressed = true;
+
 
 		if(isLastDead && (mousePos.x >= 920 && mousePos.x <= 1215) &&(mousePos.y >= 770 && mousePos.y <= 870))
 			isRestartPressed = true;
@@ -213,7 +243,6 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 
 void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int ringsCounter)
 {
-	ringSprite.setPosition(viewPosition.x - 750, viewPosition.y - 515);
 
 	this->ringsCounter = ringsCounter;
 
@@ -223,11 +252,22 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 		target.draw(ringSprite);
 	}
 
+	target.draw(pauseButtonSprite);
 	target.draw(scoreText);
 	target.draw(livesCounterText);
 	target.draw(livesSprite);
 
-	if (isLastDead == true)
+	if(isPause)
+	{ 
+		target.draw(whiteBackgroundShape);
+		target.draw(levelEndedWindowShape);
+
+		target.draw(pauseResumeButtonSprite);
+		target.draw(pauseRestartButtonSprite);
+		target.draw(pauseMenuButtonSprite);
+
+	}
+	if (isLastDead)
 	{
 		target.draw(whiteBackgroundShape);
 		target.draw(levelEndedWindowShape);
@@ -236,7 +276,7 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 		target.draw(restartButtonSprite);
 		target.draw(menuButtonSprite);
 	}
-	if (isLastRing == true)
+	if (isLastRing)
 	{
 		if (!earnedStars)
 			calculateEarnedStars();
@@ -262,9 +302,23 @@ void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int 
 	}
 }
 
-bool Interface::getIsLastRing()
-{		return false;
 
+
+void Interface::setScore(int playerScore)
+{
+	this->scoreString.str("");
+	this->scoreString << std::setw(6) << std::setfill('0') << playerScore;
+}
+
+void Interface::setLives(int livesCounterInt)
+{
+	this->livesCounterString.str("");
+	this->livesCounterString << "X" << livesCounterInt;
+}
+
+
+bool Interface::getIsLastRing()
+{
 	return this->isLastRing;
 }
 
@@ -289,6 +343,7 @@ bool Interface::getIsMenuPressed()
 	isMenuPressed = false;
 	if (buffer)
 	{
+		isPause = false;
 		isLastDead = false;
 		isLastRing = false;
 	}
@@ -304,6 +359,7 @@ bool Interface::getIsRestartPressed()
 	isRestartPressed = false;
 	if (buffer)
 	{
+		isPause = false;
 		isLastDead = false;
 		isLastRing = false;
 	}
@@ -319,6 +375,7 @@ bool Interface::getIsNextPressed()
 	isNextPresssed = false;
 	if (buffer)
 	{
+		isPause = false;
 		isLastDead = false;
 		isLastRing = false;
 	}

@@ -8,6 +8,11 @@ class LevelsMenu
 	sf::Text levelNumberText;
 	std::ostringstream levelNumber;
 
+
+	sf::Text enterNameTitleText;
+	sf::Text enterNameText;
+
+
 	//level Blocks 
 	sf::Sprite levelBlockSprite;
 	sf::Texture levelBlockTextureSheet;
@@ -29,10 +34,21 @@ class LevelsMenu
 	sf::Sprite backButtonSprite;
 	sf::Texture backButtonTextureSheet;
 
-	//Reset progress button
+	//Reset
+	sf::RectangleShape whiteBackgroundShape;
+	sf::RectangleShape enterNameWindowShape;
+
+		//Reset progress button
 	sf::Sprite resetButtonSprite;
 	sf::Texture resetButtonTextureSheet;
-
+		
+		//Enter name button
+	sf::Sprite enterNameButtonSprite;
+	sf::Texture enterNameButtonTextureSheet;
+		
+		//cancel reset
+	sf::Sprite cancelResetButtonSprite;
+	sf::Texture cancelResetButtonTextureSheet;
 
 	int earnedStarsInLevels[20];
 
@@ -41,10 +57,13 @@ class LevelsMenu
 	bool isLevelSelected = false;
 	int selectedLevel = 0;
 	bool isBackPressed = false;
+	bool isEnterNamePressed = false;
+	bool bufferForIsEnterNamePressed = false;
 	bool isResetPressed = false;
 
 	void initTextures();
 	void initSprites();
+	void initShapes();
 	void initFont();
 	void initText();
 	void createLevelsBlock();
@@ -52,7 +71,7 @@ class LevelsMenu
 public:
 	LevelsMenu();
 
-	void update();
+	void update(std::string playerName);
 	void render(sf::RenderTarget& target);
 
 	void setEarnedStarsInLevels(int* earnedStarsInLevels);
@@ -61,6 +80,7 @@ public:
 	int getSelectedLevel();
 	bool getIsBackPressed();
 	bool getIsResetPressed();
+	bool getIsEnterNamePressed();
 
 };
 
