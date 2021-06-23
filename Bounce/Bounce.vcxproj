@@ -249,6 +249,13 @@
     <Font Include="Assets\Fonts\Pixels.otf" />
     <Font Include="Assets\Fonts\TwCen.otf" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\Sound\ButtonEffect.wav" />
+    <Media Include="Assets\Sound\Dead.wav" />
+    <Media Include="Assets\Sound\Jump.wav" />
+    <Media Include="Assets\Sound\PickupItem.wav" />
+    <Media Include="Assets\Sound\PickupRing.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

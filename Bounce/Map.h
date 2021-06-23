@@ -56,6 +56,13 @@ class Map
 	sf::Texture bonusLifeTextureSheet;
 
 	std::vector<sf::Vector2f> bonusLivesPositions;
+	
+	//Sounds
+	sf::SoundBuffer takeRingBuffer;
+	sf::Sound takeRingSound;
+
+	sf::SoundBuffer takeItemBuffer;
+	sf::Sound takeItemSound;
 
 	//Interface
 	int ringsCounter = 0;
@@ -393,6 +400,8 @@ class Map
 
 	void initTextures();
 	void initSprites();
+	void initSoundBuffer();
+	void initSound();
 	
 	void createBlock(b2World& World, int x, int y);
 	void createRightAscent(b2World& World, int x, int y);
@@ -407,13 +416,15 @@ class Map
 
 public:
 	Map();
+	void update(sf::Vector2f playerPosition);
+	void render(sf::RenderTarget& target);
+	void renderTopRings(sf::RenderTarget& target);
+
+
 	void createBlocks(b2World& World);
 	void setMap(int levelNumber);
 	void clearWorld(b2World& World);
 
-	void update(sf::Vector2f playerPosition);
-	void render(sf::RenderTarget& target);
-	void renderTopRings(sf::RenderTarget& target);
 	
 	b2Vec2 getSpawnPosition();
 	std::string *getMap();

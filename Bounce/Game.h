@@ -24,6 +24,9 @@ class Game
 	Map *map;
 	Interface *gameInterface;
 
+	sf::SoundBuffer buttonBuffer;
+	sf::Sound buttonSound;
+
 	bool isMenu = true;
 	bool isLevelsMenu = false;
 	bool isGame = false;
@@ -39,6 +42,8 @@ class Game
 	void initMap();
 	void initView();
 	void initInterface();
+	void initSoundBuffer();
+	void initSound();
 
 	void readProgressFile();
 	void changeProgressFile();

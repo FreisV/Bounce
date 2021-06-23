@@ -10,6 +10,12 @@ class Player
 	sf::Texture heavyBallTextureSheet;
 	sf::Texture deadBallTextureSheet;
 
+	sf::SoundBuffer jumpBuffer;
+	sf::Sound jumpSound;
+
+	sf::SoundBuffer deadBuffer;
+	sf::Sound deadSound;
+
 	float ballRadius = 39;
 
 	bool onGround = false;
@@ -38,6 +44,29 @@ class Player
 	std::vector<sf::Vector2f> thornsPositions;
 	std::vector<sf::Vector2f> bonusLivesPositions;
 
+
+	//Core
+	void initTexture();
+	void initSprite();
+	void initSoundBuffer();
+	void initSound();
+	void initPlayer(b2World &World, b2Vec2 startPosition);
+	void initThornsPositions(std::vector<sf::Vector2f> thornsPositions);
+	void initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositions);
+
+
+	void updateIfLife(float time, std::string* map, b2World& World, bool inWather);
+	void updateIfDead(float time, std::string* map, b2World& World, bool inWather);
+	
+
+	void setBall(int colorNumber);
+	void spawnBall(b2World& World);
+
+
+	//Interaction with the map
+	void checkThorns();
+	void takeBonusLives();
+
 	//Animation
 	void animation(float speed);
 	
@@ -45,23 +74,6 @@ class Player
 	void checkOnGround(b2World& World);
 	void movement(float time, b2World& World);
 	void flyMovement(float time, b2World& World);
-
-	//Core
-	void initTexture();
-	void initSprite();
-	void initPlayer(b2World &World, b2Vec2 startPosition);
-	void initThornsPositions(std::vector<sf::Vector2f> thornsPositions);
-	void initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositions);
-	
-	void setBall(int colorNumber);
-	void spawnBall(b2World& World);
-
-	void updateIfLife(float time, std::string* map, b2World& World, bool inWather);
-	void updateIfDead(float time, std::string* map, b2World& World, bool inWather);
-
-	//Interaction with the map
-	void checkThorns();
-	void takeBonusLives();
 
 public:
 	Player(b2World &world, b2Vec2 spawnPosition, std::vector<sf::Vector2f>  thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions);

@@ -16,6 +16,9 @@
     <Filter Include="Файлы ресурсов\image">
       <UniqueIdentifier>{c48e0bbb-2de2-473e-aeee-6f446a43011c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы ресурсов\Sound">
+      <UniqueIdentifier>{bf0703c8-04d9-4f82-8485-df5a38b9d286}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -264,5 +267,22 @@
     <Font Include="Assets\Fonts\TwCen.otf">
       <Filter>Файлы ресурсов</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\Sound\ButtonEffect.wav">
+      <Filter>Файлы ресурсов\Sound</Filter>
+    </Media>
+    <Media Include="Assets\Sound\Dead.wav">
+      <Filter>Файлы ресурсов\Sound</Filter>
+    </Media>
+    <Media Include="Assets\Sound\Jump.wav">
+      <Filter>Файлы ресурсов\Sound</Filter>
+    </Media>
+    <Media Include="Assets\Sound\PickupItem.wav">
+      <Filter>Файлы ресурсов\Sound</Filter>
+    </Media>
+    <Media Include="Assets\Sound\PickupRing.wav">
+      <Filter>Файлы ресурсов\Sound</Filter>
+    </Media>
   </ItemGroup>
 </Project>

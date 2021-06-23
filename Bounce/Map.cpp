@@ -54,6 +54,23 @@ void Map::initSprites()
 	bonusLifeSprite.setTexture(bonusLifeTextureSheet);
 }
 
+void Map::initSoundBuffer()
+{
+	if (!this->takeRingBuffer.loadFromFile("Assets/Sound/PickupRing.wav"))
+		std::cout << "ERROR::MAP::Could not load the take ringsound !" << std::endl;
+
+	if (!this->takeItemBuffer.loadFromFile("Assets/Sound/PickupItem.wav"))
+		std::cout << "ERROR::MAP::Could not load the take item sound !" << std::endl;
+}
+
+void Map::initSound()
+{
+	takeRingSound.setBuffer(takeRingBuffer);
+	takeItemSound.setBuffer(takeItemBuffer);
+}
+
+
+
 void Map::createBlock(b2World &World, int x, int y)
 {
 	b2PolygonShape block;
@@ -150,6 +167,178 @@ void Map::createThorn(b2World& World, int x, int y)
 
 	bodyList.push_back(b_ground);
 }
+
+
+void Map::takeRings(sf::Vector2f playerPosition)
+{
+	for (size_t i = 0; i < size(this->ringsPositions); i++)
+		if ((playerPosition.x <= ringsPositions[i].x && playerPosition.x + 45 >= ringsPositions[i].x) && (playerPosition.y - 30 <= ringsPositions[i].y && playerPosition.y + 30 >= ringsPositions[i].y))
+		{
+			takeRingSound.play();
+			int row = (static_cast<int>(ringsPositions[i].y) + 20) / c::GRID_SIZE;
+			int col = (static_cast<int>(ringsPositions[i].x) + c::GRID_SIZE / 4 - c::GRID_SIZE / 2) / c::GRID_SIZE;
+			map[row][col] = 'o';
+			ringsCounter--;
+			score += 500;
+			ringsPositions.erase(ringsPositions.begin() + i);
+		}
+}
+
+void Map::checkInWather(sf::Vector2f playerPosition)
+{
+	inWather = false;
+	for (auto pos : watherPositions)
+		if ((playerPosition.x >= pos.x && playerPosition.x <= pos.x + c::GRID_SIZE) && (playerPosition.y >= pos.y && playerPosition.y<= pos.y + c::GRID_SIZE))
+			inWather = true;
+}
+
+void Map::takeCheckpoints(sf::Vector2f playerPosition)
+{
+	
+	for (size_t i = 0; i < size(this->checkpointsPositions); i++)
+		if ((playerPosition.x - 39 <= checkpointsPositions[i].x + c::GRID_SIZE && playerPosition.x + 39 >= checkpointsPositions[i].x) && (playerPosition.y - 39 <= checkpointsPositions[i].y + c::GRID_SIZE && playerPosition.y + 39 >= checkpointsPositions[i].y))
+		{
+			takeItemSound.play();
+			b2Vec2 spawnPosition = getSpawnPosition();
+			int removeSpawnY = static_cast<int>(spawnPosition.y) / c::GRID_SIZE;
+			int removeSpawnX = static_cast<int>(spawnPosition.x) / c::GRID_SIZE;
+			map[removeSpawnY][removeSpawnX] = ' ';
+			int row = (static_cast<int>(checkpointsPositions[i].y)) / c::GRID_SIZE;
+			int col = (static_cast<int>(checkpointsPositions[i].x)) / c::GRID_SIZE;
+			map[row][col] = 'P';
+			score += 500;
+			checkpointsPositions.erase(checkpointsPositions.begin() + i);
+		}
+}
+
+void Map::takeBonusLives(sf::Vector2f playerPosition)
+{
+	sf::Vector2f ballPos = playerPosition;
+	for (size_t i = 0; i < size(bonusLivesPositions); i++)
+		if ((playerPosition.x - 39 <= bonusLivesPositions[i].x + c::GRID_SIZE && playerPosition.x + 39>= bonusLivesPositions[i].x) && (playerPosition.y - 39 <= bonusLivesPositions[i].y + c::GRID_SIZE && playerPosition.y + 39 >= bonusLivesPositions[i].y))
+		{
+			takeItemSound.play();
+			int bonusLifeX = static_cast<int>(bonusLivesPositions[i].x) / c::GRID_SIZE;
+			int bonusLifeY = static_cast<int>(bonusLivesPositions[i].y) / c::GRID_SIZE;
+			map[bonusLifeY][bonusLifeX] = ' ';
+			score += 1000;
+			bonusLivesPositions.erase(bonusLivesPositions.begin() + i);
+			break;
+		}
+}
+
+
+Map::Map()
+{
+	this->initTextures();
+	this->initSprites();
+	this->initSoundBuffer();
+	this->initSound();
+}
+
+void Map::update(sf::Vector2f playerPosition)
+{
+	this->checkInWather(playerPosition);
+	this->takeRings(playerPosition);
+	this->takeCheckpoints(playerPosition);
+	this->takeBonusLives(playerPosition);
+}
+
+void Map::render(sf::RenderTarget& target)
+{
+	for (int i = 0; i < mapHeight; i++)
+		for (int j = 0; j < map[i].length(); j++)
+		{
+			if (map[i][j] == 'B')
+			{
+				blockSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(blockSprite);
+			}
+			if (map[i][j] == 'R')
+			{
+				rightAscentSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(rightAscentSprite);
+			}
+			if (map[i][j] == 'L')
+			{
+				leftAscentSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(leftAscentSprite);
+			}
+			if (map[i][j] == 'O')
+			{
+				if (i != 1 && map[i - 1][j] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
+				bottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
+				target.draw(bottomRingSprite);
+			}
+			if (map[i][j] == 'o')
+			{
+				if (map[i - 1][j] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
+				catchedBottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
+				target.draw(catchedBottomRingSprite);
+			}
+			if (map[i][j] == 'W')
+			{
+				watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(watherSprite);
+			}
+			if (map[i][j] == 'T')
+			{
+				if (i != 1 && map[i - 1][j] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
+				thornSprite.setPosition(j * c::GRID_SIZE + 19, i * c::GRID_SIZE);
+				target.draw(thornSprite);
+			}
+			if (map[i][j] == 'C')
+			{
+				checkpointSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(checkpointSprite);
+			}
+			if (map[i][j] == 'P')
+			{
+				catchedCheckpointSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(catchedCheckpointSprite);
+			}
+			if (map[i][j] == 'l')
+			{
+				bonusLifeSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+				target.draw(bonusLifeSprite);
+			}
+			if (map[i][j] == ' ')
+				continue;
+
+		}
+}
+
+void Map::renderTopRings(sf::RenderTarget& target)
+{
+	for (int i = 0; i < mapHeight; i++)
+		for (int j = 0; j < map[i].length(); j++)
+		{
+			if (map[i][j] == 'O')
+			{
+				topRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
+				target.draw(topRingSprite);
+			}
+			if (map[i][j] == 'o')
+			{
+				catchedTopRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
+				target.draw(catchedTopRingSprite);
+
+			}
+		}
+}
+
 
 void Map::createBlocks(b2World &World)
 {
@@ -345,169 +534,6 @@ void Map::clearWorld(b2World& World)
 	}
 }
 
-void Map::takeRings(sf::Vector2f playerPosition)
-{
-	for (size_t i = 0; i < size(this->ringsPositions); i++)
-		if ((playerPosition.x <= ringsPositions[i].x && playerPosition.x + 45 >= ringsPositions[i].x) && (playerPosition.y - 30 <= ringsPositions[i].y && playerPosition.y + 30 >= ringsPositions[i].y))
-		{
-			int row = (static_cast<int>(ringsPositions[i].y) + 20) / c::GRID_SIZE;
-			int col = (static_cast<int>(ringsPositions[i].x) + c::GRID_SIZE / 4 - c::GRID_SIZE / 2) / c::GRID_SIZE;
-			map[row][col] = 'o';
-			ringsCounter--;
-			score += 500;
-			ringsPositions.erase(ringsPositions.begin() + i);
-		}
-}
-
-void Map::checkInWather(sf::Vector2f playerPosition)
-{
-	inWather = false;
-	for (auto pos : watherPositions)
-		if ((playerPosition.x >= pos.x && playerPosition.x <= pos.x + c::GRID_SIZE) && (playerPosition.y >= pos.y && playerPosition.y<= pos.y + c::GRID_SIZE))
-			inWather = true;
-}
-
-void Map::takeCheckpoints(sf::Vector2f playerPosition)
-{
-	
-	for (size_t i = 0; i < size(this->checkpointsPositions); i++)
-		if ((playerPosition.x - 39 <= checkpointsPositions[i].x + c::GRID_SIZE && playerPosition.x + 39 >= checkpointsPositions[i].x) && (playerPosition.y - 39 <= checkpointsPositions[i].y + c::GRID_SIZE && playerPosition.y + 39 >= checkpointsPositions[i].y))
-		{
-			b2Vec2 spawnPosition = getSpawnPosition();
-			int removeSpawnY = static_cast<int>(spawnPosition.y) / c::GRID_SIZE;
-			int removeSpawnX = static_cast<int>(spawnPosition.x) / c::GRID_SIZE;
-			map[removeSpawnY][removeSpawnX] = ' ';
-			int row = (static_cast<int>(checkpointsPositions[i].y)) / c::GRID_SIZE;
-			int col = (static_cast<int>(checkpointsPositions[i].x)) / c::GRID_SIZE;
-			map[row][col] = 'P';
-			score += 500;
-			checkpointsPositions.erase(checkpointsPositions.begin() + i);
-		}
-}
-
-void Map::takeBonusLives(sf::Vector2f playerPosition)
-{
-	sf::Vector2f ballPos = playerPosition;
-	for (size_t i = 0; i < size(bonusLivesPositions); i++)
-		if ((playerPosition.x - 39 <= bonusLivesPositions[i].x + c::GRID_SIZE && playerPosition.x + 39>= bonusLivesPositions[i].x) && (playerPosition.y - 39 <= bonusLivesPositions[i].y + c::GRID_SIZE && playerPosition.y + 39 >= bonusLivesPositions[i].y))
-		{
-			int bonusLifeX = static_cast<int>(bonusLivesPositions[i].x) / c::GRID_SIZE;
-			int bonusLifeY = static_cast<int>(bonusLivesPositions[i].y) / c::GRID_SIZE;
-			map[bonusLifeY][bonusLifeX] = ' ';
-			score += 1000;
-			bonusLivesPositions.erase(bonusLivesPositions.begin() + i);
-			break;
-		}
-}
-
-Map::Map()
-{
-	this->initTextures();
-	this->initSprites();
-}
-
-void Map::render(sf::RenderTarget& target)
-{
-	for (int i = 0; i < mapHeight; i++)
-		for (int j = 0; j < map[i].length(); j++)
-		{
-			if (map[i][j] == 'B')
-			{
-				blockSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-				target.draw(blockSprite);
-			}
-			if (map[i][j] == 'R')
-			{
-				rightAscentSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-				target.draw(rightAscentSprite);
-			}
-			if (map[i][j] == 'L')
-			{
-				leftAscentSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-				target.draw(leftAscentSprite);
-			}
-			if (map[i][j] == 'O')
-			{
-				if (i != 1 && map[i - 1][j] == 'W')
-				{
-					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-					target.draw(watherSprite);
-				}
-				bottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
-				target.draw(bottomRingSprite);
-			}
-			if (map[i][j] == 'o')
-			{
-				if (map[i - 1][j] == 'W')
-				{
-					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-					target.draw(watherSprite);
-				}
-				catchedBottomRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
-				target.draw(catchedBottomRingSprite);
-			}
-			if (map[i][j] == 'W')
-			{
-				watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-				target.draw(watherSprite);
-			}
-			if (map[i][j] == 'T')
-			{
-				if (i != 1 && map[i - 1][j] == 'W')
-				{
-					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-					target.draw(watherSprite);
-				}
-				thornSprite.setPosition(j * c::GRID_SIZE + 19, i * c::GRID_SIZE);
-				target.draw(thornSprite);
-			}
-			if (map[i][j] == 'C')
-			{
-				checkpointSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-				target.draw(checkpointSprite);
-			}
-			if (map[i][j] == 'P')
-			{
-				catchedCheckpointSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-				target.draw(catchedCheckpointSprite);
-			}
-			if (map[i][j] == 'l')
-			{
-				bonusLifeSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
-				target.draw(bonusLifeSprite);
-			}
-			if (map[i][j] == ' ')
-				continue;
-
-		}
-}
-
-void Map::update(sf::Vector2f playerPosition)
-{
-	this->checkInWather(playerPosition);
-	this->takeRings(playerPosition);
-	this->takeCheckpoints(playerPosition);
-	this->takeBonusLives(playerPosition);
-}
-
-void Map::renderTopRings(sf::RenderTarget& target)
-{
-	for (int i = 0; i < mapHeight; i++)
-		for (int j = 0; j < map[i].length(); j++)
-		{
-			if (map[i][j] == 'O')
-			{
-				topRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
-				target.draw(topRingSprite);
-			}
-			if (map[i][j] == 'o')
-			{
-				catchedTopRingSprite.setPosition(j * c::GRID_SIZE + c::GRID_SIZE / 4, i * c::GRID_SIZE - c::GRID_SIZE / 2 - 20);
-				target.draw(catchedTopRingSprite);
-
-			}
-		}
-}
 
 b2Vec2 Map::getSpawnPosition()
 {

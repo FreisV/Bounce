@@ -43,6 +43,16 @@ void Game::initInterface()
 	this->gameInterface = new Interface();
 }
 
+void Game::initSoundBuffer()
+{
+	if (!this->buttonBuffer.loadFromFile("Assets/Sound/ButtonEffect.wav"))
+		std::cout << "ERROR::PLAYER::Could not load the button sound !" << std::endl;
+}
+
+void Game::initSound()
+{
+	buttonSound.setBuffer(buttonBuffer);
+}
 
 
 void Game::changeProgressFile()
@@ -182,6 +192,7 @@ void Game::changeDisplay()
 {
 	if (menu->checkPlayPressed() && isMenu)
 	{
+		buttonSound.play();
 		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
 		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
 		
@@ -190,10 +201,14 @@ void Game::changeDisplay()
 	}
 	if (menu->checkExitPressed() && isMenu)
 	{
+		buttonSound.play();
+
 		window.close();
 	}
 	if (levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
 	{
+		buttonSound.play();
+
 		isLevelsMenu = false;
 		selectedLevel = levelsMenu->getSelectedLevel();
 		isGame = true;
@@ -204,11 +219,15 @@ void Game::changeDisplay()
 	}
 	if (levelsMenu->getIsBackPressed() && this->isLevelsMenu)
 	{
+		buttonSound.play();
+
 		isMenu = true;
 		isLevelsMenu = false;
 	}
 	if (this->gameInterface->getIsRestartPressed() && this->isGame)
 	{
+		buttonSound.play();
+
 		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
 		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
 
@@ -216,6 +235,8 @@ void Game::changeDisplay()
 	}
 	if (this->gameInterface->getIsMenuPressed() && this->isGame)
 	{
+		buttonSound.play();
+
 		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
 		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
 
@@ -223,6 +244,8 @@ void Game::changeDisplay()
 	}
 	if (this->gameInterface->getIsNextPressed() && this->isGame)
 	{
+		buttonSound.play();
+
 		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
 		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
 
@@ -234,9 +257,7 @@ void Game::changeDisplay()
 			moveInLevelsMenu();
 		}
 		else
-		{
 			reloadLevel();
-		}
 	}
 }
 
@@ -251,6 +272,8 @@ Game::Game()
 	this->initPlayer();
 	this->initView();
 	this->initInterface();
+	this->initSoundBuffer();
+	this->initSound();
 
 	this->readProgressFile();
 
