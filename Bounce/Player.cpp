@@ -274,6 +274,8 @@ void Player::movement(float time, b2World &World)
 			jumpSound.play();
 		}
 	}
+
+	this->velocityBeforePause = playerBody->GetLinearVelocity();
 }
 
 void Player::flyMovement(float time, b2World& World)
@@ -380,12 +382,23 @@ Player::~Player()
 }
 
 
-void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition, bool isPause)
+void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition, bool isLastRing, bool isPause)
 {
-	if (isPause)
-		this->isPause = true;
+	if (isPause && isFirstPause)
+	{
+		World.SetGravity(b2Vec2(0.f, 0.f));
+		playerBody->SetLinearVelocity(b2Vec2(0.f, 0.f));
+		isFirstPause = false;
+	}
+	else if (!isPause && !isFirstPause)
+	{
+		if (!flyOn)
+			World.SetGravity(b2Vec2(0.f, 37.6f));
+		playerBody->SetLinearVelocity(b2Vec2(velocityBeforePause));
+		isFirstPause = true;
+	}
 
-	if (isPause)
+	if (isLastRing || isPause)
 	{
 
 	}

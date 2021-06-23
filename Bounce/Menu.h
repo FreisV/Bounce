@@ -10,7 +10,7 @@ class Menu
 	//Play
 	sf::Sprite playButtonSprite;
 	sf::Texture playButtonTextureSheet;
-	sf::FloatRect playBottonRect;
+	sf::FloatRect playButtonRect;
 
 	//Exit
 	sf::Sprite exitButtonSprite;

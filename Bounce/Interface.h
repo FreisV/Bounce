@@ -20,19 +20,35 @@ class Interface
 	int maxScore = 0;
 	int maxLives = 0;
 
-	//lives
+	//Pause 
+	sf::Sprite pauseButtonSprite;
+	sf::Texture pauseButtonTextureSheet;
+
+		//Resume
+	sf::Sprite pauseResumeButtonSprite;
+	sf::Texture pauseResumeButtonTextureSheet;
+
+		//Restart
+	sf::Sprite pauseRestartButtonSprite;
+	sf::Texture pauseRestartButtonTextureSheet;
+
+		//Menu
+	sf::Sprite pauseMenuButtonSprite;
+	sf::Texture pauseMenuButtonTextureSheet;
+
+	//Lives
 	sf::Sprite livesSprite;
 	sf::Texture livesTextureSheet;
 	sf::Text livesCounterText;
 	std::ostringstream livesCounterString;
 	int livesCounter = 0;
 
-	//rings
+	//Rings
 	sf::Sprite ringSprite;
 	sf::Texture ringTextureSheet;
 	int ringsCounter = 0;
 
-	//score
+	//Score
 	sf::Text scoreText;
 	std::ostringstream scoreString;
 	int score = 0;
@@ -73,8 +89,6 @@ class Interface
 	int earnedStars = 0;
 
 
-	//bool isStarsCalculated;
-	void calculateEarnedStars();
 
 	void initTextures();
 	void initSprites();
@@ -82,6 +96,8 @@ class Interface
 	void initFont();
 	void initScoreText();
 	void initLivesCounterText();
+
+	void calculateEarnedStars();
 
 	void setScore(int scoreInt);
 	void setLives(int livesCounterInt);

@@ -53,7 +53,7 @@ Menu::Menu()
 	this->initText();
 
 	sf::Vector2f playerButtonPosition = sf::Vector2f(this->playButtonSprite.getPosition().x + 10, this->playButtonSprite.getPosition().y + 30);
-	this->playBottonRect = sf::FloatRect(playerButtonPosition, sf::Vector2f(356, 100));
+	this->playButtonRect = sf::FloatRect(playerButtonPosition, sf::Vector2f(356, 100));
 
 	sf::Vector2f exitButtonPosition = sf::Vector2f(this->exitButtonSprite.getPosition().x + 10, this->exitButtonSprite.getPosition().y + 30);
 	this->exitBottonRect = sf::FloatRect(exitButtonPosition, sf::Vector2f(356, 100));
@@ -65,7 +65,7 @@ void Menu::update()
 	{	
 		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
-		if (playBottonRect.contains(mousePos))
+		if (playButtonRect.contains(mousePos))
 			isPlayPressed = true;
 
 		if (exitBottonRect.contains(mousePos))

@@ -30,7 +30,6 @@ class Player
 	bool isFPressed = false;
 
 	bool isLastDead = false;
-	bool isPause = false;
 
 	int timeAfterDead = 0;
 	int livesCounter = 3;
@@ -40,6 +39,9 @@ class Player
 	b2Body* playerBody;
 	b2FixtureDef fdef;
 	b2Vec2 spawnPosition;
+
+	bool isFirstPause = true;
+	b2Vec2 velocityBeforePause;
 
 	std::vector<sf::Vector2f> thornsPositions;
 	std::vector<sf::Vector2f> bonusLivesPositions;
@@ -80,7 +82,7 @@ public:
 	virtual ~Player();
 
 	//Functions
- 	void update(float time, std::string* map, b2World& World, bool inWather, b2Vec2 spawnPosition, bool isLastRing);
+ 	void update(float time, std::string* map, b2World& World, bool inWather, b2Vec2 spawnPosition, bool isLastRing, bool isPause);
 	void render(sf::RenderTarget& target, b2World& World);
 
 	void setItemsPositions(b2Vec2 spawnPosition, b2World& World, std::vector<sf::Vector2f>  thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions);

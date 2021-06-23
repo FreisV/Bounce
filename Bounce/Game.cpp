@@ -111,7 +111,7 @@ void Game::updateLevelsMenu()
 
 void Game::updatePlayer(float time, std::string *map)
 {
-	this->player->update(time, map, World, this->map->getInWather(), this->map->getSpawnPosition(), this->gameInterface->getIsPause());
+	this->player->update(time, map, World, this->map->getInWather(), this->map->getSpawnPosition(), this->gameInterface->getIsLastRing(), this->gameInterface->getIsPause());
 }
 
 void Game::updateView()
@@ -302,14 +302,9 @@ Game::~Game()
 	delete this->player;
 }
 
+
 void Game::update(float time)
 {
-
-	/*for (auto i : earnedStarsInLevels)
-		std::cout << i << std::endl;
-	std::cout << std::endl;*/
-
-
 	while (this->window.pollEvent(this->ev))
 	{
 		if (this->ev.type == sf::Event::Closed)
@@ -338,7 +333,6 @@ void Game::update(float time)
 	changeDisplay();
 }
 
-
 void Game::render()
 {
 	this->window.clear(sf::Color(86, 219, 254, 0));
@@ -363,6 +357,7 @@ void Game::render()
 
 	this->window.display();
 }
+
 
 const sf::RenderWindow& Game::getWindow() const
 {
