@@ -29,11 +29,19 @@ class LevelsMenu
 	sf::Sprite backButtonSprite;
 	sf::Texture backButtonTextureSheet;
 
+	//Reset progress button
+	sf::Sprite resetButtonSprite;
+	sf::Texture resetButtonTextureSheet;
+
+
 	int earnedStarsInLevels[20];
+
+	bool isClickActive = false;
 
 	bool isLevelSelected = false;
 	int selectedLevel = 0;
 	bool isBackPressed = false;
+	bool isResetPressed = false;
 
 	void initTextures();
 	void initSprites();
@@ -52,5 +60,7 @@ public:
 	bool getIsLevelSelected();
 	int getSelectedLevel();
 	bool getIsBackPressed();
+	bool getIsResetPressed();
+
 };
 

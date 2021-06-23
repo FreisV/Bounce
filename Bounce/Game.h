@@ -47,6 +47,8 @@ class Game
 
 	void readProgressFile();
 	void changeProgressFile();
+	void resetProgress();
+
 
 	void updateMenu();
 	void updateLevelsMenu();

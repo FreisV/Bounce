@@ -86,6 +86,17 @@ void Game::readProgressFile()
 	}
 }
 
+void Game::resetProgress()
+{
+	std::ofstream F("Save/progress.txt", std::ofstream::out | std::ofstream::trunc);
+
+	for (int i = 0; i < 20; i++)
+	{
+		F << 0 << " ";
+		earnedStarsInLevels[i] = 0;
+	}
+	F.close();
+}
 
 
 void Game::updateMenu()
@@ -190,7 +201,7 @@ void Game::reloadLevel()
 
 void Game::changeDisplay()
 {
-	if (menu->checkPlayPressed() && isMenu)
+	if (this->menu->checkPlayPressed() && this->isMenu)
 	{
 		buttonSound.play();
 		updateEarnedStarsInLevels(this->gameInterface->getEarnedStars());
@@ -199,13 +210,13 @@ void Game::changeDisplay()
 		isMenu = false;
 		isLevelsMenu = true;
 	}
-	if (menu->checkExitPressed() && isMenu)
+	if (this->menu->checkExitPressed() && this->isMenu)
 	{
 		buttonSound.play();
 
 		window.close();
 	}
-	if (levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
+	if (this->levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
 	{
 		buttonSound.play();
 
@@ -217,12 +228,19 @@ void Game::changeDisplay()
 		this->map->createBlocks(World);
 		this->player->setItemsPositions(map->getSpawnPosition(), World, map->getThornsPositions(), map->getBonusLivesPositions());
 	}
-	if (levelsMenu->getIsBackPressed() && this->isLevelsMenu)
+	if (this->levelsMenu->getIsBackPressed() && this->isLevelsMenu)
 	{
 		buttonSound.play();
 
 		isMenu = true;
 		isLevelsMenu = false;
+	}
+	if (this->levelsMenu->getIsResetPressed() && this->isLevelsMenu)
+	{
+		buttonSound.play();
+
+		this->resetProgress();
+		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
 	}
 	if (this->gameInterface->getIsRestartPressed() && this->isGame)
 	{
