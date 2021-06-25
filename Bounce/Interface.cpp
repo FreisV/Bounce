@@ -205,7 +205,7 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 
-		std::cout << mousePos.x << "\t" << mousePos.y << std::endl;
+		//std::cout << mousePos.x << "\t" << mousePos.y << std::endl;
 
 		if (!isPause && !isLastDead && !isLastRing && (mousePos.x >= 1842 && mousePos.x <= 1962) && (mousePos.y >= 69 && mousePos.y <= 189))
 			isPause = true;
@@ -218,6 +218,7 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 
 		if (isPause && (mousePos.x >= 790 && mousePos.x <= 1146) && (mousePos.y >= 671 && mousePos.y <= 771))
 			isMenuPressed = true;
+
 
 		if(isLastDead && (mousePos.x >= 920 && mousePos.x <= 1215) &&(mousePos.y >= 770 && mousePos.y <= 870))
 			isRestartPressed = true;
