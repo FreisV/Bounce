@@ -3,28 +3,28 @@
 void LevelsMenu::initTextures()
 {
 	if (!this->levelBlockTextureSheet.loadFromFile("Assets/lselect_level@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the level block sheet!" << std::endl;
+		std::cout << "ERROR::LEVELS MENU::Could not load the level block sheet!" << std::endl;
 
 	if (!this->blockTextureSheet.loadFromFile("Assets/ui_ground_block@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the Block sheet!" << std::endl;
+		std::cout << "ERROR::LEVELS MENU::Could not load the Block sheet!" << std::endl;
 
 	if (!this->backButtonTextureSheet.loadFromFile("Assets/menu_button_back@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the back button sheet!" << std::endl;
+		std::cout << "ERROR::LEVELS MENU::Could not load the back button sheet!" << std::endl;
 
 	if (!this->starTextureSheet.loadFromFile("Assets/lselect_star_grey@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the star sheet!" << std::endl;
+		std::cout << "ERROR::LEVELS MENU::Could not load the star sheet!" << std::endl;
 
 	if (!this->activeStarTextureSheet.loadFromFile("Assets/lselect_star@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the active star sheet!" << std::endl;
+		std::cout << "ERROR::LEVELS MENU::Could not load the active star sheet!" << std::endl;
 
 	if (!this->resetButtonTextureSheet.loadFromFile("Assets/game_dialog_complete_button_retry@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the reset button sheet!" << std::endl;
+		std::cout << "ERROR::LEVELS MENU::Could not load the reset button sheet!" << std::endl;
 
 	if (!this->enterNameButtonTextureSheet.loadFromFile("Assets/dialog_pause_button_resume@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the enter name sheet!" << std::endl;
+		std::cout << "ERROR::LEVELS MENU::Could not load the enter name sheet!" << std::endl;
 
 	if (!this->cancelResetButtonTextureSheet.loadFromFile("Assets/menu_button_back@2x.png"))
-		std::cout << "ERROR::MENU::Could not load the cancel reset sheet!" << std::endl;
+		std::cout << "ERROR::LEVELS MENU::Could not load the cancel reset sheet!" << std::endl;
 }
 
 void LevelsMenu::initSprites()
@@ -101,6 +101,18 @@ void LevelsMenu::initText()
 	this->enterNameText.setPosition(c::WINDOW_WIDTH / 3.2, c::WINDOW_HEIGHT / 3);
 }
 
+void LevelsMenu::initSoundBuffer()
+{
+	if (!this->buttonBuffer.loadFromFile("Assets/Sound/ButtonEffect.wav"))
+		std::cout << "ERROR::LEVELS MENU::Could not load the button sound !" << std::endl;
+}
+
+void LevelsMenu::initSound()
+{
+	buttonSound.setBuffer(buttonBuffer);
+}
+
+
 void LevelsMenu::createLevelsBlock()
 {
 	for (size_t i = 0; i < 4; i++)
@@ -122,6 +134,8 @@ LevelsMenu::LevelsMenu()
 	this->initShapes();
 	this->initFont();
 	this->initText();
+	this->initSoundBuffer();
+	this->initSound();
 	this->createLevelsBlock();
 }
 
@@ -163,11 +177,16 @@ void LevelsMenu::update(std::string playerName)
 		}
 	}
 	else {
-		if (bufferForIsEnterNamePressed)
+		if (bufferForIsEnterNamePressed && !isEnterNamePressed)
+		{
+			buttonSound.play();
 			isEnterNamePressed = true;
-		if (!bufferForIsEnterNamePressed)
+		}
+		if (!bufferForIsEnterNamePressed && isEnterNamePressed)
+		{
+			buttonSound.play();
 			isEnterNamePressed = false;
-
+		}
 		isClickActive = false;
 	}
 

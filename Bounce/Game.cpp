@@ -45,7 +45,7 @@ void Game::initInterface()
 void Game::initSoundBuffer()
 {
 	if (!this->buttonBuffer.loadFromFile("Assets/Sound/ButtonEffect.wav"))
-		std::cout << "ERROR::PLAYER::Could not load the button sound !" << std::endl;
+		std::cout << "ERROR::GAME::Could not load the button sound !" << std::endl;
 }
 
 void Game::initSound()
@@ -295,7 +295,7 @@ void Game::changeDisplay()
 	}
 	if (this->levelsMenu->getIsResetPressed() && this->isLevelsMenu)
 	{
-		buttonSound.play();
+		//buttonSound.play();
 
 		this->resetProgress();
 		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);

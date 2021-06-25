@@ -6,6 +6,9 @@ class Interface
 	sf::Font font;
 	sf::Font finalScoreFont;
 
+	sf::SoundBuffer buttonBuffer;
+	sf::Sound buttonSound;
+
 	bool isClickActive = true;
 	bool isEscPressed = false;
 
@@ -96,6 +99,8 @@ class Interface
 	void initFont();
 	void initScoreText();
 	void initLivesCounterText();
+	void initSoundBuffer();
+	void initSound();
 
 	void calculateEarnedStars();
 

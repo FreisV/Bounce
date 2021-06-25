@@ -8,10 +8,11 @@ class LevelsMenu
 	sf::Text levelNumberText;
 	std::ostringstream levelNumber;
 
-
 	sf::Text enterNameTitleText;
 	sf::Text enterNameText;
 
+	sf::SoundBuffer buttonBuffer;
+	sf::Sound buttonSound;
 
 	//level Blocks 
 	sf::Sprite levelBlockSprite;
@@ -66,6 +67,8 @@ class LevelsMenu
 	void initShapes();
 	void initFont();
 	void initText();
+	void initSoundBuffer();
+	void initSound();
 	void createLevelsBlock();
 
 public:

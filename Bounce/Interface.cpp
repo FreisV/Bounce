@@ -134,6 +134,18 @@ void Interface::initLivesCounterText()
 	this->livesCounterText.setFillColor(sf::Color::White);
 }
 
+void Interface::initSoundBuffer()
+{
+	if (!this->buttonBuffer.loadFromFile("Assets/Sound/ButtonEffect.wav"))
+		std::cout << "ERROR::INTERFACE::Could not load the button sound !" << std::endl;
+}
+
+void Interface::initSound()
+{
+	buttonSound.setBuffer(buttonBuffer);
+}
+
+
 void Interface::calculateEarnedStars()
 {
 	earnedStars = 1;
@@ -153,6 +165,8 @@ Interface::Interface()
 	this->initFont();
 	this->initScoreText();
 	this->initLivesCounterText();
+	this->initSoundBuffer();
+	this->initSound();
 }
 
 void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter, int maxScore, int maxLives)
@@ -201,10 +215,12 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 	{
+		buttonSound.play();
 		isEscPressed = true;
 	}
 	else if (isEscPressed == true)
 	{
+		buttonSound.play();
 		isPause = isPause ? false : true;
 		isEscPressed = false;
 	}
@@ -217,11 +233,15 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		//std::cout << mousePos.x << "\t" << mousePos.y << std::endl;
 
 		if (!isPause && !isLastDead && !isLastRing && (mousePos.x >= 1842 && mousePos.x <= 1962) && (mousePos.y >= 69 && mousePos.y <= 189))
+		{
+			buttonSound.play();
 			isPause = true;
-
+		}
 		if (isPause && (mousePos.x >= 790 && mousePos.x <= 1146) && (mousePos.y >= 371 && mousePos.y <= 471))
+		{
+			buttonSound.play();
 			isPause = false;
-
+		}
 		if (isPause && (mousePos.x >= 790 && mousePos.x <= 1146) && (mousePos.y >= 521 && mousePos.y <= 621))
 			isRestartPressed = true;
 
