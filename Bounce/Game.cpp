@@ -114,13 +114,10 @@ void Game::readGamers()
 
 void Game::addGamer()
 {
-
 	std::string newGamer = "";
 
 	newGamer += playerName;
 	playerName = "";
-
-	std::cout << newGamer << std::endl;
 
 	for (int i = 0; i < 5; i++)
 		if (gamers[i] == "" || i == 4)
@@ -131,11 +128,7 @@ void Game::addGamer()
 				if (j == 0)
 					gamers[j] = newGamer;
 				else
-				{
-					
 					gamers[j] = gamers[j - 1];
-					std::cout << "j: " << gamers[j] << std::endl;
-				}
 			}
 			break;
 		}

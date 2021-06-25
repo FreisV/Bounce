@@ -134,7 +134,6 @@ void Interface::initLivesCounterText()
 	this->livesCounterText.setFillColor(sf::Color::White);
 }
 
-
 void Interface::calculateEarnedStars()
 {
 	earnedStars = 1;
@@ -145,7 +144,6 @@ void Interface::calculateEarnedStars()
 	if (maxLives == livesCounter)
 		earnedStars += 1;
 }
-
 
 Interface::Interface()
 {

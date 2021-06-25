@@ -121,8 +121,11 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 		flyOn = flyOn ? false : true;
 		if (flyOn)
 			World.SetGravity(b2Vec2(0.f, 0.f));
-		else 
+		else
+		{
 			World.SetGravity(b2Vec2(0.f, 37.6f));
+			playerBody->SetLinearVelocity(b2Vec2(0.f, 0.01));
+		}
 	}
 
 

@@ -1,37 +1,32 @@
-﻿  Game.cpp
-D:\College\OAiP\Bounce\Bounce\Game.cpp(186,118): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-D:\College\OAiP\Bounce\Bounce\Game.cpp(186,58): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-  Interface.cpp
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(53,65): warning C4305: аргумент: усечение из "double" в "float"
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(65,53): warning C4305: аргумент: усечение из "double" в "float"
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(68,57): warning C4305: аргумент: усечение из "double" в "float"
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(217,92): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-D:\College\OAiP\Bounce\Bounce\Interface.cpp(217,64): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-  Main.cpp
-D:\College\OAiP\Bounce\Bounce\Main.cpp(17,14): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
-  Создание кода...
+﻿  Player.cpp
+D:\College\OAiP\Bounce\Bounce\Player.cpp(47,24): warning C4305: =: усечение из "double" в "float"
+D:\College\OAiP\Bounce\Bounce\Player.cpp(127,50): warning C4305: аргумент: усечение из "double" в "float"
+D:\College\OAiP\Bounce\Bounce\Player.cpp(240,16): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(241,16): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(242,25): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(247,16): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(248,16): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(249,24): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(253,16): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(254,16): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(263,41): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(270,41): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(276,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(295,15): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(296,25): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(301,15): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(302,24): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(306,15): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(333,47): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(333,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(338,47): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(338,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(343,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(343,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(348,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(348,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(353,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(358,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(362,45): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Player.cpp(366,45): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
   Bounce.vcxproj -> D:\College\OAiP\Bounce\x64\Debug\Bounce.exe
