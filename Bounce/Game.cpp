@@ -164,7 +164,6 @@ void Game::addGamer()
 }
 
 
-
 void Game::updateMenu()
 {
 	this->menu->update();
@@ -215,7 +214,6 @@ void Game::renderLevelsMenu()
 {
 	this->levelsMenu->render(window);
 }
-
 
 void Game::renderPlayer()
 {
@@ -368,7 +366,6 @@ Game::~Game()
 	delete this->player;
 }
 
-
 void Game::update(float time)
 {
 	while (this->window.pollEvent(this->ev))
@@ -393,8 +390,8 @@ void Game::update(float time)
 
 		if (this->ev.type == sf::Event::Closed)
 			this->window.close();
-		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape)
-			this->window.close();
+		//else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape)
+		//	this->window.close();
 	}
 
 

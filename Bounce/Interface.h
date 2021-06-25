@@ -7,7 +7,7 @@ class Interface
 	sf::Font finalScoreFont;
 
 	bool isClickActive = true;
-
+	bool isEscPressed = false;
 
 	bool isLastDead = false;
 	bool isLastRing = false;

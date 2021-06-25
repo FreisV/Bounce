@@ -200,6 +200,17 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 	else if (isLastRing)
 		this->menuButtonSprite.setPosition(viewPosition.x - 200, viewPosition.y + 250);
 
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+	{
+		isEscPressed = true;
+	}
+	else if (isEscPressed == true)
+	{
+		isPause = isPause ? false : true;
+		isEscPressed = false;
+	}
+
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
 		isClickActive = true;
@@ -238,7 +249,6 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		if (isClickActive)
 			isClickActive = false;
 	}
-
 }
 
 void Interface::render(sf::RenderTarget& target, sf::Vector2f viewPosition, int ringsCounter)

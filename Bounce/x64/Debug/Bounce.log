@@ -1,12 +1,37 @@
 ﻿  Game.cpp
-D:\College\OAiP\Bounce\Bounce\Game.cpp(187,118): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Game.cpp(186,118): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-D:\College\OAiP\Bounce\Bounce\Game.cpp(187,58): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Game.cpp(186,58): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
           with
           [
               T=float
           ]
+  Interface.cpp
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(53,65): warning C4305: аргумент: усечение из "double" в "float"
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(65,53): warning C4305: аргумент: усечение из "double" в "float"
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(68,57): warning C4305: аргумент: усечение из "double" в "float"
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(217,92): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Interface.cpp(217,64): warning C4244: аргумент: преобразование "T" в "T", возможна потеря данных
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+  Main.cpp
+D:\College\OAiP\Bounce\Bounce\Main.cpp(17,14): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
+  Создание кода...
   Bounce.vcxproj -> D:\College\OAiP\Bounce\x64\Debug\Bounce.exe
