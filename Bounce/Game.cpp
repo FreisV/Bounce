@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Game.h"
 
 void Game::initWindow()
@@ -30,6 +31,11 @@ void Game::initView()
 void Game::initMenu()
 {
 	this->menu = new Menu;
+}
+
+void Game::initLeaderboard()
+{
+	this->leaderboard = new Leaderboard();
 }
 
 void Game::initLevelsMenu()
@@ -105,8 +111,8 @@ void Game::readGamers()
 	std::ifstream F("Save/gamers.txt");
 
 	int counter = 0;
-	while (std::getline(F, str)) { // пока не достигнут конец файла класть очередную строку в переменную (s)
-		std::cout << str << std::endl; // выводим на экран
+	while (std::getline(F, str))
+	{ 
 		gamers[counter++] = str;
 	}
 	F.close();
@@ -115,6 +121,8 @@ void Game::readGamers()
 void Game::addGamer()
 {
 	std::string newGamer = "";
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
 
 	newGamer += playerName;
 	playerName = "";
@@ -137,6 +145,7 @@ void Game::addGamer()
 
 	for (int i = 0; i < 5 ; i++)
 	{
+
 		if (gamers[i] == "")
 			break;
 		F << gamers[i] << " ";
@@ -148,7 +157,9 @@ void Game::addGamer()
 				F << earnedStarsInLevels[j] << " ";
 				earnedStarsInLevels[j] = 0;
 			}
+			F << ltm->tm_mday << "." << 1 + ltm->tm_mon << "." << 1920 + ltm->tm_year << " " << 1 + ltm->tm_hour << ":" << 1 + ltm->tm_min << " ";
 		}
+
 		F << "\n";
 	}
 	F.close();
@@ -160,6 +171,11 @@ void Game::addGamer()
 void Game::updateMenu()
 {
 	this->menu->update();
+}
+
+void Game::updateLeaderboard()
+{
+	this->leaderboard->update(this->gamers);
 }
 
 void Game::updateLevelsMenu()
@@ -201,6 +217,11 @@ void Game::updateEarnedStarsInLevels(int quantityStars)
 void Game::renderMenu()
 {
 	this->menu->render(window);
+}
+
+void Game::renderLeaderboard()
+{
+	this->leaderboard->render(window);
 }
 
 void Game::renderLevelsMenu()
@@ -268,11 +289,24 @@ void Game::changeDisplay()
 		isMenu = false;
 		isLevelsMenu = true;
 	}
+	if (this->menu->checkIsLeaderboardPressed() && this->isMenu)
+	{
+		buttonSound.play();
+		isMenu = false;
+		isLeaderboard = true;
+	}
 	if (this->menu->checkExitPressed() && this->isMenu)
 	{
 		buttonSound.play();
 
 		window.close();
+	}
+	if (this->leaderboard->checkIsBackPressed() && this->isLeaderboard)
+	{
+		buttonSound.play();
+
+		isMenu = true;
+		isLeaderboard = false;
 	}
 	if (this->levelsMenu->getIsLevelSelected() && this->isLevelsMenu)
 	{
@@ -295,8 +329,6 @@ void Game::changeDisplay()
 	}
 	if (this->levelsMenu->getIsResetPressed() && this->isLevelsMenu)
 	{
-		//buttonSound.play();
-
 		this->resetProgress();
 		this->levelsMenu->setEarnedStarsInLevels(earnedStarsInLevels);
 	}
@@ -342,6 +374,7 @@ Game::Game()
 {
 	this->initWindow();
 	this->initMenu();
+	this->initLeaderboard();
 	this->initLevelsMenu();
 	this->initMap();
 	this->initPlayer();
@@ -392,6 +425,10 @@ void Game::update(float time)
 	{
 		this->updateMenu();
 	}
+	else if (isLeaderboard)
+	{
+		this->updateLeaderboard();
+	}
 	else if (isLevelsMenu)
 	{
 		this->updateLevelsMenu();
@@ -420,6 +457,10 @@ void Game::render()
 	else if (isLevelsMenu)
 	{
 		this->renderLevelsMenu();
+	}
+	else if (isLeaderboard)
+	{
+		this->renderLeaderboard();
 	}
 	else if (isGame) 
 	{

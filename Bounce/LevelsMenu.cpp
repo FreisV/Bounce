@@ -32,7 +32,7 @@ void LevelsMenu::initSprites()
 	this->levelBlockSprite.setTexture(levelBlockTextureSheet);
 	
 	this->blockSprite.setTexture(blockTextureSheet);
-	this->blockSprite.setScale(1.0 / 125 * 80, 1.0 / 125 * 80);
+	this->blockSprite.setScale(1.0 / 125 * c::GRID_SIZE, 1.0 / 125 * c::GRID_SIZE);
 	
 	this->backButtonSprite.setTexture(backButtonTextureSheet);
 	this->backButtonSprite.setOrigin(178, 50);
@@ -55,9 +55,6 @@ void LevelsMenu::initSprites()
 	this->enterNameButtonSprite.setTexture(enterNameButtonTextureSheet);
 	this->enterNameButtonSprite.setOrigin(178, 50);
 	this->enterNameButtonSprite.setPosition(c::WINDOW_WIDTH / 2 + 190, c::WINDOW_HEIGHT / 2 + 250);
-
-
-
 }
 
 void LevelsMenu::initShapes()

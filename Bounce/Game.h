@@ -3,10 +3,13 @@
 #include "stdafx.h"
 #include "Consts.h"
 #include "Menu.h"
+#include "Leaderboard.h"
 #include "Map.h"
 #include "Player.h"
 #include "Interface.h"
 #include "LevelsMenu.h"
+#include <ctime>
+#include <chrono>
 
 class Game
 {
@@ -19,6 +22,7 @@ class Game
 	b2World World{Gravity};
 
 	Menu *menu;
+	Leaderboard* leaderboard;
 	LevelsMenu *levelsMenu;
 	Player *player;
 	Map *map;
@@ -32,6 +36,7 @@ class Game
 	bool isMenu = true;
 	bool isLevelsMenu = false;
 	bool isGame = false;
+	bool isLeaderboard = false;
 
 	int selectedLevel = 0;
 
@@ -40,6 +45,7 @@ class Game
 
 	void initWindow();
 	void initMenu();
+	void initLeaderboard();
 	void initLevelsMenu();
 	void initPlayer();
 	void initMap();
@@ -55,6 +61,7 @@ class Game
 	void addGamer();
 
 	void updateMenu();
+	void updateLeaderboard();
 	void updateLevelsMenu();
 	void updatePlayer(float time, std::string *map);
 	void updateView();
@@ -63,6 +70,7 @@ class Game
 	void updateEarnedStarsInLevels(int quantityStars);
 	
 	void renderMenu();
+	void renderLeaderboard();
 	void renderLevelsMenu();
 	void renderPlayer();
 	void renderMap();

@@ -10,18 +10,29 @@ void Menu::initTextures()
 
 	if (!this->exitButtonTextureSheet.loadFromFile("Assets/menu_button_exit@2x.png"))
 		std::cout << "ERROR::MENU::Could not load the exit sheet!" << std::endl;
+
+	if (!this->leaderboardButtonTextureSheet.loadFromFile("Assets/menu_button_leaderboard@2x.png"))
+		std::cout << "ERROR::MENU::Could not load the leaderbord sheet!" << std::endl;
 }
 
 void Menu::initSprites()
 {
 	this->playButtonSprite.setTexture(playButtonTextureSheet);
-	this->playButtonSprite.setPosition(c::WINDOW_WIDTH / 2 - c::GRID_SIZE/2 - 127, c::WINDOW_HEIGHT / 2 - 50);
+	this->playButtonSprite.setOrigin(178,50);
+	this->playButtonSprite.setPosition(c::WINDOW_WIDTH / 2, c::WINDOW_HEIGHT / 2 - 100);
 
 	this->blockSprite.setTexture(blockTextureSheet);
 	this->blockSprite.setScale(1.0 / 125 * 80, 1.0 / 125 * 80);
 
+	this->leaderboardButtonSprite.setTexture(leaderboardButtonTextureSheet);
+	this->leaderboardButtonSprite.setOrigin(178, 50);
+	this->leaderboardButtonSprite.setPosition(c::WINDOW_WIDTH / 2, c::WINDOW_HEIGHT / 2 + 50);
+	
 	this->exitButtonSprite.setTexture(exitButtonTextureSheet);
-	this->exitButtonSprite.setPosition(c::WINDOW_WIDTH / 2 - c::GRID_SIZE / 2 - 127, c::WINDOW_HEIGHT / 2 + 100);
+	this->exitButtonSprite.setOrigin(178, 50);
+	this->exitButtonSprite.setPosition(c::WINDOW_WIDTH / 2, c::WINDOW_HEIGHT / 2 + 200);
+
+
 }
 
 void Menu::initFont()
@@ -40,7 +51,7 @@ void Menu::initText()
 	this->text.setOutlineThickness(12);
 	
 
-	text.setPosition(c::WINDOW_WIDTH / 2 - 340 , c::WINDOW_HEIGHT / 12);
+	text.setPosition(c::WINDOW_WIDTH / 2 - 300 , c::WINDOW_HEIGHT / 2 - 500);
 	text.setString("Bounce");
 }
 
@@ -52,10 +63,13 @@ Menu::Menu()
 	this->initFont();
 	this->initText();
 
-	sf::Vector2f playerButtonPosition = sf::Vector2f(this->playButtonSprite.getPosition().x + 10, this->playButtonSprite.getPosition().y + 30);
+	sf::Vector2f playerButtonPosition = sf::Vector2f(this->playButtonSprite.getPosition().x -168, this->playButtonSprite.getPosition().y - 20);
 	this->playButtonRect = sf::FloatRect(playerButtonPosition, sf::Vector2f(356, 100));
 
-	sf::Vector2f exitButtonPosition = sf::Vector2f(this->exitButtonSprite.getPosition().x + 10, this->exitButtonSprite.getPosition().y + 30);
+	sf::Vector2f leaderboardButtonPosition = sf::Vector2f(this->leaderboardButtonSprite.getPosition().x -168, this->leaderboardButtonSprite.getPosition().y - 20);
+	this->leaderboardBottonRect = sf::FloatRect(leaderboardButtonPosition, sf::Vector2f(356, 100));
+
+	sf::Vector2f exitButtonPosition = sf::Vector2f(this->exitButtonSprite.getPosition().x -168, this->exitButtonSprite.getPosition().y - 20);
 	this->exitBottonRect = sf::FloatRect(exitButtonPosition, sf::Vector2f(356, 100));
 }
 
@@ -68,8 +82,12 @@ void Menu::update()
 		if (playButtonRect.contains(mousePos))
 			isPlayPressed = true;
 
+		if (leaderboardBottonRect.contains(mousePos))
+			isLeaderboardPressed = true;
+
 		if (exitBottonRect.contains(mousePos))
 			isExitPressed = true;
+
 	}
 	else
 	{
@@ -87,6 +105,7 @@ void Menu::render(sf::RenderTarget& target)
 	
 	target.draw(text);
 	target.draw(playButtonSprite);
+	target.draw(leaderboardButtonSprite);
 	target.draw(exitButtonSprite);
 }
 
@@ -107,6 +126,16 @@ bool Menu::checkExitPressed()
 
 	bool buffer = this->isExitPressed;
 	this->isExitPressed = false;
+	return buffer;
+}
+
+bool Menu::checkIsLeaderboardPressed()
+{
+	if (isClickActive)
+		return false;
+
+	bool buffer = this->isLeaderboardPressed;
+	this->isLeaderboardPressed = false;
 	return buffer;
 }
 
