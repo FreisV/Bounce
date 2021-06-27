@@ -169,7 +169,7 @@ Interface::Interface()
 	this->initSound();
 }
 
-void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter, int maxScore, int maxLives)
+void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCounter, int maxScore, int maxLives, bool windowHasFocus)
 {
 	if (livesCounter == 0)
 		isLastDead = true;
@@ -213,7 +213,7 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		this->menuButtonSprite.setPosition(viewPosition.x - 200, viewPosition.y + 250);
 
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape) && windowHasFocus)
 	{
 		buttonSound.play();
 		isEscPressed = true;
@@ -225,7 +225,7 @@ void Interface::update(sf::Vector2f viewPosition, int playerScore, int livesCoun
 		isEscPressed = false;
 	}
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && windowHasFocus)
 	{
 		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);

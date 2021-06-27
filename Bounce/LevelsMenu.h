@@ -74,7 +74,7 @@ class LevelsMenu
 public:
 	LevelsMenu();
 
-	void update(std::string playerName);
+	void update(std::string playerName, bool windowHasFocus);
 	void render(sf::RenderTarget& target);
 
 	void setEarnedStarsInLevels(int* earnedStarsInLevels);

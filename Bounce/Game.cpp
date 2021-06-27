@@ -5,6 +5,14 @@ void Game::initWindow()
 {
 	this->window.create(sf::VideoMode(c::WINDOW_WIDTH, c::WINDOW_HEIGHT), "Bounce", sf::Style::Close | sf::Style::Titlebar);
 	this->window.setFramerateLimit(60);
+	this->window.setPosition(sf::Vector2i(-10, 0));
+}
+
+void Game::initIcon()
+{
+	if (!icon.loadFromFile("Assets/gbar_life@2x.png"))
+		std::cout << "ERROR::Game::Could not load the icon image!" << std::endl;
+	window.setIcon(44, 44, icon.getPixelsPtr());
 }
 
 void Game::initPlayer()
@@ -105,6 +113,7 @@ void Game::resetProgress()
 	F.close();
 }
 
+
 void Game::readGamers()
 {
 	std::string str;
@@ -170,22 +179,22 @@ void Game::addGamer()
 
 void Game::updateMenu()
 {
-	this->menu->update();
+	this->menu->update(this->windowHasFocus);
 }
 
 void Game::updateLeaderboard()
 {
-	this->leaderboard->update(this->gamers);
+	this->leaderboard->update(this->gamers, this->windowHasFocus);
 }
 
 void Game::updateLevelsMenu()
 {
-	this->levelsMenu->update(this->playerName);
+	this->levelsMenu->update(this->playerName, this->windowHasFocus);
 }
 
 void Game::updatePlayer(float time, std::string *map)
 {
-	this->player->update(time, map, World, this->map->getInWather(), this->map->getSpawnPosition(), this->gameInterface->getIsLastRing(), this->gameInterface->getIsPause());
+	this->player->update(time, map, World, this->map->getInWather(), this->map->getSpawnPosition(), this->gameInterface->getIsLastRing(), this->gameInterface->getIsPause(), this->windowHasFocus);
 }
 
 void Game::updateView()
@@ -203,7 +212,7 @@ void Game::updateMap()
 
 void Game::updateInterface()
 {
-	this->gameInterface->update(viewInGame.getCenter(), map->getScore(), player->getLivesCounter(), map->getMaxScore(), map->getMaxLives());
+	this->gameInterface->update(viewInGame.getCenter(), map->getScore(), player->getLivesCounter(), map->getMaxScore(), map->getMaxLives(), this->windowHasFocus);
 }
 
 void Game::updateEarnedStarsInLevels(int quantityStars)
@@ -373,6 +382,7 @@ void Game::changeDisplay()
 Game::Game()
 {
 	this->initWindow();
+	this->initIcon();
 	this->initMenu();
 	this->initLeaderboard();
 	this->initLevelsMenu();
@@ -396,6 +406,14 @@ void Game::update(float time)
 {
 	while (this->window.pollEvent(this->ev))
 	{
+		if (ev.type == sf::Event::LostFocus)
+		{
+			this->windowHasFocus = false;
+		}
+		else if (ev.type == sf::Event::GainedFocus)
+		{
+			this->windowHasFocus = true;
+		}
 		if (levelsMenu->getIsEnterNamePressed()  && this->ev.type == sf::Event::TextEntered)
 		{
 			switch (this->ev.text.unicode)
@@ -416,8 +434,6 @@ void Game::update(float time)
 
 		if (this->ev.type == sf::Event::Closed)
 			this->window.close();
-		//else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape)
-		//	this->window.close();
 	}
 
 

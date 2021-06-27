@@ -17,6 +17,7 @@ class Game
 	sf::Event ev;
 	sf::View viewInGame;
 	sf::View viewInMenu;
+	sf::Image icon;
 
 	b2Vec2 Gravity{ 0.f, 37.6f};//37,6
 	b2World World{Gravity};
@@ -33,6 +34,8 @@ class Game
 
 	std::string playerName;
 
+	bool windowHasFocus = true;
+	
 	bool isMenu = true;
 	bool isLevelsMenu = false;
 	bool isGame = false;
@@ -44,6 +47,7 @@ class Game
 	std::string gamers[5];
 
 	void initWindow();
+	void initIcon();
 	void initMenu();
 	void initLeaderboard();
 	void initLevelsMenu();

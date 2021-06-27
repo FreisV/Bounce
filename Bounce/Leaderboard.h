@@ -45,7 +45,7 @@ class Leaderboard
 public:
 	Leaderboard();
 
-	void update(std::string gamers[5]);
+	void update(std::string gamers[5], bool windowHasFocus);
 	void render(sf::RenderTarget& target);
 
 	bool checkIsBackPressed();

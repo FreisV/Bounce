@@ -73,9 +73,9 @@ Menu::Menu()
 	this->exitBottonRect = sf::FloatRect(exitButtonPosition, sf::Vector2f(356, 100));
 }
 
-void Menu::update()
+void Menu::update(bool windowHasFocus)
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && windowHasFocus)
 	{	
 		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);

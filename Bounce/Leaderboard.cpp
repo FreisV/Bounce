@@ -171,9 +171,9 @@ Leaderboard::Leaderboard()
 	this->initSprites();
 }
 
-void Leaderboard::update(std::string gamers[5])
+void Leaderboard::update(std::string gamers[5], bool windowHasFocus)
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && windowHasFocus)
 	{
 		isClickActive = true;
 		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);

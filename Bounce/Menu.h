@@ -39,7 +39,7 @@ class Menu
 public:
 	Menu();
 
-	void update();
+	void update(bool windowHasFocus);
 	void render(sf::RenderTarget& target);
 
 	bool checkPlayPressed();

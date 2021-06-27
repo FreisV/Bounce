@@ -57,7 +57,7 @@ class Player
 	void initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositions);
 
 
-	void updateIfLife(float time, std::string* map, b2World& World, bool inWather);
+	void updateIfLife(float time, std::string* map, b2World& World, bool inWather, bool windowHasFocus);
 	void updateIfDead(float time, std::string* map, b2World& World, bool inWather);
 	
 
@@ -82,7 +82,7 @@ public:
 	virtual ~Player();
 
 	//Functions
- 	void update(float time, std::string* map, b2World& World, bool inWather, b2Vec2 spawnPosition, bool isLastRing, bool isPause);
+ 	void update(float time, std::string* map, b2World& World, bool inWather, b2Vec2 spawnPosition, bool isLastRing, bool isPause, bool windowHasFocus);
 	void render(sf::RenderTarget& target, b2World& World);
 
 	void setItemsPositions(b2Vec2 spawnPosition, b2World& World, std::vector<sf::Vector2f>  thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions);

@@ -136,9 +136,9 @@ LevelsMenu::LevelsMenu()
 	this->createLevelsBlock();
 }
 
-void LevelsMenu::update(std::string playerName)
+void LevelsMenu::update(std::string playerName, bool windowHasFocus)
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && windowHasFocus)
 	{
 		isClickActive = true;
 

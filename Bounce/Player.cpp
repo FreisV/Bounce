@@ -96,7 +96,7 @@ void Player::initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositio
 }
 
 
-void Player::updateIfLife(float time, std::string* map, b2World& World, bool inWather)
+void Player::updateIfLife(float time, std::string* map, b2World& World, bool inWather, bool windowHasFocus)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
 		setBall(1);
@@ -129,9 +129,9 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 	}
 
 
-	if (flyOn)
+	if (flyOn && windowHasFocus)
 		flyMovement(time, World);
-	else 
+	else if (windowHasFocus)
 		movement(time, World);
 	
 	takeBonusLives();
@@ -385,7 +385,7 @@ Player::~Player()
 }
 
 
-void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition, bool isLastRing, bool isPause)
+void Player::update(float time, std::string *map, b2World &World, bool inWather, b2Vec2 spawnPosition, bool isLastRing, bool isPause, bool windowHasFocus)
 {
 	if (isPause && isFirstPause)
 	{
@@ -407,7 +407,7 @@ void Player::update(float time, std::string *map, b2World &World, bool inWather,
 	}
 	else if (!isDead)
 	{
-		updateIfLife(time, map, World, inWather);
+		updateIfLife(time, map, World, inWather, windowHasFocus);
 		if (!godmodeOn)
 			checkThorns();
 	}

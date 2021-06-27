@@ -109,7 +109,7 @@ class Interface
 public:
 	Interface();
 
-	void update(sf::Vector2f viewPosition, int scoreInt, int livesCounter, int maxScore, int maxLives);
+	void update(sf::Vector2f viewPosition, int scoreInt, int livesCounter, int maxScore, int maxLives, bool windowHasFocus);
 	void render(sf::RenderTarget& target,sf::Vector2f viewPosition, int ringsCounter);
 
 	bool getIsLastRing();
