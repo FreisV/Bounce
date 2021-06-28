@@ -51,7 +51,7 @@ void Menu::initText()
 	this->text.setOutlineThickness(12);
 	
 
-	text.setPosition(c::WINDOW_WIDTH / 2 - 300 , c::WINDOW_HEIGHT / 2 - 500);
+	text.setPosition(c::WINDOW_WIDTH / 2 - 360 , c::WINDOW_HEIGHT / 2 - 500);
 	text.setString("Bounce");
 }
 
