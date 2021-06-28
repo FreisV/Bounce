@@ -74,8 +74,8 @@ class Player
 	
 	//Movement
 	void checkOnGround(b2World& World);
-	void movement(float time, b2World& World);
-	void flyMovement(float time, b2World& World);
+	void movement(float time, b2World& World, bool windowHasFocus);
+	void flyMovement(float time, b2World& World, bool windowHasFocus);
 
 public:
 	Player(b2World &world, b2Vec2 spawnPosition, std::vector<sf::Vector2f>  thornsPositions, std::vector<sf::Vector2f> bonusLifesPositions);

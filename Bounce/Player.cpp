@@ -98,14 +98,14 @@ void Player::initBonusLivesPositions(std::vector<sf::Vector2f> bonusLivesPositio
 
 void Player::updateIfLife(float time, std::string* map, b2World& World, bool inWather, bool windowHasFocus)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && windowHasFocus)
 		setBall(1);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) && windowHasFocus)
 		setBall(2);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3) && windowHasFocus)
 		setBall(3);
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G) && windowHasFocus)
 		isGPressed = true;
 	else if (isGPressed)
 	{
@@ -113,7 +113,7 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 		godmodeOn = godmodeOn ? false : true;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && windowHasFocus)
 		isFPressed = true;
 	else if (isFPressed)
 	{
@@ -129,10 +129,10 @@ void Player::updateIfLife(float time, std::string* map, b2World& World, bool inW
 	}
 
 
-	if (flyOn && windowHasFocus)
-		flyMovement(time, World);
-	else if (windowHasFocus)
-		movement(time, World);
+	if (flyOn)
+		flyMovement(time, World, windowHasFocus);
+	else 
+		movement(time, World, windowHasFocus);
 	
 	takeBonusLives();
 
@@ -227,7 +227,7 @@ void Player::checkOnGround(b2World &World)
 	}
 }
 
-void Player::movement(float time, b2World &World)
+void Player::movement(float time, b2World &World, bool windowHasFocus)
 {
 	b2Vec2 vel = playerBody->GetLinearVelocity();
 	checkOnGround(World);
@@ -251,26 +251,26 @@ void Player::movement(float time, b2World &World)
 	else
 	{
 		speedX = 4.f * time;
-		speedY = 7.f * time;
+		speedY = 7.5f * time;
 		speedAnimation = 2 * time;
 	}
 	playerBody->SetLinearVelocity(b2Vec2(0.f,vel.y));
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) //Right
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && windowHasFocus) //Right
 	{
 		if (vel.x < 25) {
 			animation(speedAnimation);
 			playerBody->SetLinearVelocity(b2Vec2(speedX, vel.y));
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) //Left
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && windowHasFocus) //Left
 	{
 		if (vel.x > -25) {
 			animation(-speedAnimation);
 			playerBody->SetLinearVelocity(b2Vec2(-speedX, vel.y));
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) //Up
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && windowHasFocus) //Up
 	{
 		if (onGround) {
 			playerBody->SetLinearVelocity(b2Vec2(vel.x, -speedY));//-9*time
@@ -281,7 +281,7 @@ void Player::movement(float time, b2World &World)
 	this->velocityBeforePause = playerBody->GetLinearVelocity();
 }
 
-void Player::flyMovement(float time, b2World& World)
+void Player::flyMovement(float time, b2World& World, bool windowHasFocus)
 {
 	int speed = 0;
 	float speedAnimation = 0;
@@ -308,21 +308,21 @@ void Player::flyMovement(float time, b2World& World)
 	}
 	playerBody->SetLinearVelocity(b2Vec2(0.f, 0.f));
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) //Right
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && windowHasFocus) //Right
 	{
 		isDPressed = true;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) //Left
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && windowHasFocus) //Left
 	{
 		isAPressed = true;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) //Up
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && windowHasFocus) //Up
 	{
 		isWPressed = true;
 
 	}
-	else if (flyOn && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	else if (flyOn && sf::Keyboard::isKeyPressed(sf::Keyboard::S) && windowHasFocus)
 	{
 		isSPressed = true;
 	}

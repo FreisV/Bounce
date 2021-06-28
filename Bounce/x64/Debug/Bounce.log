@@ -1,12 +1,94 @@
-﻿  Game.cpp
-D:\College\OAiP\Bounce\Bounce\Game.cpp(204,118): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
+﻿  Map.cpp
+D:\College\OAiP\Bounce\Bounce\Map.cpp(42,53): warning C4305: аргумент: усечение из "double" в "float"
+D:\College\OAiP\Bounce\Bounce\Map.cpp(261,49): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(261,31): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(268,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(268,33): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(271,55): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(271,37): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(278,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(278,33): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(281,54): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(281,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(288,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(288,33): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(291,107): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(291,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(298,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(298,33): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(301,114): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(301,58): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(306,50): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(306,32): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(313,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(313,33): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(316,54): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(316,46): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(323,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(323,33): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(326,77): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(326,54): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(331,54): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(331,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(336,61): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(336,43): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(341,53): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(341,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(357,104): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(357,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(362,111): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(362,55): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(399,86): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-D:\College\OAiP\Bounce\Bounce\Game.cpp(204,58): warning C4244: аргумент: преобразование "double" в "T", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(399,45): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(404,68): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(404,46): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(409,73): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(409,65): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(414,73): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(414,51): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(420,72): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(420,50): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\College\OAiP\Bounce\Bounce\Map.cpp(570,30): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(570,21): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\College\OAiP\Bounce\Bounce\Map.cpp(571): warning C4715: Map::getSpawnPosition: значение возвращается не при всех путях выполнения
   Bounce.vcxproj -> D:\College\OAiP\Bounce\x64\Debug\Bounce.exe

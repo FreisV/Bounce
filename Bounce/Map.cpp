@@ -1,4 +1,4 @@
-#include "Map.h"
+ #include "Map.h"
 
 void Map::initTextures()
 {
@@ -40,17 +40,25 @@ void Map::initSprites()
 {
 	blockSprite.setTexture(blockTextureSheet);
 	blockSprite.setScale(1.0 / 125 * 80, 1.0 / 125 * 80);
+
 	rightAscentSprite.setTexture(rightAscentTextureSheet);
 	leftAscentSprite.setTexture(leftAscentTextureSheet);
+
 	topRingSprite.setTexture(topRingTextureSheet);
 	catchedTopRingSprite.setTexture(catchedTopRingTextureSheet);
 	bottomRingSprite.setTexture(bottomRingTextureSheet);
 	catchedBottomRingSprite.setTexture(catchedBottomRingTextureSheet);
+
 	watherSprite.setFillColor(sf::Color::Blue);
 	watherSprite.setSize(sf::Vector2f(c::GRID_SIZE, c::GRID_SIZE));
+
 	thornSprite.setTexture(thornTextureSheet);
+	invertedThornSprite.setTexture(thornTextureSheet);
+	invertedThornSprite.rotate(180);
+
 	checkpointSprite.setTexture(checkpointTextureSheet);
 	catchedCheckpointSprite.setTexture(catchedCheckpointTextureSheet);
+
 	bonusLifeSprite.setTexture(bonusLifeTextureSheet);
 }
 
@@ -68,7 +76,6 @@ void Map::initSound()
 	takeRingSound.setBuffer(takeRingBuffer);
 	takeItemSound.setBuffer(takeItemBuffer);
 }
-
 
 
 void Map::createBlock(b2World &World, int x, int y)
@@ -256,11 +263,21 @@ void Map::render(sf::RenderTarget& target)
 			}
 			if (map[i][j] == 'R')
 			{
+				if (i != 1 && map[i][j-1] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
 				rightAscentSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
 				target.draw(rightAscentSprite);
 			}
 			if (map[i][j] == 'L')
 			{
+				if (i != 1 && map[i][j + 1] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
 				leftAscentSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
 				target.draw(leftAscentSprite);
 			}
@@ -291,13 +308,23 @@ void Map::render(sf::RenderTarget& target)
 			}
 			if (map[i][j] == 'T')
 			{
-				if (i != 1 && map[i - 1][j] == 'W')
+				if (i != 0 && map[i - 1][j] == 'W')
 				{
 					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
 					target.draw(watherSprite);
 				}
 				thornSprite.setPosition(j * c::GRID_SIZE + 19, i * c::GRID_SIZE);
 				target.draw(thornSprite);
+			}
+			if (map[i][j] == 't')
+			{
+				if (map[i + 1][j] == 'W')
+				{
+					watherSprite.setPosition(j * c::GRID_SIZE, i * c::GRID_SIZE);
+					target.draw(watherSprite);
+				}
+				invertedThornSprite.setPosition(j * c::GRID_SIZE + 59, i * c::GRID_SIZE + 80);
+				target.draw(invertedThornSprite);
 			}
 			if (map[i][j] == 'C')
 			{
@@ -376,7 +403,7 @@ void Map::createBlocks(b2World &World)
 			{
 				watherPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2, y - c::GRID_SIZE / 2));
 			}
-			if (map[i][j] == 'T')
+			if (map[i][j] == 'T' || map[i][j] == 't')
 			{
 				createThorn(World, x, y);
 				thornsPositions.push_back(sf::Vector2f(x - c::GRID_SIZE / 2 + 19, y - c::GRID_SIZE / 2));
